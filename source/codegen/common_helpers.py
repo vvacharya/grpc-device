@@ -58,7 +58,7 @@ def is_repeating_parameter(parameter: dict):
 
 def is_array(data_type: str):
     """Whether the parameter is an array parameter."""
-    return data_type.endswith("[]") or data_type.endswith("*")
+    return data_type.endswith("[]")
 
 
 def is_enum(parameter: dict):
