@@ -257,6 +257,8 @@ def _create_param(parameter, expand_varargs=True, repeated_parameters=None):
             return s[:-2]
         else:
             return "..."
+    elif parameter.get("pointer", False) and common_helpers.is_string_arg(parameter):
+        return f"{type} {name}"
     elif common_helpers.is_array(type):
         if type == "void *":
             return f"void* {name}"
