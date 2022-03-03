@@ -110,6 +110,7 @@ def _create_standard_arg(parameter):
     elif (
         not is_output
         and common_helpers.is_pointer_parameter(parameter)
+        and not common_helpers.is_string_arg(parameter)
         and "hardcoded_value" not in parameter
     ):
         return f"&{parameter_name}_copy, "
@@ -248,6 +249,8 @@ def _create_param(parameter, expand_varargs=True, repeated_parameters=None):
             return s[:-2]
         else:
             return "..."
+    elif parameter.get("pointer", False) and common_helpers.is_string_arg(parameter):
+        return f"{type} {name}"
     elif common_helpers.is_array(type):
         array_size = _get_array_param_size(parameter)
         return f"{type[:-2]} {name}[{array_size}]"

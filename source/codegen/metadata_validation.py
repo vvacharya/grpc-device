@@ -218,7 +218,7 @@ def _validate_function(function_name: str, metadata: dict):
                             raise Exception(
                                 f"Failed to validate callback_param with name {callback_param['name']}"
                             )
-                if parameter.get("pointer", False):
+                if parameter.get("pointer", False) and not is_string_type(parameter, metadata):
                     # This is technically legal in other cdses but we should only need it for
                     # hardcoded values/callback tokens
                     if "hardcoded_value" not in parameter and "callback_token" not in parameter:
