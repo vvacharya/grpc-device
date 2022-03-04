@@ -108,7 +108,7 @@ namespace nifpga_grpc {
 
       auto init_lambda = [&] () {
         NiFpga_Session session;
-        int status = library_->Open(bitfile, signature, resource, attribute, &session);
+        auto status = library_->Open(bitfile, signature, resource, attribute, &session);
         return std::make_tuple(status, session);
       };
       uint32_t session_id = 0;
@@ -661,7 +661,7 @@ namespace nifpga_grpc {
           array.begin(),
           array.begin() + size,
           google::protobuf::RepeatedFieldBackInserter(response->mutable_array()),
-          [&](auto x) { 
+          [&](auto x) {
               return x;
           });
       }
@@ -694,7 +694,7 @@ namespace nifpga_grpc {
           array.begin(),
           array.begin() + size,
           google::protobuf::RepeatedFieldBackInserter(response->mutable_array()),
-          [&](auto x) { 
+          [&](auto x) {
               return x;
           });
       }
@@ -727,7 +727,7 @@ namespace nifpga_grpc {
           array.begin(),
           array.begin() + size,
           google::protobuf::RepeatedFieldBackInserter(response->mutable_array()),
-          [&](auto x) { 
+          [&](auto x) {
               return x;
           });
       }
@@ -760,7 +760,7 @@ namespace nifpga_grpc {
           array.begin(),
           array.begin() + size,
           google::protobuf::RepeatedFieldBackInserter(response->mutable_array()),
-          [&](auto x) { 
+          [&](auto x) {
               return x;
           });
       }
@@ -789,7 +789,7 @@ namespace nifpga_grpc {
         array_raw.begin(),
         array_raw.end(),
         std::back_inserter(array),
-        [](auto x) { 
+        [](auto x) {
               if (x < std::numeric_limits<int16_t>::min() || x > std::numeric_limits<int16_t>::max()) {
                   std::string message("value ");
                   message.append(std::to_string(x));
@@ -831,7 +831,7 @@ namespace nifpga_grpc {
         array_raw.begin(),
         array_raw.end(),
         std::back_inserter(array),
-        [](auto x) { 
+        [](auto x) {
               if (x < std::numeric_limits<uint16_t>::min() || x > std::numeric_limits<uint16_t>::max()) {
                   std::string message("value ");
                   message.append(std::to_string(x));
