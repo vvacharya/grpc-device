@@ -42,40 +42,6 @@ namespace nifpga_grpc {
 
   //---------------------------------------------------------------------
   //---------------------------------------------------------------------
-  ::grpc::Status NiFpgaService::Initialize(::grpc::ServerContext* context, const InitializeRequest* request, InitializeResponse* response)
-  {
-    if (context->IsCancelled()) {
-      return ::grpc::Status::CANCELLED;
-    }
-    try {
-      auto status = library_->Initialize();
-      response->set_status(status);
-      return ::grpc::Status::OK;
-    }
-    catch (nidevice_grpc::LibraryLoadException& ex) {
-      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
-    }
-  }
-
-  //---------------------------------------------------------------------
-  //---------------------------------------------------------------------
-  ::grpc::Status NiFpgaService::Finalize(::grpc::ServerContext* context, const FinalizeRequest* request, FinalizeResponse* response)
-  {
-    if (context->IsCancelled()) {
-      return ::grpc::Status::CANCELLED;
-    }
-    try {
-      auto status = library_->Finalize();
-      response->set_status(status);
-      return ::grpc::Status::OK;
-    }
-    catch (nidevice_grpc::LibraryLoadException& ex) {
-      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
-    }
-  }
-
-  //---------------------------------------------------------------------
-  //---------------------------------------------------------------------
   ::grpc::Status NiFpgaService::Open(::grpc::ServerContext* context, const OpenRequest* request, OpenResponse* response)
   {
     if (context->IsCancelled()) {
@@ -113,7 +79,7 @@ namespace nifpga_grpc {
       };
       uint32_t session_id = 0;
       const std::string& grpc_device_session_name = request->session_name();
-      auto cleanup_lambda = [&] (NiFpga_Session id) { library_->Close(id, 0); };
+      auto cleanup_lambda = [&] (NiFpga_Session id) { library_->Close(id, 1); };
       int status = session_repository_->add_session(grpc_device_session_name, init_lambda, cleanup_lambda, session_id);
       response->set_status(status);
       if (status_ok(status)) {

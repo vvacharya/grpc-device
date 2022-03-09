@@ -16,8 +16,6 @@ package nifpga_grpc;
 import "session.proto";
 
 service NiFpga {
-  rpc Initialize(InitializeRequest) returns (InitializeResponse);
-  rpc Finalize(FinalizeRequest) returns (FinalizeResponse);
   rpc Open(OpenRequest) returns (OpenResponse);
   rpc Close(CloseRequest) returns (CloseResponse);
   rpc Run(RunRequest) returns (RunResponse);
@@ -71,20 +69,6 @@ enum CloseAttribute {
 enum RunAttribute {
   RUN_ATTRIBUTE_UNSPECIFIED = 0;
   RUN_ATTRIBUTE_WaitUntilDone = 1;
-}
-
-message InitializeRequest {
-}
-
-message InitializeResponse {
-  int32 status = 1;
-}
-
-message FinalizeRequest {
-}
-
-message FinalizeResponse {
-  int32 status = 1;
 }
 
 message OpenRequest {

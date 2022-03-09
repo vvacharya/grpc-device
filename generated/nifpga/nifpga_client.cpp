@@ -17,36 +17,6 @@
 
 namespace nifpga_grpc::experimental::client {
 
-InitializeResponse
-initialize(const StubPtr& stub)
-{
-  ::grpc::ClientContext context;
-
-  auto request = InitializeRequest{};
-
-  auto response = InitializeResponse{};
-
-  raise_if_error(
-      stub->Initialize(&context, request, &response));
-
-  return response;
-}
-
-FinalizeResponse
-finalize(const StubPtr& stub)
-{
-  ::grpc::ClientContext context;
-
-  auto request = FinalizeRequest{};
-
-  auto response = FinalizeResponse{};
-
-  raise_if_error(
-      stub->Finalize(&context, request, &response));
-
-  return response;
-}
-
 OpenResponse
 open(const StubPtr& stub, const pb::string& bitfile, const pb::string& signature, const pb::string& resource, const simple_variant<OpenAttribute, std::int32_t>& attribute)
 {
