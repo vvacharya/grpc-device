@@ -2,6 +2,11 @@
 #include <nidaqmx/nidaqmx_service.h>
 
 namespace nidaqmx_grpc {
+void NiDAQmxService::initialize()
+{
+  // ni::MonikerServiceImpl::RegisterMonikerEndpoint("MonikerWriteAnalogF64Stream", MonikerWriteAnalogF64Stream);
+  // ni::MonikerServiceImpl::RegisterMonikerEndpoint("MonikerReadAnalogF64Stream", MonikerReadAnalogF64Stream);
+}
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
 ::grpc::Status NiDAQmxService::ReadAnalogF64Custom(::grpc::ServerContext* context, const ReadAnalogF64CustomRequest* request, ReadAnalogF64CustomResponse* response)
@@ -30,7 +35,8 @@ namespace nidaqmx_grpc {
       }
     }
 
-    auto status = library_->ReadAnalogF64(task, num_samps_per_chan, timeout, fill_mode);
+    // Register stream instead.
+    // auto status = library_->ReadAnalogF64(task, num_samps_per_chan, timeout, fill_mode);
     response->set_status(status);
     return ::grpc::Status::OK;
   }
