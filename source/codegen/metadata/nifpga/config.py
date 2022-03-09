@@ -2,6 +2,7 @@ config = {
     'api_version': '21.5.0',
     'c_header': 'NiFpga.h',
     'c_function_prefix': 'NiFpga_',
+    'c_dll_function_prefix': 'NiFpgaDll_',
     'service_class_prefix': 'NiFpga',
     'java_package': 'com.ni.grpc.nifpga',
     'csharp_namespace': 'NationalInstruments.Grpc.NiFpga',
@@ -29,7 +30,7 @@ config = {
     'init_function': 'Open',
     'resource_handle_type': 'NiFpga_Session',
     'status_ok': 'status >= 0',
-    'no_libs': True,
+    'use_dynload_msvc': True,
     'library_info': {
         'Linux': {
             '64bit': {
