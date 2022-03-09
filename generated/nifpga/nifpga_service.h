@@ -37,12 +37,10 @@ public:
 
   NiFpgaService(
     NiFpgaLibraryInterface* library,
-    ResourceRepositorySharedPtr session_repository,
+    ResourceRepositorySharedPtr resource_repository,
     const NiFpgaFeatureToggles& feature_toggles = {});
   virtual ~NiFpgaService();
   
-  ::grpc::Status Initialize(::grpc::ServerContext* context, const InitializeRequest* request, InitializeResponse* response) override;
-  ::grpc::Status Finalize(::grpc::ServerContext* context, const FinalizeRequest* request, FinalizeResponse* response) override;
   ::grpc::Status Open(::grpc::ServerContext* context, const OpenRequest* request, OpenResponse* response) override;
   ::grpc::Status Close(::grpc::ServerContext* context, const CloseRequest* request, CloseResponse* response) override;
   ::grpc::Status Run(::grpc::ServerContext* context, const RunRequest* request, RunResponse* response) override;

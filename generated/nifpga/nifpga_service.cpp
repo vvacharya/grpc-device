@@ -15,6 +15,7 @@
 
 namespace nifpga_grpc {
 
+  using nidevice_grpc::converters::allocate_output_storage;
   using nidevice_grpc::converters::calculate_linked_array_size;
   using nidevice_grpc::converters::convert_from_grpc;
   using nidevice_grpc::converters::convert_to_grpc;
@@ -22,10 +23,10 @@ namespace nifpga_grpc {
 
   NiFpgaService::NiFpgaService(
       NiFpgaLibraryInterface* library,
-      ResourceRepositorySharedPtr session_repository, 
+      ResourceRepositorySharedPtr resource_repository,
       const NiFpgaFeatureToggles& feature_toggles)
       : library_(library),
-      session_repository_(session_repository),
+      session_repository_(resource_repository),
       feature_toggles_(feature_toggles)
   {
   }
@@ -38,40 +39,6 @@ namespace nifpga_grpc {
   inline bool status_ok(int32 status)
   {
     return status >= 0;
-  }
-
-  //---------------------------------------------------------------------
-  //---------------------------------------------------------------------
-  ::grpc::Status NiFpgaService::Initialize(::grpc::ServerContext* context, const InitializeRequest* request, InitializeResponse* response)
-  {
-    if (context->IsCancelled()) {
-      return ::grpc::Status::CANCELLED;
-    }
-    try {
-      auto status = library_->Initialize();
-      response->set_status(status);
-      return ::grpc::Status::OK;
-    }
-    catch (nidevice_grpc::LibraryLoadException& ex) {
-      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
-    }
-  }
-
-  //---------------------------------------------------------------------
-  //---------------------------------------------------------------------
-  ::grpc::Status NiFpgaService::Finalize(::grpc::ServerContext* context, const FinalizeRequest* request, FinalizeResponse* response)
-  {
-    if (context->IsCancelled()) {
-      return ::grpc::Status::CANCELLED;
-    }
-    try {
-      auto status = library_->Finalize();
-      response->set_status(status);
-      return ::grpc::Status::OK;
-    }
-    catch (nidevice_grpc::LibraryLoadException& ex) {
-      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
-    }
   }
 
   //---------------------------------------------------------------------
@@ -113,7 +80,7 @@ namespace nifpga_grpc {
       };
       uint32_t session_id = 0;
       const std::string& grpc_device_session_name = request->session_name();
-      auto cleanup_lambda = [&] (NiFpga_Session id) { library_->Close(id, 0); };
+      auto cleanup_lambda = [&] (NiFpga_Session id) { library_->Close(id, 1); };
       int status = session_repository_->add_session(grpc_device_session_name, init_lambda, cleanup_lambda, session_id);
       response->set_status(status);
       if (status_ok(status)) {

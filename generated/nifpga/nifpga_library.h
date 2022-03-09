@@ -18,8 +18,6 @@ class NiFpgaLibrary : public nifpga_grpc::NiFpgaLibraryInterface {
   virtual ~NiFpgaLibrary();
 
   ::grpc::Status check_function_exists(std::string functionName);
-  NiFpga_Status Initialize();
-  NiFpga_Status Finalize();
   NiFpga_Status Open(const char* bitfile, const char* signature, const char* resource, uint32_t attribute, NiFpga_Session* session);
   NiFpga_Status Close(NiFpga_Session session, uint32_t attribute);
   NiFpga_Status Run(NiFpga_Session session, uint32_t attribute);
@@ -53,8 +51,6 @@ class NiFpgaLibrary : public nifpga_grpc::NiFpgaLibraryInterface {
   NiFpga_Status WriteArrayU64(NiFpga_Session session, uint32_t indicator, const uint64_t array[], size_t size);
 
  private:
-  using InitializePtr = decltype(&NiFpga_Initialize);
-  using FinalizePtr = decltype(&NiFpga_Finalize);
   using OpenPtr = decltype(&NiFpga_Open);
   using ClosePtr = decltype(&NiFpga_Close);
   using RunPtr = decltype(&NiFpga_Run);
@@ -88,8 +84,6 @@ class NiFpgaLibrary : public nifpga_grpc::NiFpgaLibraryInterface {
   using WriteArrayU64Ptr = decltype(&NiFpga_WriteArrayU64);
 
   typedef struct FunctionPointers {
-    InitializePtr Initialize;
-    FinalizePtr Finalize;
     OpenPtr Open;
     ClosePtr Close;
     RunPtr Run;

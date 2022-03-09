@@ -75,7 +75,7 @@ static void RunServer(const ServerConfiguration& config)
 
   builder.SetMaxSendMessageSize(config.max_message_size);
   builder.SetMaxReceiveMessageSize(config.max_message_size);
-
+  
   // Assemble the server.
   {
     std::lock_guard<std::mutex> guard(server_mutex);
