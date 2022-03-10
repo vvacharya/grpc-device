@@ -258,6 +258,7 @@ service NiDAQmx {
   rpc GetWriteAttributeUInt64(GetWriteAttributeUInt64Request) returns (GetWriteAttributeUInt64Response);
   rpc IsTaskDone(IsTaskDoneRequest) returns (IsTaskDoneResponse);
   rpc LoadTask(LoadTaskRequest) returns (LoadTaskResponse);
+  rpc BeginWriteAnalogF64Stream(BeginWriteAnalogF64StreamRequest) returns (BeginWriteAnalogF64StreamResponse);
   rpc ReadAnalogF64Custom(ReadAnalogF64CustomRequest) returns (ReadAnalogF64CustomResponse);
   rpc ReadAnalogF64(ReadAnalogF64Request) returns (ReadAnalogF64Response);
   rpc ReadAnalogScalarF64(ReadAnalogScalarF64Request) returns (ReadAnalogScalarF64Response);
@@ -8240,6 +8241,23 @@ message LoadTaskResponse {
   nidevice_grpc.Session task = 2;
 }
 
+message BeginWriteAnalogF64StreamRequest {
+  nidevice_grpc.Session task = 1;
+  int32 num_samps_per_chan = 2;
+  bool auto_start = 3;
+  double timeout = 4;
+  oneof data_layout_enum {
+    GroupBy data_layout = 5;
+    int32 data_layout_raw = 6;
+  }
+  repeated double write_array = 7;
+}
+
+message BeginWriteAnalogF64StreamResponse {
+  int32 status = 1;
+  ni.data_monikers.Moniker moniker = 2;
+}
+
 message ReadAnalogF64CustomRequest {
   nidevice_grpc.Session task = 1;
   int32 num_samps_per_chan = 2;
@@ -8248,6 +8266,7 @@ message ReadAnalogF64CustomRequest {
     GroupBy fill_mode = 4;
     int32 fill_mode_raw = 5;
   }
+  ni.data_monikers.Moniker moniker = 6;
 }
 
 message ReadAnalogF64CustomResponse {

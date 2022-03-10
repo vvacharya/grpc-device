@@ -72,7 +72,7 @@ static void RunServer(const ServerConfiguration& config)
   int listeningPort = 0;
   nidevice_grpc::ServerSecurityConfiguration server_security_config(config.server_cert, config.server_key, config.root_cert);
   builder.AddListeningPort(config.server_address, server_security_config.get_credentials(), &listeningPort);
-
+  builder.RegisterService(&monikerService);
   auto services = nidevice_grpc::register_all_services(builder, config.feature_toggles);
 
   builder.SetMaxSendMessageSize(config.max_message_size);

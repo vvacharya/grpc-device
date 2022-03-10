@@ -282,6 +282,7 @@ public:
   ::grpc::Status GetWriteAttributeUInt64(::grpc::ServerContext* context, const GetWriteAttributeUInt64Request* request, GetWriteAttributeUInt64Response* response) override;
   ::grpc::Status IsTaskDone(::grpc::ServerContext* context, const IsTaskDoneRequest* request, IsTaskDoneResponse* response) override;
   ::grpc::Status LoadTask(::grpc::ServerContext* context, const LoadTaskRequest* request, LoadTaskResponse* response) override;
+  ::grpc::Status BeginWriteAnalogF64Stream(::grpc::ServerContext* context, const BeginWriteAnalogF64StreamRequest* request, BeginWriteAnalogF64StreamResponse* response) override;
   ::grpc::Status ReadAnalogF64Custom(::grpc::ServerContext* context, const ReadAnalogF64CustomRequest* request, ReadAnalogF64CustomResponse* response) override;
   ::grpc::Status ReadAnalogF64(::grpc::ServerContext* context, const ReadAnalogF64Request* request, ReadAnalogF64Response* response) override;
   ::grpc::Status ReadAnalogScalarF64(::grpc::ServerContext* context, const ReadAnalogScalarF64Request* request, ReadAnalogScalarF64Response* response) override;

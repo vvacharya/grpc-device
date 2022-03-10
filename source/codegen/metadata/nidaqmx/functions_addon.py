@@ -28,7 +28,7 @@ functions_validation_suppressions = {
 # size is determined by numSampsPerChan and how many channels are in the task
 for function in ['WriteAnalogF64', 'WriteBinaryI16', 'WriteBinaryI32', 'WriteBinaryU16',
  'WriteBinaryU32', 'WriteDigitalLines', 'WriteDigitalU16', 'WriteDigitalU32', 'WriteDigitalU8',
- 'WriteRaw']:
+ 'WriteRaw','BeginWriteAnalogF64Stream']:
     functions_validation_suppressions[function] = {
         'parameters': {
             'writeArray': ['ARRAY_PARAMETER_NEEDS_SIZE']
