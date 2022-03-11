@@ -244,12 +244,10 @@ def _create_param(parameter, expand_varargs=True, repeated_parameters=None):
             return s[:-2]
         else:
             return "..."
-    elif parameter.get("pointer", False) and common_helpers.is_string_arg(parameter):
-        return f"{type} {name}"
     elif common_helpers.is_array(type):
         array_size = _get_array_param_size(parameter)
         return f"{type[:-2]} {name}[{array_size}]"
-    elif common_helpers.is_pointer_parameter(parameter):
+    elif common_helpers.is_pointer_parameter(parameter) and not common_helpers.is_string_arg(parameter):
         return f"{type}* {name}"
     else:
         return f"{type} {name}"
