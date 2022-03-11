@@ -37,7 +37,7 @@ public:
 
   NiFpgaService(
     NiFpgaLibraryInterface* library,
-    ResourceRepositorySharedPtr session_repository,
+    ResourceRepositorySharedPtr resource_repository,
     const NiFpgaFeatureToggles& feature_toggles = {});
   virtual ~NiFpgaService();
   
