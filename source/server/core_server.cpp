@@ -8,6 +8,7 @@
 #include "logging.h"
 #include "server_configuration_parser.h"
 #include "server_security_configuration.h"
+#include "data_moniker_service.h"
 
 #if defined(__GNUC__)
   #include "linux/daemonize.h"
@@ -73,9 +74,13 @@ static void RunServer(const ServerConfiguration& config)
 
   auto services = nidevice_grpc::register_all_services(builder, config.feature_toggles);
 
+  // Register the moniker service
+  ni::data_monikers::DataMonikerService data_moniker_service;
+  builder.RegisterService(&data_moniker_service);
+  
   builder.SetMaxSendMessageSize(config.max_message_size);
   builder.SetMaxReceiveMessageSize(config.max_message_size);
-
+  
   // Assemble the server.
   {
     std::lock_guard<std::mutex> guard(server_mutex);
