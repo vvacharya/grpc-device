@@ -200,6 +200,7 @@ set(nidriver_service_srcs
 #----------------------------------------------------------------------
 get_filename_component(session_proto "source/protobuf/session.proto" ABSOLUTE)
 get_filename_component(nidevice_proto "source/protobuf/nidevice.proto" ABSOLUTE)
+get_filename_component(data_moniker_proto "source/protobuf/data_moniker.proto" ABSOLUTE)
 get_filename_component(session_proto_path "${session_proto}" PATH)
 
 #----------------------------------------------------------------------
@@ -235,6 +236,10 @@ set(session_grpc_srcs "${proto_srcs_dir}/session.grpc.pb.cc")
 set(session_grpc_hdrs "${proto_srcs_dir}/session.grpc.pb.h")
 set(nidevice_proto_srcs "${proto_srcs_dir}/nidevice.pb.cc")
 set(nidevice_proto_hdrs "${proto_srcs_dir}/nidevice.pb.h")
+set(data_moniker_proto_srcs "${proto_srcs_dir}/data_moniker.pb.cc")
+set(data_moniker_proto_hdrs "${proto_srcs_dir}/data_moniker.pb.h")
+set(data_moniker_grpc_srcs "${proto_srcs_dir}/data_moniker.grpc.pb.cc")
+set(data_moniker_grpc_hdrs "${proto_srcs_dir}/data_moniker.grpc.pb.h")
 
 GenerateGrpcSources(
   PROTO
@@ -252,6 +257,16 @@ GenerateGrpcSources(
   OUTPUT
     "${nidevice_proto_srcs}"
     "${nidevice_proto_hdrs}"
+)
+
+GenerateGrpcSources(
+  PROTO
+    ${data_moniker_proto}
+  OUTPUT
+    "${data_moniker_proto_srcs}"
+    "${data_moniker_proto_hdrs}"
+    "${data_moniker_grpc_srcs}"
+    "${data_moniker_grpc_hdrs}"
 )
 
 foreach(api ${nidrivers})
@@ -285,6 +300,9 @@ add_executable(ni_grpc_device_server
    "source/server/session_utilities_service.cpp"
    "source/server/shared_library.cpp"
    "source/server/syscfg_library.cpp"
+   "source/server/data_moniker_service.cpp"
+   ${data_moniker_proto_srcs}
+   ${data_moniker_grpc_srcs}
    ${nidevice_proto_srcs}
    ${session_proto_srcs}
    ${session_grpc_srcs}
@@ -347,6 +365,7 @@ add_executable(IntegrationTestsRunner
     "source/server/session_repository.cpp"
     "source/server/session_utilities_service.cpp"
     "source/server/shared_library.cpp"
+    ${data_moniker_proto_srcs}
     ${nidevice_proto_srcs}
     ${session_proto_srcs}
     ${session_grpc_srcs}
@@ -398,6 +417,7 @@ add_executable(UnitTestsRunner
     "source/server/session_repository.cpp"
     "source/server/shared_library.cpp"
     "source/server/syscfg_library.cpp"
+    ${data_moniker_proto_srcs}
     ${nidevice_proto_srcs}
     ${session_proto_srcs}
     ${session_grpc_srcs}
@@ -478,6 +498,7 @@ set(system_test_runner_sources
   "source/server/session_utilities_service.cpp"
   "source/server/shared_library.cpp"
   "source/server/syscfg_library.cpp"
+  ${data_moniker_proto_srcs}
   ${nidevice_proto_srcs}
   ${session_proto_srcs}
   ${session_grpc_srcs}
