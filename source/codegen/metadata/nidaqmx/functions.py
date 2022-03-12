@@ -9171,47 +9171,9 @@ functions = {
                 'name': 'dataLayout',
                 'type': 'int32'
             },
-            {
-                'direction': 'in',
-                'name': 'writeArray',
-                'type': 'const float64[]'
-            },
+         
             {
                 'direction': 'out',
-                'grpc_type': 'ni.data_monikers.Moniker',
-                'name': 'moniker',
-                'type': 'DO_NOT_USE'
-            },
-        ],
-        'returns': 'int32'
-    },
-    'ReadAnalogF64Custom': {
-        'nolibs': True,
-        'codegen_method': 'CustomCode',
-        'parameters': [
-            {
-                'direction': 'in',
-                'name': 'task',
-                'type': 'TaskHandle'
-            },
-            {
-                'direction': 'in',
-                'name': 'numSampsPerChan',
-                'type': 'int32'
-            },
-            {
-                'direction': 'in',
-                'name': 'timeout',
-                'type': 'float64'
-            },
-            {
-                'direction': 'in',
-                'enum': 'GroupBy',
-                'name': 'fillMode',
-                'type': 'int32'
-            },
-            {
-                'direction': 'in',
                 'grpc_type': 'ni.data_monikers.Moniker',
                 'name': 'moniker',
                 'type': 'DO_NOT_USE'

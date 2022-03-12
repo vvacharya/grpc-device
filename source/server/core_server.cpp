@@ -1,7 +1,7 @@
 #include <grpcpp/ext/proto_server_reflection_plugin.h>
 #include <grpcpp/grpcpp.h>
 #include <register_all_services.h>
-
+#include <server/moniker_service.h>
 #include <mutex>
 
 #include "feature_toggles.h"
@@ -67,7 +67,8 @@ static void RunServer(const ServerConfiguration& config)
   grpc::reflection::InitProtoReflectionServerBuilderPlugin();
 
  
-  // ni::MonikerServiceImpl monikerService;
+  ni::MonikerServiceImpl monikerService;
+
   grpc::ServerBuilder builder;
   int listeningPort = 0;
   nidevice_grpc::ServerSecurityConfiguration server_security_config(config.server_cert, config.server_key, config.root_cert);

@@ -9,7 +9,12 @@ include(CreateVirtualEnvironment)
 if (CMAKE_SYSTEM_PROCESSOR STREQUAL "AMD64")
   set(CMAKE_SYSTEM_PROCESSOR "amd64")
 endif()
+#----------------------------------------------------------------------
+# NI sideband data support
+#----------------------------------------------------------------------
+add_subdirectory(third_party/grpc-sideband ${CMAKE_CURRENT_BINARY_DIR}/grpc-sideband)
 
+#----------------------------------------------------------------------
 #----------------------------------------------------------------------
 # Use the grpc targets directly from this build, only when not cross-compiling.
 #----------------------------------------------------------------------
@@ -65,6 +70,8 @@ include_directories(
   "./imports/include"
   "./source"
 )
+include_directories("${CMAKE_CURRENT_BINARY_DIR}" "./third_party/grpc" "./third_party/grpc-sideband/src" $ENV{NIEXTCCOMPILERSUPP}/include)
+
 if(WIN32)
   link_directories("./imports/lib/win64")
 endif()
@@ -234,6 +241,8 @@ set(session_grpc_hdrs "${proto_srcs_dir}/session.grpc.pb.h")
 set(nidevice_proto_srcs "${proto_srcs_dir}/nidevice.pb.cc")
 set(nidevice_proto_hdrs "${proto_srcs_dir}/nidevice.pb.h")
 set(datamoniker_proto_srcs "${proto_srcs_dir}/data_moniker.pb.cc")
+set(datamoniker_grpc_srcs "${proto_srcs_dir}/data_moniker.grpc.pb.cc")
+set(datamoniker_grpc_hdrs "${proto_srcs_dir}/data_moniker.grpc.pb.h")
 set(datamoniker_proto_hdrs "${proto_srcs_dir}/data_moniker.pb.h")
 
 GenerateGrpcSources(
@@ -260,6 +269,8 @@ GenerateGrpcSources(
   OUTPUT
     "${datamoniker_proto_srcs}"
     "${datamoniker_proto_hdrs}"
+    "${datamoniker_grpc_srcs}"
+    "${datamoniker_grpc_hdrs}"
 )
 
 foreach(api ${nidrivers})
@@ -293,8 +304,10 @@ add_executable(ni_grpc_device_server
    "source/server/session_utilities_service.cpp"
    "source/server/shared_library.cpp"
    "source/server/syscfg_library.cpp"
+   "source/server/moniker_service.cc"
    ${nidevice_proto_srcs}
    ${datamoniker_proto_srcs}
+   ${datamoniker_grpc_srcs}
    ${session_proto_srcs}
    ${session_grpc_srcs}
    ${nidriver_service_srcs})
@@ -306,10 +319,13 @@ if(CMAKE_SYSTEM_NAME STREQUAL Linux)
 endif()
 
 target_link_libraries(ni_grpc_device_server
+   ni_grpc_sideband
    ${_REFLECTION}
    ${_GRPC_GRPCPP}
    ${_PROTOBUF_LIBPROTOBUF}
    ${CMAKE_DL_LIBS}
+   rdma
+   ${LVRT_LIB}
    nlohmann_json::nlohmann_json
    )
 
@@ -356,7 +372,6 @@ add_executable(IntegrationTestsRunner
     "source/server/session_repository.cpp"
     "source/server/session_utilities_service.cpp"
     "source/server/shared_library.cpp"
-    ${datamoniker_proto_srcs}
     ${nidevice_proto_srcs}
     ${session_proto_srcs}
     ${session_grpc_srcs}
@@ -407,7 +422,6 @@ add_executable(UnitTestsRunner
     "source/server/session_repository.cpp"
     "source/server/shared_library.cpp"
     "source/server/syscfg_library.cpp"
-    ${datamoniker_proto_srcs}
     ${nidevice_proto_srcs}
     ${session_proto_srcs}
     ${session_grpc_srcs}
@@ -429,6 +443,8 @@ add_executable(UnitTestsRunner
 # in an obj file defined by PE-COFF. This line disables the limit.
 if(MSVC)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj /D_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING")
+  set(RDMA_LIB "rdma.lib")
+  SET(LVRT_LIB "")
 endif(MSVC)
 
 target_include_directories(UnitTestsRunner
@@ -441,6 +457,8 @@ target_link_libraries(UnitTestsRunner
     gmock
     ${_GRPC_GRPCPP}
     ${CMAKE_DL_LIBS}
+    ${RDMA_LIB}
+    ${LVRT_LIB}
     Threads::Threads
     nlohmann_json::nlohmann_json)
 
@@ -487,7 +505,9 @@ set(system_test_runner_sources
   "source/server/session_utilities_service.cpp"
   "source/server/shared_library.cpp"
   "source/server/syscfg_library.cpp"
+  "source/server/moniker_service.cc"
   ${datamoniker_proto_srcs}
+  ${datamoniker_grpc_srcs}
   ${nidevice_proto_srcs}
   ${session_proto_srcs}
   ${session_grpc_srcs}
@@ -516,10 +536,12 @@ endif()
 add_executable(SystemTestsRunner ${system_test_runner_sources})
 
 target_link_libraries(SystemTestsRunner
+    ni_grpc_sideband
     gtest
     gmock
     ${_GRPC_GRPCPP}
     ${CMAKE_DL_LIBS}
+    rdma
     nlohmann_json::nlohmann_json
 )
 

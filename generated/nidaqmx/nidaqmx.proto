@@ -259,7 +259,6 @@ service NiDAQmx {
   rpc IsTaskDone(IsTaskDoneRequest) returns (IsTaskDoneResponse);
   rpc LoadTask(LoadTaskRequest) returns (LoadTaskResponse);
   rpc BeginWriteAnalogF64Stream(BeginWriteAnalogF64StreamRequest) returns (BeginWriteAnalogF64StreamResponse);
-  rpc ReadAnalogF64Custom(ReadAnalogF64CustomRequest) returns (ReadAnalogF64CustomResponse);
   rpc ReadAnalogF64(ReadAnalogF64Request) returns (ReadAnalogF64Response);
   rpc ReadAnalogScalarF64(ReadAnalogScalarF64Request) returns (ReadAnalogScalarF64Response);
   rpc ReadBinaryI16(ReadBinaryI16Request) returns (ReadBinaryI16Response);
@@ -4237,6 +4236,10 @@ enum WriteInt32AttributeValues {
   WRITE_INT32_WAIT_MODE2_SLEEP = 12547;
   WRITE_INT32_WRITE_RELATIVE_TO_FIRST_SAMPLE = 10424;
   WRITE_INT32_WRITE_RELATIVE_TO_CURR_WRITE_POS = 10430;
+}
+
+message ChannelData {
+  repeated double data = 1;
 }
 
 message AnalogPowerUpChannelsAndState {
@@ -8250,27 +8253,11 @@ message BeginWriteAnalogF64StreamRequest {
     GroupBy data_layout = 5;
     int32 data_layout_raw = 6;
   }
-  repeated double write_array = 7;
 }
 
 message BeginWriteAnalogF64StreamResponse {
   int32 status = 1;
   ni.data_monikers.Moniker moniker = 2;
-}
-
-message ReadAnalogF64CustomRequest {
-  nidevice_grpc.Session task = 1;
-  int32 num_samps_per_chan = 2;
-  double timeout = 3;
-  oneof fill_mode_enum {
-    GroupBy fill_mode = 4;
-    int32 fill_mode_raw = 5;
-  }
-  ni.data_monikers.Moniker moniker = 6;
-}
-
-message ReadAnalogF64CustomResponse {
-  int32 status = 1;
 }
 
 message ReadAnalogF64Request {

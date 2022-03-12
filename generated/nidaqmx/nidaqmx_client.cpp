@@ -7071,7 +7071,7 @@ load_task(const StubPtr& stub, const pb::string& session_name)
 }
 
 BeginWriteAnalogF64StreamResponse
-begin_write_analog_f64_stream(const StubPtr& stub, const nidevice_grpc::Session& task, const pb::int32& num_samps_per_chan, const bool& auto_start, const double& timeout, const simple_variant<GroupBy, pb::int32>& data_layout, const std::vector<double>& write_array)
+begin_write_analog_f64_stream(const StubPtr& stub, const nidevice_grpc::Session& task, const pb::int32& num_samps_per_chan, const bool& auto_start, const double& timeout, const simple_variant<GroupBy, pb::int32>& data_layout)
 {
   ::grpc::ClientContext context;
 
@@ -7088,39 +7088,11 @@ begin_write_analog_f64_stream(const StubPtr& stub, const nidevice_grpc::Session&
   else if (data_layout_raw_ptr) {
     request.set_data_layout_raw(*data_layout_raw_ptr);
   }
-  copy_array(write_array, request.mutable_write_array());
 
   auto response = BeginWriteAnalogF64StreamResponse{};
 
   raise_if_error(
       stub->BeginWriteAnalogF64Stream(&context, request, &response));
-
-  return response;
-}
-
-ReadAnalogF64CustomResponse
-read_analog_f64_custom(const StubPtr& stub, const nidevice_grpc::Session& task, const pb::int32& num_samps_per_chan, const double& timeout, const simple_variant<GroupBy, pb::int32>& fill_mode, const ni::data_monikers::Moniker& moniker)
-{
-  ::grpc::ClientContext context;
-
-  auto request = ReadAnalogF64CustomRequest{};
-  request.mutable_task()->CopyFrom(task);
-  request.set_num_samps_per_chan(num_samps_per_chan);
-  request.set_timeout(timeout);
-  const auto fill_mode_ptr = fill_mode.get_if<GroupBy>();
-  const auto fill_mode_raw_ptr = fill_mode.get_if<pb::int32>();
-  if (fill_mode_ptr) {
-    request.set_fill_mode(*fill_mode_ptr);
-  }
-  else if (fill_mode_raw_ptr) {
-    request.set_fill_mode_raw(*fill_mode_raw_ptr);
-  }
-  request.mutable_moniker()->CopyFrom(moniker);
-
-  auto response = ReadAnalogF64CustomResponse{};
-
-  raise_if_error(
-      stub->ReadAnalogF64Custom(&context, request, &response));
 
   return response;
 }
