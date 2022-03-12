@@ -225,6 +225,23 @@ read_i32(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::u
   return response;
 }
 
+BeginReadI32StreamResponse
+begin_read_i32_stream(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator)
+{
+  ::grpc::ClientContext context;
+
+  auto request = BeginReadI32StreamRequest{};
+  request.mutable_session()->CopyFrom(session);
+  request.set_indicator(indicator);
+
+  auto response = BeginReadI32StreamResponse{};
+
+  raise_if_error(
+      stub->BeginReadI32Stream(&context, request, &response));
+
+  return response;
+}
+
 ReadU32Response
 read_u32(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator)
 {
