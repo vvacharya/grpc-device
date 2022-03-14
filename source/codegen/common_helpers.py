@@ -424,6 +424,15 @@ def filter_proto_rpc_functions(functions):
     ]
 
 
+def filter_data_moniker_functions(functions):
+    """Return function metadata only for functions that use the data moniker service."""
+    return [
+        name
+        for name, function in functions.items()
+        if function.get("data_moniker_support", False)
+    ]
+
+
 def get_attribute_enums_by_type(attributes):
     """Return a dict of attribute data types that use enum, along with set of enums used."""
     attribute_enums_by_type = defaultdict(set)

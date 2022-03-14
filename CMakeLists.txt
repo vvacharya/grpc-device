@@ -498,7 +498,9 @@ set(system_test_runner_sources
   "source/server/session_utilities_service.cpp"
   "source/server/shared_library.cpp"
   "source/server/syscfg_library.cpp"
+  "source/server/data_moniker_service.cpp"
   ${data_moniker_proto_srcs}
+  ${data_moniker_grpc_srcs}
   ${nidevice_proto_srcs}
   ${session_proto_srcs}
   ${session_grpc_srcs}

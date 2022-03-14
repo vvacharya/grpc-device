@@ -33,7 +33,7 @@ ReadU8Response read_u8(const StubPtr& stub, const nidevice_grpc::Session& sessio
 ReadI16Response read_i16(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator);
 ReadU16Response read_u16(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator);
 ReadI32Response read_i32(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator);
-BeginReadI32StreamResponse begin_read_i32_stream(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator);
+ReadI32StreamResponse read_i32_stream(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator);
 ReadU32Response read_u32(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator);
 ReadI64Response read_i64(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator);
 ReadU64Response read_u64(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator);

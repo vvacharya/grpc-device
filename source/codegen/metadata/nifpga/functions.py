@@ -227,7 +227,7 @@ functions = {
         ],
         'returns': 'NiFpga_Status',
     },
-    'BeginReadI32Stream': {
+    'ReadI32Stream': {
         'exclude_from_library': True,
         'data_moniker_support': True,
         'codegen_method': 'CustomCode',

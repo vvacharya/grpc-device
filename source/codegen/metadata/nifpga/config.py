@@ -3,11 +3,11 @@ config = {
     'c_header': 'NiFpga.h',
     'c_function_prefix': 'NiFpga_',
     'c_dll_function_prefix': 'NiFpgaDll_',
-    'additional_protos': ['google/protobuf/any.proto', 'data_moniker.proto'],
     'service_class_prefix': 'NiFpga',
     'java_package': 'com.ni.grpc.nifpga',
     'csharp_namespace': 'NationalInstruments.Grpc.NiFpga',
     'namespace_component': 'nifpga',
+    'additional_protos': ['google/protobuf/any.proto', 'data_moniker.proto'],
     'close_function': 'Close ',
     'custom_types': [],
     'type_to_grpc_type': {
@@ -32,6 +32,7 @@ config = {
     'resource_handle_type': 'NiFpga_Session',
     'status_ok': 'status >= 0',
     'use_dynload_msvc': True,
+    'use_moniker_service': True,
     'library_info': {
         'Linux': {
             '64bit': {

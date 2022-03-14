@@ -16,6 +16,7 @@ custom_types = common_helpers.get_custom_types(config)
 (input_custom_types, output_custom_types) = common_helpers.get_input_and_output_custom_types(functions)
 resource_repository_deps = service_helpers.get_driver_shared_resource_repository_ptr_deps(config, functions)
 
+data_moniker_functions = common_helpers.filter_data_moniker_functions(functions)
 async_functions = service_helpers.get_async_functions(functions)
 has_async_functions = any(async_functions)
 base_class_name = f"{service_class_prefix}::Service"
@@ -58,6 +59,17 @@ struct ${service_class_prefix}FeatureToggles
 % endfor
 };
 
+% if config.get("use_moniker_service", False):
+void RegisterMonikers();
+
+% for function in data_moniker_functions:
+<%
+  method_name = f"Moniker{function}"
+%>\
+::grpc::Status ${method_name}(void* data, google::protobuf::Any& packedData);
+% endfor
+
+% endif
 class ${service_class_prefix}Service final : public ${base_class_name} {
 public:
 % for resource_handle_type in resource_repository_deps:

@@ -31,6 +31,10 @@ struct NiFpgaFeatureToggles
   bool is_enabled;
 };
 
+void RegisterMonikers();
+
+::grpc::Status MonikerReadI32Stream(void* data, google::protobuf::Any& packedData);
+
 class NiFpgaService final : public NiFpga::Service {
 public:
   using ResourceRepositorySharedPtr = std::shared_ptr<nidevice_grpc::SessionResourceRepository<NiFpga_Session>>;
@@ -52,8 +56,7 @@ public:
   ::grpc::Status ReadI16(::grpc::ServerContext* context, const ReadI16Request* request, ReadI16Response* response) override;
   ::grpc::Status ReadU16(::grpc::ServerContext* context, const ReadU16Request* request, ReadU16Response* response) override;
   ::grpc::Status ReadI32(::grpc::ServerContext* context, const ReadI32Request* request, ReadI32Response* response) override;
-  ::grpc::Status BeginReadI32Stream(::grpc::ServerContext* context, const BeginReadI32StreamRequest* request, BeginReadI32StreamResponse* response) override;
-  ::grpc::Status MonikerReadI32Stream(void* data, google::protobuf::Any& packedData);
+  ::grpc::Status ReadI32Stream(::grpc::ServerContext* context, const ReadI32StreamRequest* request, ReadI32StreamResponse* response) override;
   ::grpc::Status ReadU32(::grpc::ServerContext* context, const ReadU32Request* request, ReadU32Response* response) override;
   ::grpc::Status ReadI64(::grpc::ServerContext* context, const ReadI64Request* request, ReadI64Response* response) override;
   ::grpc::Status ReadU64(::grpc::ServerContext* context, const ReadU64Request* request, ReadU64Response* response) override;
