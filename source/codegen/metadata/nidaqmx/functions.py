@@ -9181,6 +9181,47 @@ functions = {
         ],
         'returns': 'int32'
     },
+    'BeginReadAnalogF64Stream': {
+        'nolibs': True,
+        'codegen_method': 'CustomCode',
+        'parameters': [
+            {
+                'direction': 'in',
+                'name': 'task',
+                'type': 'TaskHandle'
+            },
+             {
+                'direction': 'in',
+                'name': 'arraySizeInSamps',
+                'type': 'uInt32'
+            },
+            {
+                'direction': 'in',
+                'name': 'numSampsPerChan',
+                'type': 'int32'
+            },
+            
+            {
+                'direction': 'in',
+                'name': 'timeout',
+                'type': 'float64'
+            },
+            {
+                'direction': 'in',
+                'enum': 'GroupBy',
+                'name': 'fillMode',
+                'type': 'int32'
+            },
+         
+            {
+                'direction': 'out',
+                'grpc_type': 'ni.data_monikers.Moniker',
+                'name': 'moniker',
+                'type': 'DO_NOT_USE'
+            },
+        ],
+        'returns': 'int32'
+    },
     'ReadAnalogF64': {
         'parameters': [
             {

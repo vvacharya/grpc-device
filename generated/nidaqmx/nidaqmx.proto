@@ -259,6 +259,7 @@ service NiDAQmx {
   rpc IsTaskDone(IsTaskDoneRequest) returns (IsTaskDoneResponse);
   rpc LoadTask(LoadTaskRequest) returns (LoadTaskResponse);
   rpc BeginWriteAnalogF64Stream(BeginWriteAnalogF64StreamRequest) returns (BeginWriteAnalogF64StreamResponse);
+  rpc BeginReadAnalogF64Stream(BeginReadAnalogF64StreamRequest) returns (BeginReadAnalogF64StreamResponse);
   rpc ReadAnalogF64(ReadAnalogF64Request) returns (ReadAnalogF64Response);
   rpc ReadAnalogScalarF64(ReadAnalogScalarF64Request) returns (ReadAnalogScalarF64Response);
   rpc ReadBinaryI16(ReadBinaryI16Request) returns (ReadBinaryI16Response);
@@ -8256,6 +8257,22 @@ message BeginWriteAnalogF64StreamRequest {
 }
 
 message BeginWriteAnalogF64StreamResponse {
+  int32 status = 1;
+  ni.data_monikers.Moniker moniker = 2;
+}
+
+message BeginReadAnalogF64StreamRequest {
+  nidevice_grpc.Session task = 1;
+  uint32 array_size_in_samps = 2;
+  int32 num_samps_per_chan = 3;
+  double timeout = 4;
+  oneof fill_mode_enum {
+    GroupBy fill_mode = 5;
+    int32 fill_mode_raw = 6;
+  }
+}
+
+message BeginReadAnalogF64StreamResponse {
   int32 status = 1;
   ni.data_monikers.Moniker moniker = 2;
 }

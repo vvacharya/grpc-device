@@ -23,6 +23,7 @@ struct MonikerWriteDAQmxData {
   NiDAQmxLibraryInterface* library;
 };
 
+
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
 grpc::Status MonikerWriteAnalogF64Stream(void* data, google::protobuf::Any& packedData)
@@ -42,6 +43,34 @@ grpc::Status MonikerWriteAnalogF64Stream(void* data, google::protobuf::Any& pack
     std ::cout << "DAQmxWriteAnalogF64 error: " << status << endl;
   }
   return grpc::Status::OK;
+}
+
+//---------------------------------------------------------------------
+//---------------------------------------------------------------------
+struct MonikerReadDAQmxData {
+ public:
+  TaskHandle task;
+  int32 numSamples;
+  int32 num_samps_per_chan;
+  double timeout;
+  uInt32 array_size_in_samps;
+  ChannelData channelData;
+  int32 fill_mode;
+  NiDAQmxLibraryInterface* library;
+};
+//---------------------------------------------------------------------
+//---------------------------------------------------------------------
+grpc::Status MonikerReadAnalogF64Stream(void* data, google::protobuf::Any& packedData)
+{
+  MonikerReadDAQmxData* readData = (MonikerReadDAQmxData*)data;
+
+  int32 numRead;
+  auto status = readData->library->ReadAnalogF64(readData->task, readData->num_samps_per_chan, readData->timeout, readData->fill_mode, readData->channelData.mutable_data()->mutable_data(), readData->array_size_in_samps, &numRead, NULL);
+  if (status < 0) {
+    cout << "DAQmxReadAnalogF64 error: " << status << endl;
+  }
+  packedData.PackFrom(readData->channelData);
+  return Status::OK;
 }
 
 //---------------------------------------------------------------------
@@ -89,10 +118,53 @@ grpc::Status MonikerWriteAnalogF64Stream(void* data, google::protobuf::Any& pack
   }
 }
 
+
+ //---------------------------------------------------------------------
+//-----------------------------------------------------------------------
+// Custom code for BeginReadAnalogF64Stream
+::grpc::Status NiDAQmxService::BeginReadAnalogF64Stream(::grpc::ServerContext* context, const BeginReadAnalogF64StreamRequest* request, BeginReadAnalogF64StreamResponse* response)
+{
+  if (context->IsCancelled()) {
+    return ::grpc::Status::CANCELLED;
+  }
+  try {
+    MonikerReadDAQmxData* readData = new MonikerReadDAQmxData();
+    auto task_grpc_session = request->task();
+    readData->task = session_repository_->access_session(task_grpc_session.id(), task_grpc_session.name());
+    readData->array_size_in_samps = request->array_size_in_samps();
+    readData->num_samps_per_chan = request->num_samps_per_chan();
+    readData->timeout = request->timeout();
+    readData->channelData.mutable_data()->Reserve(readData->array_size_in_samps);
+    readData->channelData.mutable_data()->Resize(readData->array_size_in_samps, 0.0);
+    readData->fill_mode;
+    switch (request->fill_mode_enum_case()) {
+      case nidaqmx_grpc::BeginReadAnalogF64StreamRequest::FillModeEnumCase::kFillMode: {
+        readData->fill_mode = static_cast<int32>(request->fill_mode());
+        break;
+      }
+      case nidaqmx_grpc::BeginReadAnalogF64StreamRequest::FillModeEnumCase::kFillModeRaw: {
+        readData->fill_mode = static_cast<int32>(request->fill_mode_raw());
+        break;
+      }
+      case nidaqmx_grpc::BeginReadAnalogF64StreamRequest::FillModeEnumCase::FILL_MODE_ENUM_NOT_SET: {
+        return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for fill_mode was not specified or out of range");
+        break;
+      }
+    }
+    readData->library = library_;
+    ni::data_monikers::Moniker* readMoniker = new ni::data_monikers::Moniker();
+    ni::MonikerServiceImpl::RegisterMonikerInstance("MonikerReadAnalogF64Stream", readData, *readMoniker);
+    response->set_allocated_moniker(readMoniker);
+    return ::grpc::Status::OK;
+  }
+  catch (nidevice_grpc::LibraryLoadException& ex) {
+    return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
+  }
+}
 void NiDAQmxService::initialize()
 {
   ni::MonikerServiceImpl::RegisterMonikerEndpoint("MonikerWriteAnalogF64Stream", MonikerWriteAnalogF64Stream);
-  // ni::MonikerServiceImpl::RegisterMonikerEndpoint("MonikerReadAnalogF64Stream", MonikerReadAnalogF64Stream);
+  ni::MonikerServiceImpl::RegisterMonikerEndpoint("MonikerReadAnalogF64Stream", MonikerReadAnalogF64Stream);
 }
 
 }
