@@ -10,6 +10,7 @@
 
 #include <server/core_service_registrar.h>
 #include <server/session_repository.h>
+#include <server/data_moniker_service.h>
 
 #include "nidaqmx/nidaqmx_service_registrar.h"
 #include "nidcpower/nidcpower_service_registrar.h"
@@ -17,6 +18,7 @@
 #include "nidmm/nidmm_service_registrar.h"
 #include "nifgen/nifgen_service_registrar.h"
 #include "nifpga/nifpga_service_registrar.h"
+#include "nifpga/nifpga_service.h"
 #if defined(_MSC_VER)
 #include "nirfmxbluetooth/nirfmxbluetooth_service_registrar.h"
 #endif // defined(_MSC_VER)
@@ -57,6 +59,10 @@ std::shared_ptr<void> register_all_services(
   service_vector->insert(
     service_vector->end(), 
     {session_repository, core_service});
+
+  auto moniker_service = std::make_shared<ni::data_monikers::DataMonikerService>();
+  server_builder.RegisterService(moniker_service.get());
+  service_vector->push_back(moniker_service);
 
   auto task_handle_repository = std::make_shared<nidevice_grpc::SessionResourceRepository<TaskHandle>>(session_repository.get());
   auto vi_session_repository = std::make_shared<nidevice_grpc::SessionResourceRepository<ViSession>>(session_repository.get());
@@ -187,6 +193,8 @@ std::shared_ptr<void> register_all_services(
       server_builder, 
       nx_socket_repository,
       feature_toggles));
+
+  nifpga_grpc::RegisterMonikers();
 
   return service_vector;
 }

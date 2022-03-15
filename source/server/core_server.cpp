@@ -8,7 +8,6 @@
 #include "logging.h"
 #include "server_configuration_parser.h"
 #include "server_security_configuration.h"
-#include "data_moniker_service.h"
 
 #if defined(__GNUC__)
   #include "linux/daemonize.h"
@@ -73,10 +72,6 @@ static void RunServer(const ServerConfiguration& config)
   builder.AddListeningPort(config.server_address, server_security_config.get_credentials(), &listeningPort);
 
   auto services = nidevice_grpc::register_all_services(builder, config.feature_toggles);
-
-  // Register the moniker service
-  ni::data_monikers::DataMonikerService data_moniker_service;
-  builder.RegisterService(&data_moniker_service);
   
   builder.SetMaxSendMessageSize(config.max_message_size);
   builder.SetMaxReceiveMessageSize(config.max_message_size);
