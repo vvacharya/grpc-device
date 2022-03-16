@@ -34,6 +34,7 @@ struct NiFpgaFeatureToggles
 void RegisterMonikers();
 
 ::grpc::Status MonikerReadI32Stream(void* data, google::protobuf::Any& packedData);
+::grpc::Status MonikerWriteI32Stream(void* data, google::protobuf::Any& packedData);
 
 class NiFpgaService final : public NiFpga::Service {
 public:
@@ -66,6 +67,7 @@ public:
   ::grpc::Status WriteI16(::grpc::ServerContext* context, const WriteI16Request* request, WriteI16Response* response) override;
   ::grpc::Status WriteU16(::grpc::ServerContext* context, const WriteU16Request* request, WriteU16Response* response) override;
   ::grpc::Status WriteI32(::grpc::ServerContext* context, const WriteI32Request* request, WriteI32Response* response) override;
+  ::grpc::Status WriteI32Stream(::grpc::ServerContext* context, const WriteI32StreamRequest* request, WriteI32StreamResponse* response) override;
   ::grpc::Status WriteU32(::grpc::ServerContext* context, const WriteU32Request* request, WriteU32Response* response) override;
   ::grpc::Status WriteI64(::grpc::ServerContext* context, const WriteI64Request* request, WriteI64Response* response) override;
   ::grpc::Status WriteU64(::grpc::ServerContext* context, const WriteU64Request* request, WriteU64Response* response) override;

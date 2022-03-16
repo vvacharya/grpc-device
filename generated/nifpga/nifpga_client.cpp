@@ -401,6 +401,24 @@ write_i32(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::
   return response;
 }
 
+WriteI32StreamResponse
+write_i32_stream(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& control, const pb::int32& value)
+{
+  ::grpc::ClientContext context;
+
+  auto request = WriteI32StreamRequest{};
+  request.mutable_session()->CopyFrom(session);
+  request.set_control(control);
+  request.set_value(value);
+
+  auto response = WriteI32StreamResponse{};
+
+  raise_if_error(
+      stub->WriteI32Stream(&context, request, &response));
+
+  return response;
+}
+
 WriteU32Response
 write_u32(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& control, const pb::uint32& value)
 {

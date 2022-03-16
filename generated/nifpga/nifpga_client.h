@@ -43,6 +43,7 @@ WriteU8Response write_u8(const StubPtr& stub, const nidevice_grpc::Session& sess
 WriteI16Response write_i16(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& control, const pb::int32& value);
 WriteU16Response write_u16(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& control, const pb::uint32& value);
 WriteI32Response write_i32(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& control, const pb::int32& value);
+WriteI32StreamResponse write_i32_stream(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& control, const pb::int32& value);
 WriteU32Response write_u32(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& control, const pb::uint32& value);
 WriteI64Response write_i64(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& control, const pb::int64& value);
 WriteU64Response write_u64(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& control, const pb::uint64& value);

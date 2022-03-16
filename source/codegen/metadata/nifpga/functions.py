@@ -439,6 +439,35 @@ functions = {
         ],
         'returns': 'NiFpga_Status',
     },
+    'WriteI32Stream': {
+        'exclude_from_library': True,
+        'data_moniker_support': True,
+        'codegen_method': 'CustomCode',
+        'parameters': [
+            {
+                'direction': 'in',
+                'name': 'session',
+                'type': 'NiFpga_Session',
+            },
+            {
+                'direction': 'in',
+                'name': 'control',
+                'type': 'uint32_t',
+            },
+            {
+                'direction': 'in',
+                'name': 'value',
+                'type': 'int32_t',
+            },
+            {
+                'direction': 'out',
+                'name': 'moniker',
+                'grpc_type': 'ni.data_monikers.Moniker',
+                'type': 'ni::data_monikers::Moniker'
+            }
+        ],
+        'returns': 'NiFpga_Status',
+    },
     'WriteU32': {
         'parameters': [
             {

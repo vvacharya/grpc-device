@@ -39,6 +39,7 @@ service NiFpga {
   rpc WriteI16(WriteI16Request) returns (WriteI16Response);
   rpc WriteU16(WriteU16Request) returns (WriteU16Response);
   rpc WriteI32(WriteI32Request) returns (WriteI32Response);
+  rpc WriteI32Stream(WriteI32StreamRequest) returns (WriteI32StreamResponse);
   rpc WriteU32(WriteU32Request) returns (WriteU32Response);
   rpc WriteI64(WriteI64Request) returns (WriteI64Response);
   rpc WriteU64(WriteU64Request) returns (WriteU64Response);
@@ -292,6 +293,17 @@ message WriteI32Request {
 
 message WriteI32Response {
   int32 status = 1;
+}
+
+message WriteI32StreamRequest {
+  nidevice_grpc.Session session = 1;
+  uint32 control = 2;
+  int32 value = 3;
+}
+
+message WriteI32StreamResponse {
+  int32 status = 1;
+  ni.data_monikers.Moniker moniker = 2;
 }
 
 message WriteU32Request {
