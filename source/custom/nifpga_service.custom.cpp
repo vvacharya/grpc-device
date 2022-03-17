@@ -28,14 +28,17 @@ struct MonikerReadI32Data
     try {
         auto session_grpc_session = request->session();
         NiFpga_Session session = session_repository_->access_session(session_grpc_session.id(), session_grpc_session.name());
-        
+
         MonikerReadI32Data* readData = new MonikerReadI32Data();
         readData->session = session;
         readData->indicator = request->indicator();
-        
+        readData->data.mutable_value()->Reserve(1);
+	    readData->data.mutable_value()->Resize(1, -1);
+        readData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
+
         ni::data_monikers::Moniker* writeMoniker = new ni::data_monikers::Moniker();
         ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerReadI32Stream", readData, *writeMoniker);
-        
+
         response->set_allocated_moniker(writeMoniker);
         return ::grpc::Status::OK;
     }
@@ -47,16 +50,18 @@ struct MonikerReadI32Data
 ::grpc::Status MonikerReadI32Stream(void* data, google::protobuf::Any& packedData)
 {
     MonikerReadI32Data* readData = (MonikerReadI32Data*)data;
+    auto library = readData->library;
+    auto session = readData->session;
+    auto indicator = readData->indicator;
+    int32_t* value_ptr = readData->data.mutable_value()->mutable_data();
 
-    int32_t value = 0;
-    auto status = (readData->library)->ReadI32(readData->session, readData->indicator, &value);
+    auto status = library->ReadI32(session, indicator, value_ptr);
     if (status >= 0) {
-        readData->data.set_value(value);
         packedData.PackFrom(readData->data);
     }
     else
     {
-        std::cout << "ReadI32Stream error: " << status << std::endl;
+        std::cout << "MonikerReadI32Stream error: " << status << std::endl;
     }
     return ::grpc::Status::OK;
 }
@@ -77,14 +82,15 @@ struct MonikerWriteI32Data
     try {
         auto session_grpc_session = request->session();
         NiFpga_Session session = session_repository_->access_session(session_grpc_session.id(), session_grpc_session.name());
-        
+
         MonikerWriteI32Data* writeData = new MonikerWriteI32Data();
         writeData->session = session;
         writeData->control = request->control();
-        
+        writeData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
+
         ni::data_monikers::Moniker* readMoniker = new ni::data_monikers::Moniker();
         ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerWriteI32Stream", writeData, *readMoniker);
-        
+
         response->set_allocated_moniker(readMoniker);
         return ::grpc::Status::OK;
     }
@@ -97,13 +103,17 @@ struct MonikerWriteI32Data
 {
     MonikerWriteI32Data* writeData = (MonikerWriteI32Data*)data;
 
+    auto library = writeData->library;
+    auto session = writeData->session;
+    auto control = writeData->control;
+
     I32Data i32_data;
     packedData.UnpackTo(&i32_data);
-    int32_t value = i32_data.value();
+    int32_t value = *(i32_data.value().data());
 
-    auto status = (writeData->library)->WriteI32(writeData->session, writeData->control, value);
+    auto status = library->WriteI32(session, control, value);
     if (status < 0) {
-        std::cout << "WriteI32Stream error: " << status << std::endl;
+        std::cout << "MonikerWriteI32Stream error: " << status << std::endl;
     }
     return ::grpc::Status::OK;
 }

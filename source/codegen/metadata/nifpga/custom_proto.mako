@@ -1,3 +1,3 @@
 message I32Data {
-  int32 value = 1;
+  repeated int32 value = 1;
 }

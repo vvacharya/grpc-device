@@ -36,21 +36,21 @@ namespace ni::data_monikers
     //---------------------------------------------------------------------
     DataMonikerService::DataMonikerService()
     {
-        s_Server = this;		
+        s_Server = this;
     }
 
     //---------------------------------------------------------------------
     //---------------------------------------------------------------------
     void DataMonikerService::RegisterMonikerEndpoint(string endpointName, MonikerEndpointPtr endpoint)
     {
-        s_Server->_endpoints.emplace(endpointName, endpoint);	
+        s_Server->_endpoints.emplace(endpointName, endpoint);
     }
 
     //---------------------------------------------------------------------
     //---------------------------------------------------------------------
     void DataMonikerService::RegisterMonikerInstance(string endpointName, void* instanceData, Moniker& moniker)
     {
-        moniker.set_data_instance(reinterpret_cast<int64_t>(instanceData));	
+        moniker.set_data_instance(reinterpret_cast<int64_t>(instanceData));
         moniker.set_service_location("local");
         moniker.set_data_source(endpointName);
     }
@@ -60,7 +60,7 @@ namespace ni::data_monikers
     void DataMonikerService::InitiateMonikerList(const MonikerList& monikers, EndpointList& readers, EndpointList& writers)
     {
         for (auto readMoniker: monikers.read_monikers())
-        {		
+        {
             auto instance = readMoniker.data_instance();
             auto source = readMoniker.data_source();
             auto it = _endpoints.find(source);
@@ -72,7 +72,7 @@ namespace ni::data_monikers
             readers.push_back(EndpointInstance(ptr, reinterpret_cast<void*>(instance)));
         }
         for (auto writeMoniker: monikers.write_monikers())
-        {		
+        {
             auto instance = writeMoniker.data_instance();
             auto source = writeMoniker.data_source();
             auto it = _endpoints.find(source);
@@ -97,7 +97,7 @@ namespace ni::data_monikers
 
         int x = 0;
         if (writeRequest.monikers().is_initial_write())
-        {		
+        {
             while (stream->Read(&writeRequest) && !context->IsCancelled())
             {
                 x = 0;
@@ -114,7 +114,7 @@ namespace ni::data_monikers
                     std::get<0>(reader)(std::get<1>(reader), *readValue);
                 }
                 stream->Write(readResult);
-            }	
+            }
         }
         else
         {
@@ -142,7 +142,7 @@ namespace ni::data_monikers
     //---------------------------------------------------------------------
     //---------------------------------------------------------------------
     Status DataMonikerService::StreamRead(ServerContext* context, const MonikerList* request, ServerWriter<MonikerReadResult>* writer)
-    {	
+    {
         EndpointList writers;
         EndpointList readers;
         InitiateMonikerList(*request, readers, writers);
@@ -158,15 +158,15 @@ namespace ni::data_monikers
                 std::get<0>(reader)(std::get<1>(reader), *readValue);
             }
             writer->Write(readResult);
-        }	
+        }
         return Status::OK;
     }
 
     //---------------------------------------------------------------------
     //---------------------------------------------------------------------
     Status DataMonikerService::StreamWrite(ServerContext* context, ServerReaderWriter<StreamWriteResponse, MonikerWriteRequest>* stream)
-    {	
-    #ifndef _WIN32    
+    {
+    #ifndef _WIN32
         cpu_set_t cpuSet;
         CPU_ZERO(&cpuSet);
         CPU_SET(3, &cpuSet);
