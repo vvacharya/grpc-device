@@ -276,6 +276,23 @@ read_i64(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::u
   return response;
 }
 
+ReadI64StreamResponse
+read_i64_stream(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator)
+{
+  ::grpc::ClientContext context;
+
+  auto request = ReadI64StreamRequest{};
+  request.mutable_session()->CopyFrom(session);
+  request.set_indicator(indicator);
+
+  auto response = ReadI64StreamResponse{};
+
+  raise_if_error(
+      stub->ReadI64Stream(&context, request, &response));
+
+  return response;
+}
+
 ReadU64Response
 read_u64(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator)
 {
@@ -289,6 +306,23 @@ read_u64(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::u
 
   raise_if_error(
       stub->ReadU64(&context, request, &response));
+
+  return response;
+}
+
+ReadU64StreamResponse
+read_u64_stream(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator)
+{
+  ::grpc::ClientContext context;
+
+  auto request = ReadU64StreamRequest{};
+  request.mutable_session()->CopyFrom(session);
+  request.set_indicator(indicator);
+
+  auto response = ReadU64StreamResponse{};
+
+  raise_if_error(
+      stub->ReadU64Stream(&context, request, &response));
 
   return response;
 }
@@ -455,6 +489,24 @@ write_i64(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::
   return response;
 }
 
+WriteI64StreamResponse
+write_i64_stream(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& control, const pb::int64& value)
+{
+  ::grpc::ClientContext context;
+
+  auto request = WriteI64StreamRequest{};
+  request.mutable_session()->CopyFrom(session);
+  request.set_control(control);
+  request.set_value(value);
+
+  auto response = WriteI64StreamResponse{};
+
+  raise_if_error(
+      stub->WriteI64Stream(&context, request, &response));
+
+  return response;
+}
+
 WriteU64Response
 write_u64(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& control, const pb::uint64& value)
 {
@@ -469,6 +521,24 @@ write_u64(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::
 
   raise_if_error(
       stub->WriteU64(&context, request, &response));
+
+  return response;
+}
+
+WriteU64StreamResponse
+write_u64_stream(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& control, const pb::uint64& value)
+{
+  ::grpc::ClientContext context;
+
+  auto request = WriteU64StreamRequest{};
+  request.mutable_session()->CopyFrom(session);
+  request.set_control(control);
+  request.set_value(value);
+
+  auto response = WriteU64StreamResponse{};
+
+  raise_if_error(
+      stub->WriteU64Stream(&context, request, &response));
 
   return response;
 }
@@ -523,6 +593,24 @@ read_array_i64(const StubPtr& stub, const nidevice_grpc::Session& session, const
 
   raise_if_error(
       stub->ReadArrayI64(&context, request, &response));
+
+  return response;
+}
+
+ReadArrayI64StreamResponse
+read_array_i64_stream(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator, const pb::uint32& size)
+{
+  ::grpc::ClientContext context;
+
+  auto request = ReadArrayI64StreamRequest{};
+  request.mutable_session()->CopyFrom(session);
+  request.set_indicator(indicator);
+  request.set_size(size);
+
+  auto response = ReadArrayI64StreamResponse{};
+
+  raise_if_error(
+      stub->ReadArrayI64Stream(&context, request, &response));
 
   return response;
 }
@@ -598,6 +686,25 @@ write_array_i64(const StubPtr& stub, const nidevice_grpc::Session& session, cons
 
   raise_if_error(
       stub->WriteArrayI64(&context, request, &response));
+
+  return response;
+}
+
+WriteArrayI64StreamResponse
+write_array_i64_stream(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator, const std::vector<pb::int64>& array, const pb::uint32& size)
+{
+  ::grpc::ClientContext context;
+
+  auto request = WriteArrayI64StreamRequest{};
+  request.mutable_session()->CopyFrom(session);
+  request.set_indicator(indicator);
+  copy_array(array, request.mutable_array());
+  request.set_size(size);
+
+  auto response = WriteArrayI64StreamResponse{};
+
+  raise_if_error(
+      stub->WriteArrayI64Stream(&context, request, &response));
 
   return response;
 }

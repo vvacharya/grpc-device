@@ -34,7 +34,13 @@ struct NiFpgaFeatureToggles
 void RegisterMonikers();
 
 ::grpc::Status MonikerReadI32Stream(void* data, google::protobuf::Any& packedData);
+::grpc::Status MonikerReadI64Stream(void* data, google::protobuf::Any& packedData);
+::grpc::Status MonikerReadU64Stream(void* data, google::protobuf::Any& packedData);
 ::grpc::Status MonikerWriteI32Stream(void* data, google::protobuf::Any& packedData);
+::grpc::Status MonikerWriteI64Stream(void* data, google::protobuf::Any& packedData);
+::grpc::Status MonikerWriteU64Stream(void* data, google::protobuf::Any& packedData);
+::grpc::Status MonikerReadArrayI64Stream(void* data, google::protobuf::Any& packedData);
+::grpc::Status MonikerWriteArrayI64Stream(void* data, google::protobuf::Any& packedData);
 
 class NiFpgaService final : public NiFpga::Service {
 public:
@@ -60,7 +66,9 @@ public:
   ::grpc::Status ReadI32Stream(::grpc::ServerContext* context, const ReadI32StreamRequest* request, ReadI32StreamResponse* response) override;
   ::grpc::Status ReadU32(::grpc::ServerContext* context, const ReadU32Request* request, ReadU32Response* response) override;
   ::grpc::Status ReadI64(::grpc::ServerContext* context, const ReadI64Request* request, ReadI64Response* response) override;
+  ::grpc::Status ReadI64Stream(::grpc::ServerContext* context, const ReadI64StreamRequest* request, ReadI64StreamResponse* response) override;
   ::grpc::Status ReadU64(::grpc::ServerContext* context, const ReadU64Request* request, ReadU64Response* response) override;
+  ::grpc::Status ReadU64Stream(::grpc::ServerContext* context, const ReadU64StreamRequest* request, ReadU64StreamResponse* response) override;
   ::grpc::Status WriteBool(::grpc::ServerContext* context, const WriteBoolRequest* request, WriteBoolResponse* response) override;
   ::grpc::Status WriteI8(::grpc::ServerContext* context, const WriteI8Request* request, WriteI8Response* response) override;
   ::grpc::Status WriteU8(::grpc::ServerContext* context, const WriteU8Request* request, WriteU8Response* response) override;
@@ -70,14 +78,18 @@ public:
   ::grpc::Status WriteI32Stream(::grpc::ServerContext* context, const WriteI32StreamRequest* request, WriteI32StreamResponse* response) override;
   ::grpc::Status WriteU32(::grpc::ServerContext* context, const WriteU32Request* request, WriteU32Response* response) override;
   ::grpc::Status WriteI64(::grpc::ServerContext* context, const WriteI64Request* request, WriteI64Response* response) override;
+  ::grpc::Status WriteI64Stream(::grpc::ServerContext* context, const WriteI64StreamRequest* request, WriteI64StreamResponse* response) override;
   ::grpc::Status WriteU64(::grpc::ServerContext* context, const WriteU64Request* request, WriteU64Response* response) override;
+  ::grpc::Status WriteU64Stream(::grpc::ServerContext* context, const WriteU64StreamRequest* request, WriteU64StreamResponse* response) override;
   ::grpc::Status ReadArrayI16(::grpc::ServerContext* context, const ReadArrayI16Request* request, ReadArrayI16Response* response) override;
   ::grpc::Status ReadArrayU16(::grpc::ServerContext* context, const ReadArrayU16Request* request, ReadArrayU16Response* response) override;
   ::grpc::Status ReadArrayI64(::grpc::ServerContext* context, const ReadArrayI64Request* request, ReadArrayI64Response* response) override;
+  ::grpc::Status ReadArrayI64Stream(::grpc::ServerContext* context, const ReadArrayI64StreamRequest* request, ReadArrayI64StreamResponse* response) override;
   ::grpc::Status ReadArrayU64(::grpc::ServerContext* context, const ReadArrayU64Request* request, ReadArrayU64Response* response) override;
   ::grpc::Status WriteArrayI16(::grpc::ServerContext* context, const WriteArrayI16Request* request, WriteArrayI16Response* response) override;
   ::grpc::Status WriteArrayU16(::grpc::ServerContext* context, const WriteArrayU16Request* request, WriteArrayU16Response* response) override;
   ::grpc::Status WriteArrayI64(::grpc::ServerContext* context, const WriteArrayI64Request* request, WriteArrayI64Response* response) override;
+  ::grpc::Status WriteArrayI64Stream(::grpc::ServerContext* context, const WriteArrayI64StreamRequest* request, WriteArrayI64StreamResponse* response) override;
   ::grpc::Status WriteArrayU64(::grpc::ServerContext* context, const WriteArrayU64Request* request, WriteArrayU64Response* response) override;
 private:
   NiFpgaLibraryInterface* library_;

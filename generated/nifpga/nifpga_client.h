@@ -36,7 +36,9 @@ ReadI32Response read_i32(const StubPtr& stub, const nidevice_grpc::Session& sess
 ReadI32StreamResponse read_i32_stream(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator);
 ReadU32Response read_u32(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator);
 ReadI64Response read_i64(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator);
+ReadI64StreamResponse read_i64_stream(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator);
 ReadU64Response read_u64(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator);
+ReadU64StreamResponse read_u64_stream(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator);
 WriteBoolResponse write_bool(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& control, const bool& value);
 WriteI8Response write_i8(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& control, const pb::int32& value);
 WriteU8Response write_u8(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& control, const pb::uint32& value);
@@ -46,14 +48,18 @@ WriteI32Response write_i32(const StubPtr& stub, const nidevice_grpc::Session& se
 WriteI32StreamResponse write_i32_stream(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& control, const pb::int32& value);
 WriteU32Response write_u32(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& control, const pb::uint32& value);
 WriteI64Response write_i64(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& control, const pb::int64& value);
+WriteI64StreamResponse write_i64_stream(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& control, const pb::int64& value);
 WriteU64Response write_u64(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& control, const pb::uint64& value);
+WriteU64StreamResponse write_u64_stream(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& control, const pb::uint64& value);
 ReadArrayI16Response read_array_i16(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator, const pb::uint32& size);
 ReadArrayU16Response read_array_u16(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator, const pb::uint32& size);
 ReadArrayI64Response read_array_i64(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator, const pb::uint32& size);
+ReadArrayI64StreamResponse read_array_i64_stream(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator, const pb::uint32& size);
 ReadArrayU64Response read_array_u64(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator, const pb::uint32& size);
 WriteArrayI16Response write_array_i16(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator, const std::vector<pb::int32>& array, const pb::uint32& size);
 WriteArrayU16Response write_array_u16(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator, const std::vector<pb::uint32>& array, const pb::uint32& size);
 WriteArrayI64Response write_array_i64(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator, const std::vector<pb::int64>& array, const pb::uint32& size);
+WriteArrayI64StreamResponse write_array_i64_stream(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator, const std::vector<pb::int64>& array, const pb::uint32& size);
 WriteArrayU64Response write_array_u64(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator, const std::vector<pb::uint64>& array, const pb::uint32& size);
 
 } // namespace nifpga_grpc::experimental::client
