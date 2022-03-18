@@ -284,6 +284,7 @@ public:
   ::grpc::Status LoadTask(::grpc::ServerContext* context, const LoadTaskRequest* request, LoadTaskResponse* response) override;
   ::grpc::Status BeginWriteAnalogF64Stream(::grpc::ServerContext* context, const BeginWriteAnalogF64StreamRequest* request, BeginWriteAnalogF64StreamResponse* response) override;
   ::grpc::Status BeginReadAnalogF64Stream(::grpc::ServerContext* context, const BeginReadAnalogF64StreamRequest* request, BeginReadAnalogF64StreamResponse* response) override;
+  ::grpc::Status BeginWaitForNextSampleClock(::grpc::ServerContext* context, const BeginWaitForNextSampleClockRequest* request, BeginWaitForNextSampleClockResponse* response) override;
   ::grpc::Status ReadAnalogF64(::grpc::ServerContext* context, const ReadAnalogF64Request* request, ReadAnalogF64Response* response) override;
   ::grpc::Status ReadAnalogScalarF64(::grpc::ServerContext* context, const ReadAnalogScalarF64Request* request, ReadAnalogScalarF64Response* response) override;
   ::grpc::Status ReadBinaryI16(::grpc::ServerContext* context, const ReadBinaryI16Request* request, ReadBinaryI16Response* response) override;

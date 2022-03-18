@@ -90,7 +90,10 @@ static void RunServer(const ServerConfiguration& config)
     }
     server = builder.BuildAndStart();
   }
-
+  // Sideband Server
+  auto t = new std::thread(RunSidebandSocketsAccept, "localhost", 50055);
+  auto t2 = new std::thread(AcceptSidebandRdmaSendRequests);
+  auto t3 = new std::thread(AcceptSidebandRdmaReceiveRequests);
   if (!server) {
     nidevice_grpc::logging::log(
         nidevice_grpc::logging::Level_Error,

@@ -7124,6 +7124,23 @@ begin_read_analog_f64_stream(const StubPtr& stub, const nidevice_grpc::Session& 
   return response;
 }
 
+BeginWaitForNextSampleClockResponse
+begin_wait_for_next_sample_clock(const StubPtr& stub, const nidevice_grpc::Session& task, const double& timeout)
+{
+  ::grpc::ClientContext context;
+
+  auto request = BeginWaitForNextSampleClockRequest{};
+  request.mutable_task()->CopyFrom(task);
+  request.set_timeout(timeout);
+
+  auto response = BeginWaitForNextSampleClockResponse{};
+
+  raise_if_error(
+      stub->BeginWaitForNextSampleClock(&context, request, &response));
+
+  return response;
+}
+
 ReadAnalogF64Response
 read_analog_f64(const StubPtr& stub, const nidevice_grpc::Session& task, const pb::int32& num_samps_per_chan, const double& timeout, const simple_variant<GroupBy, pb::int32>& fill_mode, const pb::uint32& array_size_in_samps)
 {
