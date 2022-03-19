@@ -747,7 +747,7 @@ namespace nifpga_grpc {
     try {
       auto session_grpc_session = request->session();
       NiFpga_Session session = session_repository_->access_session(session_grpc_session.id(), session_grpc_session.name());
-      uint32_t indicator = request->indicator();
+      uint32_t control = request->control();
       auto array_raw = request->array();
       auto array = std::vector<int16_t>();
       array.reserve(array_raw.size());
@@ -767,7 +767,7 @@ namespace nifpga_grpc {
         });
 
       size_t size = request->size();
-      auto status = library_->WriteArrayI16(session, indicator, array.data(), size);
+      auto status = library_->WriteArrayI16(session, control, array.data(), size);
       response->set_status(status);
       return ::grpc::Status::OK;
     }
@@ -789,7 +789,7 @@ namespace nifpga_grpc {
     try {
       auto session_grpc_session = request->session();
       NiFpga_Session session = session_repository_->access_session(session_grpc_session.id(), session_grpc_session.name());
-      uint32_t indicator = request->indicator();
+      uint32_t control = request->control();
       auto array_raw = request->array();
       auto array = std::vector<uint16_t>();
       array.reserve(array_raw.size());
@@ -809,7 +809,7 @@ namespace nifpga_grpc {
         });
 
       size_t size = request->size();
-      auto status = library_->WriteArrayU16(session, indicator, array.data(), size);
+      auto status = library_->WriteArrayU16(session, control, array.data(), size);
       response->set_status(status);
       return ::grpc::Status::OK;
     }
@@ -831,10 +831,10 @@ namespace nifpga_grpc {
     try {
       auto session_grpc_session = request->session();
       NiFpga_Session session = session_repository_->access_session(session_grpc_session.id(), session_grpc_session.name());
-      uint32_t indicator = request->indicator();
+      uint32_t control = request->control();
       auto array = const_cast<const int64_t*>(request->array().data());
       size_t size = request->size();
-      auto status = library_->WriteArrayI64(session, indicator, array, size);
+      auto status = library_->WriteArrayI64(session, control, array, size);
       response->set_status(status);
       return ::grpc::Status::OK;
     }
@@ -853,10 +853,10 @@ namespace nifpga_grpc {
     try {
       auto session_grpc_session = request->session();
       NiFpga_Session session = session_repository_->access_session(session_grpc_session.id(), session_grpc_session.name());
-      uint32_t indicator = request->indicator();
+      uint32_t control = request->control();
       auto array = const_cast<const uint64_t*>(request->array().data());
       size_t size = request->size();
-      auto status = library_->WriteArrayU64(session, indicator, array, size);
+      auto status = library_->WriteArrayU64(session, control, array, size);
       response->set_status(status);
       return ::grpc::Status::OK;
     }

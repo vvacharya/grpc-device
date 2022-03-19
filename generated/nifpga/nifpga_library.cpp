@@ -281,36 +281,36 @@ NiFpga_Status NiFpgaLibrary::ReadArrayU64(NiFpga_Session session, uint32_t indic
   return function_pointers_.ReadArrayU64(session, indicator, array, size);
 }
 
-NiFpga_Status NiFpgaLibrary::WriteArrayI16(NiFpga_Session session, uint32_t indicator, const int16_t array[], size_t size)
+NiFpga_Status NiFpgaLibrary::WriteArrayI16(NiFpga_Session session, uint32_t control, const int16_t array[], size_t size)
 {
   if (!function_pointers_.WriteArrayI16) {
     throw nidevice_grpc::LibraryLoadException("Could not find NiFpga_WriteArrayI16.");
   }
-  return function_pointers_.WriteArrayI16(session, indicator, array, size);
+  return function_pointers_.WriteArrayI16(session, control, array, size);
 }
 
-NiFpga_Status NiFpgaLibrary::WriteArrayU16(NiFpga_Session session, uint32_t indicator, const uint16_t array[], size_t size)
+NiFpga_Status NiFpgaLibrary::WriteArrayU16(NiFpga_Session session, uint32_t control, const uint16_t array[], size_t size)
 {
   if (!function_pointers_.WriteArrayU16) {
     throw nidevice_grpc::LibraryLoadException("Could not find NiFpga_WriteArrayU16.");
   }
-  return function_pointers_.WriteArrayU16(session, indicator, array, size);
+  return function_pointers_.WriteArrayU16(session, control, array, size);
 }
 
-NiFpga_Status NiFpgaLibrary::WriteArrayI64(NiFpga_Session session, uint32_t indicator, const int64_t array[], size_t size)
+NiFpga_Status NiFpgaLibrary::WriteArrayI64(NiFpga_Session session, uint32_t control, const int64_t array[], size_t size)
 {
   if (!function_pointers_.WriteArrayI64) {
     throw nidevice_grpc::LibraryLoadException("Could not find NiFpga_WriteArrayI64.");
   }
-  return function_pointers_.WriteArrayI64(session, indicator, array, size);
+  return function_pointers_.WriteArrayI64(session, control, array, size);
 }
 
-NiFpga_Status NiFpgaLibrary::WriteArrayU64(NiFpga_Session session, uint32_t indicator, const uint64_t array[], size_t size)
+NiFpga_Status NiFpgaLibrary::WriteArrayU64(NiFpga_Session session, uint32_t control, const uint64_t array[], size_t size)
 {
   if (!function_pointers_.WriteArrayU64) {
     throw nidevice_grpc::LibraryLoadException("Could not find NiFpga_WriteArrayU64.");
   }
-  return function_pointers_.WriteArrayU64(session, indicator, array, size);
+  return function_pointers_.WriteArrayU64(session, control, array, size);
 }
 
 }  // namespace nifpga_grpc

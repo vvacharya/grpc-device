@@ -431,7 +431,7 @@ struct MonikerWriteArrayI64Data
 
         MonikerWriteArrayI64Data* writeData = new MonikerWriteArrayI64Data();
         writeData->session = session;
-        writeData->control = request->indicator();
+        writeData->control = request->control();
         writeData->size = request->size();
         writeData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 

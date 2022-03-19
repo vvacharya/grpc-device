@@ -833,7 +833,7 @@ functions = {
             },
             {
                 'direction': 'in',
-                'name': 'indicator',
+                'name': 'control',
                 'type': 'uint32_t',
             },
             {
@@ -863,7 +863,7 @@ functions = {
             },
             {
                 'direction': 'in',
-                'name': 'indicator',
+                'name': 'control',
                 'type': 'uint32_t',
             },
             {
@@ -901,7 +901,7 @@ functions = {
             },
             {
                 'direction': 'in',
-                'name': 'indicator',
+                'name': 'control',
                 'type': 'uint32_t',
             },
             {
@@ -933,17 +933,8 @@ functions = {
             },
             {
                 'direction': 'in',
-                'name': 'indicator',
+                'name': 'control',
                 'type': 'uint32_t',
-            },
-            {
-                'direction': 'in',
-                'name': 'array',
-                'type': 'const int64_t[]',
-                'size': {
-                    'mechanism': 'passed-in',
-                    'value': 'size'
-                },
             },
             {
                 'direction': 'in',
@@ -968,7 +959,7 @@ functions = {
             },
             {
                 'direction': 'in',
-                'name': 'indicator',
+                'name': 'control',
                 'type': 'uint32_t',
             },
             {

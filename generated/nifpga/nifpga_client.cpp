@@ -634,13 +634,13 @@ read_array_u64(const StubPtr& stub, const nidevice_grpc::Session& session, const
 }
 
 WriteArrayI16Response
-write_array_i16(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator, const std::vector<pb::int32>& array, const pb::uint32& size)
+write_array_i16(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& control, const std::vector<pb::int32>& array, const pb::uint32& size)
 {
   ::grpc::ClientContext context;
 
   auto request = WriteArrayI16Request{};
   request.mutable_session()->CopyFrom(session);
-  request.set_indicator(indicator);
+  request.set_control(control);
   copy_array(array, request.mutable_array());
   request.set_size(size);
 
@@ -653,13 +653,13 @@ write_array_i16(const StubPtr& stub, const nidevice_grpc::Session& session, cons
 }
 
 WriteArrayU16Response
-write_array_u16(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator, const std::vector<pb::uint32>& array, const pb::uint32& size)
+write_array_u16(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& control, const std::vector<pb::uint32>& array, const pb::uint32& size)
 {
   ::grpc::ClientContext context;
 
   auto request = WriteArrayU16Request{};
   request.mutable_session()->CopyFrom(session);
-  request.set_indicator(indicator);
+  request.set_control(control);
   copy_array(array, request.mutable_array());
   request.set_size(size);
 
@@ -672,13 +672,13 @@ write_array_u16(const StubPtr& stub, const nidevice_grpc::Session& session, cons
 }
 
 WriteArrayI64Response
-write_array_i64(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator, const std::vector<pb::int64>& array, const pb::uint32& size)
+write_array_i64(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& control, const std::vector<pb::int64>& array, const pb::uint32& size)
 {
   ::grpc::ClientContext context;
 
   auto request = WriteArrayI64Request{};
   request.mutable_session()->CopyFrom(session);
-  request.set_indicator(indicator);
+  request.set_control(control);
   copy_array(array, request.mutable_array());
   request.set_size(size);
 
@@ -691,14 +691,13 @@ write_array_i64(const StubPtr& stub, const nidevice_grpc::Session& session, cons
 }
 
 WriteArrayI64StreamResponse
-write_array_i64_stream(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator, const std::vector<pb::int64>& array, const pb::uint32& size)
+write_array_i64_stream(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& control, const pb::uint32& size)
 {
   ::grpc::ClientContext context;
 
   auto request = WriteArrayI64StreamRequest{};
   request.mutable_session()->CopyFrom(session);
-  request.set_indicator(indicator);
-  copy_array(array, request.mutable_array());
+  request.set_control(control);
   request.set_size(size);
 
   auto response = WriteArrayI64StreamResponse{};
@@ -710,13 +709,13 @@ write_array_i64_stream(const StubPtr& stub, const nidevice_grpc::Session& sessio
 }
 
 WriteArrayU64Response
-write_array_u64(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& indicator, const std::vector<pb::uint64>& array, const pb::uint32& size)
+write_array_u64(const StubPtr& stub, const nidevice_grpc::Session& session, const pb::uint32& control, const std::vector<pb::uint64>& array, const pb::uint32& size)
 {
   ::grpc::ClientContext context;
 
   auto request = WriteArrayU64Request{};
   request.mutable_session()->CopyFrom(session);
-  request.set_indicator(indicator);
+  request.set_control(control);
   copy_array(array, request.mutable_array());
   request.set_size(size);
 
