@@ -13,6 +13,7 @@
 #include <server/data_moniker_service.h>
 
 #include "nidaqmx/nidaqmx_service_registrar.h"
+#include "nidaqmx/nidaqmx_service.h"
 #include "nidcpower/nidcpower_service_registrar.h"
 #include "nidigitalpattern/nidigitalpattern_service_registrar.h"
 #include "nidmm/nidmm_service_registrar.h"
@@ -194,6 +195,7 @@ std::shared_ptr<void> register_all_services(
       nx_socket_repository,
       feature_toggles));
 
+  nidaqmx_grpc::RegisterMonikers();
   nifpga_grpc::RegisterMonikers();
 
   return service_vector;

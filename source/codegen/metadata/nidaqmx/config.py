@@ -7,6 +7,7 @@ config = {
     'java_package': 'com.ni.grpc.nidaqmx',
     'csharp_namespace': 'NationalInstruments.Grpc.NiDAQmx',
     'namespace_component': 'nidaqmx',
+    'additional_protos': ['data_moniker.proto'],
     'close_function': 'ClearTask',
     'custom_types': [
         {
@@ -133,6 +134,7 @@ config = {
     'init_function': 'CreateTask',
     'resource_handle_type': 'TaskHandle',
     'status_ok': 'status >= 0',
+    'use_moniker_service': True,
     'library_info': {
         'Linux': {
             '64bit': {

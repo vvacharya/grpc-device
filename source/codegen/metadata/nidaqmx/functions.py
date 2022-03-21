@@ -9194,6 +9194,46 @@ functions = {
         ],
         'returns': 'int32'
     },
+    'ReadAnalogF64Stream': {
+        'exclude_from_library': True,
+        'data_moniker_support': True,
+        'codegen_method': 'CustomCode',
+        'parameters': [
+            {
+                'direction': 'in',
+                'name': 'task',
+                'type': 'TaskHandle'
+            },
+            {
+                'direction': 'in',
+                'name': 'numSampsPerChan',
+                'type': 'int32'
+            },
+            {
+                'direction': 'in',
+                'name': 'timeout',
+                'type': 'float64'
+            },
+            {
+                'direction': 'in',
+                'enum': 'GroupBy',
+                'name': 'fillMode',
+                'type': 'int32'
+            },
+            {
+                'direction': 'in',
+                'name': 'arraySizeInSamps',
+                'type': 'uInt32'
+            },
+            {
+                'direction': 'out',
+                'name': 'moniker',
+                'grpc_type': 'ni.data_monikers.Moniker',
+                'type': 'ni::data_monikers::Moniker'
+            }
+        ],
+        'returns': 'int32'
+    },
     'ReadAnalogScalarF64': {
         'parameters': [
             {
@@ -12988,6 +13028,30 @@ functions = {
         ],
         'returns': 'int32'
     },
+    'WaitForNextSampleClockStream': {
+        'exclude_from_library': True,
+        'data_moniker_support': True,
+        'codegen_method': 'CustomCode',
+        'parameters': [
+            {
+                'direction': 'in',
+                'name': 'task',
+                'type': 'TaskHandle'
+            },
+            {
+                'direction': 'in',
+                'name': 'timeout',
+                'type': 'float64'
+            },
+            {
+                'direction': 'out',
+                'name': 'moniker',
+                'grpc_type': 'ni.data_monikers.Moniker',
+                'type': 'ni::data_monikers::Moniker'
+            }
+        ],
+        'returns': 'int32'
+    },
     'WaitForValidTimestamp': {
         'parameters': [
             {
@@ -13074,6 +13138,46 @@ functions = {
                 'name': 'reserved',
                 'pointer': True,
                 'type': 'bool32'
+            }
+        ],
+        'returns': 'int32'
+    },
+    'WriteAnalogF64Stream': {
+        'exclude_from_library': True,
+        'data_moniker_support': True,
+        'codegen_method': 'CustomCode',
+        'parameters': [
+            {
+                'direction': 'in',
+                'name': 'task',
+                'type': 'TaskHandle'
+            },
+            {
+                'direction': 'in',
+                'name': 'numSampsPerChan',
+                'type': 'int32'
+            },
+            {
+                'direction': 'in',
+                'name': 'autoStart',
+                'type': 'bool32'
+            },
+            {
+                'direction': 'in',
+                'name': 'timeout',
+                'type': 'float64'
+            },
+            {
+                'direction': 'in',
+                'enum': 'GroupBy',
+                'name': 'dataLayout',
+                'type': 'int32'
+            },
+            {
+                'direction': 'out',
+                'name': 'moniker',
+                'grpc_type': 'ni.data_monikers.Moniker',
+                'type': 'ni::data_monikers::Moniker'
             }
         ],
         'returns': 'int32'

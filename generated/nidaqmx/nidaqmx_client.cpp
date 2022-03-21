@@ -7097,6 +7097,33 @@ read_analog_f64(const StubPtr& stub, const nidevice_grpc::Session& task, const p
   return response;
 }
 
+ReadAnalogF64StreamResponse
+read_analog_f64_stream(const StubPtr& stub, const nidevice_grpc::Session& task, const pb::int32& num_samps_per_chan, const double& timeout, const simple_variant<GroupBy, pb::int32>& fill_mode, const pb::uint32& array_size_in_samps)
+{
+  ::grpc::ClientContext context;
+
+  auto request = ReadAnalogF64StreamRequest{};
+  request.mutable_task()->CopyFrom(task);
+  request.set_num_samps_per_chan(num_samps_per_chan);
+  request.set_timeout(timeout);
+  const auto fill_mode_ptr = fill_mode.get_if<GroupBy>();
+  const auto fill_mode_raw_ptr = fill_mode.get_if<pb::int32>();
+  if (fill_mode_ptr) {
+    request.set_fill_mode(*fill_mode_ptr);
+  }
+  else if (fill_mode_raw_ptr) {
+    request.set_fill_mode_raw(*fill_mode_raw_ptr);
+  }
+  request.set_array_size_in_samps(array_size_in_samps);
+
+  auto response = ReadAnalogF64StreamResponse{};
+
+  raise_if_error(
+      stub->ReadAnalogF64Stream(&context, request, &response));
+
+  return response;
+}
+
 ReadAnalogScalarF64Response
 read_analog_scalar_f64(const StubPtr& stub, const nidevice_grpc::Session& task, const double& timeout)
 {
@@ -10010,6 +10037,23 @@ wait_for_next_sample_clock(const StubPtr& stub, const nidevice_grpc::Session& ta
   return response;
 }
 
+WaitForNextSampleClockStreamResponse
+wait_for_next_sample_clock_stream(const StubPtr& stub, const nidevice_grpc::Session& task, const double& timeout)
+{
+  ::grpc::ClientContext context;
+
+  auto request = WaitForNextSampleClockStreamRequest{};
+  request.mutable_task()->CopyFrom(task);
+  request.set_timeout(timeout);
+
+  auto response = WaitForNextSampleClockStreamResponse{};
+
+  raise_if_error(
+      stub->WaitForNextSampleClockStream(&context, request, &response));
+
+  return response;
+}
+
 WaitForValidTimestampResponse
 wait_for_valid_timestamp(const StubPtr& stub, const nidevice_grpc::Session& task, const simple_variant<TimestampEvent, pb::int32>& timestamp_event, const double& timeout)
 {
@@ -10076,6 +10120,33 @@ write_analog_f64(const StubPtr& stub, const nidevice_grpc::Session& task, const 
 
   raise_if_error(
       stub->WriteAnalogF64(&context, request, &response));
+
+  return response;
+}
+
+WriteAnalogF64StreamResponse
+write_analog_f64_stream(const StubPtr& stub, const nidevice_grpc::Session& task, const pb::int32& num_samps_per_chan, const bool& auto_start, const double& timeout, const simple_variant<GroupBy, pb::int32>& data_layout)
+{
+  ::grpc::ClientContext context;
+
+  auto request = WriteAnalogF64StreamRequest{};
+  request.mutable_task()->CopyFrom(task);
+  request.set_num_samps_per_chan(num_samps_per_chan);
+  request.set_auto_start(auto_start);
+  request.set_timeout(timeout);
+  const auto data_layout_ptr = data_layout.get_if<GroupBy>();
+  const auto data_layout_raw_ptr = data_layout.get_if<pb::int32>();
+  if (data_layout_ptr) {
+    request.set_data_layout(*data_layout_ptr);
+  }
+  else if (data_layout_raw_ptr) {
+    request.set_data_layout_raw(*data_layout_raw_ptr);
+  }
+
+  auto response = WriteAnalogF64StreamResponse{};
+
+  raise_if_error(
+      stub->WriteAnalogF64Stream(&context, request, &response));
 
   return response;
 }

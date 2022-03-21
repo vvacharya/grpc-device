@@ -32,6 +32,12 @@ struct NiDAQmxFeatureToggles
   bool is_allow_undefined_attributes_enabled;
 };
 
+void RegisterMonikers();
+
+::grpc::Status MonikerReadAnalogF64Stream(void* data, google::protobuf::Any& packedData);
+::grpc::Status MonikerWaitForNextSampleClockStream(void* data, google::protobuf::Any& packedData);
+::grpc::Status MonikerWriteAnalogF64Stream(void* data, google::protobuf::Any& packedData);
+
 class NiDAQmxService final : public NiDAQmx::WithCallbackMethod_RegisterSignalEvent<NiDAQmx::WithCallbackMethod_RegisterEveryNSamplesEvent<NiDAQmx::WithCallbackMethod_RegisterDoneEvent<NiDAQmx::Service>>> {
 public:
   using ResourceRepositorySharedPtr = std::shared_ptr<nidevice_grpc::SessionResourceRepository<TaskHandle>>;
@@ -283,6 +289,7 @@ public:
   ::grpc::Status IsTaskDone(::grpc::ServerContext* context, const IsTaskDoneRequest* request, IsTaskDoneResponse* response) override;
   ::grpc::Status LoadTask(::grpc::ServerContext* context, const LoadTaskRequest* request, LoadTaskResponse* response) override;
   ::grpc::Status ReadAnalogF64(::grpc::ServerContext* context, const ReadAnalogF64Request* request, ReadAnalogF64Response* response) override;
+  ::grpc::Status ReadAnalogF64Stream(::grpc::ServerContext* context, const ReadAnalogF64StreamRequest* request, ReadAnalogF64StreamResponse* response) override;
   ::grpc::Status ReadAnalogScalarF64(::grpc::ServerContext* context, const ReadAnalogScalarF64Request* request, ReadAnalogScalarF64Response* response) override;
   ::grpc::Status ReadBinaryI16(::grpc::ServerContext* context, const ReadBinaryI16Request* request, ReadBinaryI16Response* response) override;
   ::grpc::Status ReadBinaryI32(::grpc::ServerContext* context, const ReadBinaryI32Request* request, ReadBinaryI32Response* response) override;
@@ -406,9 +413,11 @@ public:
   ::grpc::Status TristateOutputTerm(::grpc::ServerContext* context, const TristateOutputTermRequest* request, TristateOutputTermResponse* response) override;
   ::grpc::Status UnreserveNetworkDevice(::grpc::ServerContext* context, const UnreserveNetworkDeviceRequest* request, UnreserveNetworkDeviceResponse* response) override;
   ::grpc::Status WaitForNextSampleClock(::grpc::ServerContext* context, const WaitForNextSampleClockRequest* request, WaitForNextSampleClockResponse* response) override;
+  ::grpc::Status WaitForNextSampleClockStream(::grpc::ServerContext* context, const WaitForNextSampleClockStreamRequest* request, WaitForNextSampleClockStreamResponse* response) override;
   ::grpc::Status WaitForValidTimestamp(::grpc::ServerContext* context, const WaitForValidTimestampRequest* request, WaitForValidTimestampResponse* response) override;
   ::grpc::Status WaitUntilTaskDone(::grpc::ServerContext* context, const WaitUntilTaskDoneRequest* request, WaitUntilTaskDoneResponse* response) override;
   ::grpc::Status WriteAnalogF64(::grpc::ServerContext* context, const WriteAnalogF64Request* request, WriteAnalogF64Response* response) override;
+  ::grpc::Status WriteAnalogF64Stream(::grpc::ServerContext* context, const WriteAnalogF64StreamRequest* request, WriteAnalogF64StreamResponse* response) override;
   ::grpc::Status WriteAnalogScalarF64(::grpc::ServerContext* context, const WriteAnalogScalarF64Request* request, WriteAnalogScalarF64Response* response) override;
   ::grpc::Status WriteBinaryI16(::grpc::ServerContext* context, const WriteBinaryI16Request* request, WriteBinaryI16Response* response) override;
   ::grpc::Status WriteBinaryI32(::grpc::ServerContext* context, const WriteBinaryI32Request* request, WriteBinaryI32Response* response) override;
