@@ -69,11 +69,23 @@ include_directories(
   "./source"
   "./third_party/grpc-sideband/src"
 )
+
+#----------------------------------------------------------------------
+# Define libraries to link
+#----------------------------------------------------------------------
 if(WIN32)
   link_directories("./imports/lib/win64")
 else()
   # Add grpc-sideband deps here
   link_directories("./imports/lib/linux")
+endif()
+
+if(NOT MSVC)
+  set(RDMA_LIB "libnirdma.so")
+  SET(LVRT_LIB "liblvrt.so")
+else()
+  set(RDMA_LIB "rdma.lib")
+  SET(LVRT_LIB "")
 endif()
 
 #----------------------------------------------------------------------
@@ -327,8 +339,12 @@ target_link_libraries(ni_grpc_device_server
   ${_PROTOBUF_LIBPROTOBUF}
   ${CMAKE_DL_LIBS}
   nlohmann_json::nlohmann_json
+)
+
+target_link_libraries(ni_grpc_device_server
   ni_grpc_sideband
-  rdma
+  ${RDMA_LIB}
+  ${LVRT_LIB}
 )
 
 set_target_properties(ni_grpc_device_server PROPERTIES BUILD_WITH_INSTALL_RPATH TRUE)
@@ -543,8 +559,12 @@ target_link_libraries(SystemTestsRunner
     ${_GRPC_GRPCPP}
     ${CMAKE_DL_LIBS}
     nlohmann_json::nlohmann_json
-    ni_grpc_sideband
-    rdma
+)
+
+target_link_libraries(SystemTestsRunner
+  ni_grpc_sideband
+  ${RDMA_LIB}
+  ${LVRT_LIB}
 )
 
 add_custom_command(

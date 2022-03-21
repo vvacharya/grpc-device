@@ -6,6 +6,9 @@
 #include <sideband_internal.h>
 #include <sideband_grpc.h>
 #include "data_moniker_service.h"
+#ifndef _WIN32 
+#include <sys/syscall.h>
+#endif
 
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
@@ -21,10 +24,10 @@ using ni::data_monikers::MonikerList;
 using ni::data_monikers::MonikerWriteRequest;
 using ni::data_monikers::MonikerReadResult;
 using ni::data_monikers::StreamWriteResponse;
-//using ni::data_monikers::SidebandWriteRequest;
-//using ni::data_monikers::SidebandReadResponse;
-//using ni::data_monikers::BeginMonikerSidebandStreamRequest;
-//using ni::data_monikers::BeginMonikerSidebandStreamResponse;
+using ni::data_monikers::SidebandWriteRequest;
+using ni::data_monikers::SidebandReadResponse;
+using ni::data_monikers::BeginMonikerSidebandStreamRequest;
+using ni::data_monikers::BeginMonikerSidebandStreamResponse;
 
 namespace ni::data_monikers
 {
@@ -185,7 +188,7 @@ namespace ni::data_monikers
         EndpointList readers;
         InitiateMonikerList(request->monikers(), readers, writers);
         auto initialClientWrite = request->monikers().is_initial_write();
-        auto thread = new std::thread(RunSidebandReadWriteLoop, identifier, strategy, readers, writers, initialClientWrite);
+        auto thread = new std::thread(&RunSidebandReadWriteLoop, identifier, strategy, std::ref(readers), std::ref(writers), initialClientWrite);
         thread->detach();
 
         return Status::OK;
