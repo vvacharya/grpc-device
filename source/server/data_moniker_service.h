@@ -9,7 +9,7 @@
 #include <data_moniker.grpc.pb.h>
 #include <type_traits>
 #include <map>
-//#include <sideband_data.h>
+#include <sideband_data.h>
 
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
@@ -27,7 +27,7 @@ namespace ni::data_monikers
     {
     public:
         DataMonikerService();
-        //grpc::Status BeginSidebandStream(grpc::ServerContext* context, const ni::data_monikers::BeginMonikerSidebandStreamRequest* request, ni::data_monikers::BeginMonikerSidebandStreamResponse* response) override;
+        ::grpc::Status BeginSidebandStream(grpc::ServerContext* context, const ni::data_monikers::BeginMonikerSidebandStreamRequest* request, ni::data_monikers::BeginMonikerSidebandStreamResponse* response) override;
         ::grpc::Status StreamReadWrite(::grpc::ServerContext* context, ::grpc::ServerReaderWriter<MonikerReadResult, MonikerWriteRequest>* stream) override;
         ::grpc::Status StreamRead(::grpc::ServerContext* context, const MonikerList* request, ::grpc::ServerWriter<MonikerReadResult>* writer);
         ::grpc::Status StreamWrite(::grpc::ServerContext* context, ::grpc::ServerReaderWriter<StreamWriteResponse, MonikerWriteRequest>* stream);
@@ -42,6 +42,6 @@ namespace ni::data_monikers
 
     private:
         void InitiateMonikerList(const MonikerList& monikers, EndpointList& readers, EndpointList& writers);
-        //static void RunSidebandReadWriteLoop(std::string sidebandIdentifier, ::SidebandStrategy strategy, EndpointList& readers, EndpointList& writers, bool initialClientWrite);
+        static void RunSidebandReadWriteLoop(std::string sidebandIdentifier, ::SidebandStrategy strategy, EndpointList& readers, EndpointList& writers, bool initialClientWrite);
     };
 }

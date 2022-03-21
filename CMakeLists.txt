@@ -38,6 +38,10 @@ else()
   set(_PROTOBUF_LIBPROTOBUF libprotobuf)
 endif()
 
+if(NOT ${CMAKE_CROSSCOMPILING})
+  add_subdirectory(third_party/grpc-sideband ${CMAKE_CURRENT_BINARY_DIR}/grpc-sideband)
+endif()
+
 CreateVirtualEnvironment(virtual_environment
   REQUIREMENTS_TXT 
     ${CMAKE_SOURCE_DIR}/python_build_requirements.txt
@@ -64,6 +68,7 @@ include_directories(
   "./generated"
   "./imports/include"
   "./source"
+  "./third_party/grpc-sideband/src"
 )
 if(WIN32)
   link_directories("./imports/lib/win64")
@@ -288,25 +293,25 @@ foreach(api ${nidrivers})
 endforeach()
 
 add_executable(ni_grpc_device_server
-   "source/server/core_server.cpp"
-   "source/server/core_service_registrar.cpp"
-   "source/server/device_enumerator.cpp"
-   "source/server/feature_toggles.cpp"
-   "source/server/logging.cpp"
-   "source/server/semaphore.cpp"
-   "source/server/server_configuration_parser.cpp"
-   "source/server/server_security_configuration.cpp"
-   "source/server/session_repository.cpp"
-   "source/server/session_utilities_service.cpp"
-   "source/server/shared_library.cpp"
-   "source/server/syscfg_library.cpp"
-   "source/server/data_moniker_service.cpp"
-   ${data_moniker_proto_srcs}
-   ${data_moniker_grpc_srcs}
-   ${nidevice_proto_srcs}
-   ${session_proto_srcs}
-   ${session_grpc_srcs}
-   ${nidriver_service_srcs})
+  "source/server/core_server.cpp"
+  "source/server/core_service_registrar.cpp"
+  "source/server/device_enumerator.cpp"
+  "source/server/feature_toggles.cpp"
+  "source/server/logging.cpp"
+  "source/server/semaphore.cpp"
+  "source/server/server_configuration_parser.cpp"
+  "source/server/server_security_configuration.cpp"
+  "source/server/session_repository.cpp"
+  "source/server/session_utilities_service.cpp"
+  "source/server/shared_library.cpp"
+  "source/server/syscfg_library.cpp"
+  "source/server/data_moniker_service.cpp"
+  ${data_moniker_proto_srcs}
+  ${data_moniker_grpc_srcs}
+  ${nidevice_proto_srcs}
+  ${session_proto_srcs}
+  ${session_grpc_srcs}
+  ${nidriver_service_srcs})
 
 if(CMAKE_SYSTEM_NAME STREQUAL Linux)
   target_sources(ni_grpc_device_server
@@ -315,12 +320,14 @@ if(CMAKE_SYSTEM_NAME STREQUAL Linux)
 endif()
 
 target_link_libraries(ni_grpc_device_server
-   ${_REFLECTION}
-   ${_GRPC_GRPCPP}
-   ${_PROTOBUF_LIBPROTOBUF}
-   ${CMAKE_DL_LIBS}
-   nlohmann_json::nlohmann_json
-   )
+  ${_REFLECTION}
+  ${_GRPC_GRPCPP}
+  ${_PROTOBUF_LIBPROTOBUF}
+  ${CMAKE_DL_LIBS}
+  nlohmann_json::nlohmann_json
+  ni_grpc_sideband
+  rdma
+)
 
 set_target_properties(ni_grpc_device_server PROPERTIES BUILD_WITH_INSTALL_RPATH TRUE)
 
@@ -534,6 +541,8 @@ target_link_libraries(SystemTestsRunner
     ${_GRPC_GRPCPP}
     ${CMAKE_DL_LIBS}
     nlohmann_json::nlohmann_json
+    ni_grpc_sideband
+    rdma
 )
 
 add_custom_command(

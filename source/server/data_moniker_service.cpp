@@ -2,9 +2,9 @@
 //---------------------------------------------------------------------
 #include <thread>
 #include <tuple>
-//#include <sideband_data.h>
-//#include <sideband_internal.h>
-//#include <sideband_grpc.h>
+#include <sideband_data.h>
+#include <sideband_internal.h>
+#include <sideband_grpc.h>
 #include "data_moniker_service.h"
 
 //---------------------------------------------------------------------
@@ -83,6 +83,112 @@ namespace ni::data_monikers
             }
             writers.push_back(EndpointInstance(ptr, reinterpret_cast<void*>(instance)));
         }
+    }
+
+    //---------------------------------------------------------------------
+    //---------------------------------------------------------------------
+    void DataMonikerService::RunSidebandReadWriteLoop(string sidebandIdentifier, ::SidebandStrategy strategy, EndpointList& readers, EndpointList& writers, bool initialClientWrite)
+    {
+    #ifndef _WIN32
+        if (strategy == ::SidebandStrategy::RDMA_LOW_LATENCY ||
+            strategy == ::SidebandStrategy::SOCKETS_LOW_LATENCY)
+        {
+            cpu_set_t cpuSet;
+            CPU_ZERO(&cpuSet);
+            CPU_SET(10, &cpuSet);
+            pid_t threadId = syscall(SYS_gettid);
+            sched_setaffinity(threadId, sizeof(cpu_set_t), &cpuSet);
+        }
+    #endif
+
+        int64_t sidebandToken = GetOwnerSidebandDataToken(sidebandIdentifier);
+
+        int x = 0;
+        SidebandWriteRequest writeRequest;
+        if (initialClientWrite)
+        {
+            while (ReadSidebandMessage(sidebandToken, &writeRequest) && !writeRequest.cancel())
+            {
+                x = 0;
+                for (auto writer: writers)
+                {
+                    std::get<0>(writer)(std::get<1>(writer), const_cast<google::protobuf::Any&>(writeRequest.values().values(x++)));
+                }
+                if (readers.size() > 0)
+                {
+                    x = 0;
+                    SidebandReadResponse readResult;
+                    for (auto reader: readers)
+                    {
+                        auto readValue = readResult.mutable_values()->add_values();
+                        std::get<0>(reader)(std::get<1>(reader), *readValue);
+                    }
+                    if (!WriteSidebandMessage(sidebandToken, readResult))
+                    {
+                        break;
+                    }
+                }
+            }	
+        }
+        else
+        {
+            while (true)
+            {
+                x = 0;
+                SidebandReadResponse readResult;
+                for (auto reader: readers)
+                {
+                    auto readValue = readResult.mutable_values()->mutable_values(x++);
+                    std::get<0>(reader)(std::get<1>(reader), *readValue);
+                }
+                if (!WriteSidebandMessage(sidebandToken, readResult))
+                {
+                    break;
+                }
+                if (writers.size() > 0)
+                {
+                    int x = 0;
+                    if (!ReadSidebandMessage(sidebandToken, &writeRequest))
+                    {
+                        break;
+                    }
+                    if (writeRequest.cancel())
+                    {
+                        break;
+                    }
+                    for (auto writer: writers)
+                    {
+                        std::get<0>(writer)(std::get<1>(writer), const_cast<google::protobuf::Any&>(writeRequest.values().values(x++)));
+                    }
+                }
+            }
+        }
+
+        CloseSidebandData(sidebandToken);
+    }
+
+    //---------------------------------------------------------------------
+    //---------------------------------------------------------------------
+    Status DataMonikerService::BeginSidebandStream(ServerContext* context, const BeginMonikerSidebandStreamRequest* request, BeginMonikerSidebandStreamResponse* response)
+    {	
+        auto bufferSize = 1024 * 1024;
+        auto strategy = static_cast<::SidebandStrategy>(request->strategy());
+
+        auto identifier = InitOwnerSidebandData(strategy, bufferSize);
+        response->set_strategy(request->strategy());
+        response->set_sideband_identifier(identifier);
+        response->set_connection_url(GetConnectionAddress(strategy));
+        response->set_buffer_size(bufferSize);
+        QueueSidebandConnection(strategy, identifier, true, true, bufferSize);
+
+        EndpointList writers;
+        EndpointList readers;
+        InitiateMonikerList(request->monikers(), readers, writers);
+        auto initialClientWrite = request->monikers().is_initial_write();
+        auto thread = new std::thread(RunSidebandReadWriteLoop, identifier, strategy, readers, writers, initialClientWrite);
+        thread->detach();
+
+        return Status::OK;
     }
 
     //---------------------------------------------------------------------
