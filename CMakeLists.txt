@@ -22,11 +22,13 @@ if(CMAKE_CROSSCOMPILING)
     find_library(_REFLECTION grpc++_reflection)
     find_library(_GRPC_GRPCPP grpc++)
     find_library(_PROTOBUF_LIBPROTOBUF protobuf)
+    # find_package(ni-grpc-sideband REQUIRED)
   else()
     add_subdirectory(third_party/grpc ${CMAKE_CURRENT_BINARY_DIR}/grpc EXCLUDE_FROM_ALL)
     set(_REFLECTION grpc++_reflection)
     set(_GRPC_GRPCPP grpc++)
     set(_PROTOBUF_LIBPROTOBUF libprotobuf)
+    add_subdirectory(third_party/grpc-sideband ${CMAKE_CURRENT_BINARY_DIR}/grpc-sideband)
   endif()
 
 else()
@@ -36,9 +38,6 @@ else()
   set(_GRPC_CPP_PLUGIN_EXECUTABLE $<TARGET_FILE:grpc_cpp_plugin>)
   set(_GRPC_GRPCPP grpc++)
   set(_PROTOBUF_LIBPROTOBUF libprotobuf)
-endif()
-
-if(NOT ${CMAKE_CROSSCOMPILING})
   add_subdirectory(third_party/grpc-sideband ${CMAKE_CURRENT_BINARY_DIR}/grpc-sideband)
 endif()
 
@@ -72,6 +71,9 @@ include_directories(
 )
 if(WIN32)
   link_directories("./imports/lib/win64")
+else()
+  # Add grpc-sideband deps here
+  link_directories("./imports/lib/linux")
 endif()
 
 #----------------------------------------------------------------------
