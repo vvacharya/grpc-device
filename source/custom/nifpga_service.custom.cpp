@@ -73,15 +73,58 @@ struct MonikerU64Data
     std::shared_ptr<NiFpgaLibraryInterface> library;
 };
 
+struct MonikerBoolData
+{
+    NiFpga_Session session;
+    uint32_t item;
+    nifpga_grpc::BoolData data;
+    std::shared_ptr<NiFpgaLibraryInterface> library;
+};
+
 //-----------------------------------------------------------------------------
 // Read Scalar Methods
 //-----------------------------------------------------------------------------
 ::grpc::Status NiFpgaService::ReadBoolStream(::grpc::ServerContext* context, const ReadBoolStreamRequest* request, ReadBoolStreamResponse* response)
 {
-    return ::grpc::Status::OK;
+    if (context->IsCancelled()) {
+        return ::grpc::Status::CANCELLED;
+    }
+    try {
+        auto session_grpc_session = request->session();
+        NiFpga_Session session = session_repository_->access_session(session_grpc_session.id(), session_grpc_session.name());
+
+        MonikerBoolData* readData = new MonikerBoolData();
+        readData->session = session;
+        readData->item = request->indicator();
+        readData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
+
+        ni::data_monikers::Moniker* writeMoniker = new ni::data_monikers::Moniker();
+        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerReadBoolStream", readData, *writeMoniker);
+
+        response->set_allocated_moniker(writeMoniker);
+        return ::grpc::Status::OK;
+    }
+    catch (std::exception& ex) {
+        return ::grpc::Status(::grpc::UNKNOWN, ex.what());
+    }
 }
 ::grpc::Status MonikerReadBoolStream(void* data, google::protobuf::Any& packedData)
 {
+    MonikerBoolData* readData = (MonikerBoolData*)data;
+    auto library = readData->library;
+    auto session = readData->session;
+    auto indicator = readData->item;
+    NiFpga_Bool value = NiFpga_False;
+
+    auto status = library->ReadBool(session, indicator, &value);
+    readData->data.set_value(value);
+    if (status >= 0) {
+        packedData.PackFrom(readData->data);
+    }
+    else
+    {
+        std::cout << "MonikerReadBoolStream error: " << status << std::endl;
+    }
     return ::grpc::Status::OK;
 }
 
@@ -97,8 +140,6 @@ struct MonikerU64Data
         MonikerU32Data* readData = new MonikerU32Data();
         readData->session = session;
         readData->item = request->indicator();
-        readData->data.mutable_value()->Reserve(1);
-	    readData->data.mutable_value()->Resize(1, 0);
         readData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 
         ni::data_monikers::Moniker* writeMoniker = new ni::data_monikers::Moniker();
@@ -118,9 +159,10 @@ struct MonikerU64Data
     auto library = readData->library;
     auto session = readData->session;
     auto indicator = readData->item;
-    auto value_ptr = reinterpret_cast<int16_t*>(readData->data.mutable_value()->mutable_data());
+    int8_t value = 0;
 
-    auto status = library->ReadI16(session, indicator, value_ptr);
+    auto status = library->ReadI8(session, indicator, &value);
+    readData->data.set_value(value);
     if (status >= 0) {
         packedData.PackFrom(readData->data);
     }
@@ -143,8 +185,6 @@ struct MonikerU64Data
         MonikerU32Data* readData = new MonikerU32Data();
         readData->session = session;
         readData->item = request->indicator();
-        readData->data.mutable_value()->Reserve(1);
-	    readData->data.mutable_value()->Resize(1, 0);
         readData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 
         ni::data_monikers::Moniker* writeMoniker = new ni::data_monikers::Moniker();
@@ -164,9 +204,10 @@ struct MonikerU64Data
     auto library = readData->library;
     auto session = readData->session;
     auto indicator = readData->item;
-    auto value_ptr = reinterpret_cast<uint8_t*>(readData->data.mutable_value()->mutable_data());
+    uint8_t value = 0;
 
-    auto status = library->ReadU8(session, indicator, value_ptr);
+    auto status = library->ReadU8(session, indicator, &value);
+    readData->data.set_value(value);
     if (status >= 0) {
         packedData.PackFrom(readData->data);
     }
@@ -189,8 +230,6 @@ struct MonikerU64Data
         MonikerU32Data* readData = new MonikerU32Data();
         readData->session = session;
         readData->item = request->indicator();
-        readData->data.mutable_value()->Reserve(1);
-	    readData->data.mutable_value()->Resize(1, 0);
         readData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 
         ni::data_monikers::Moniker* writeMoniker = new ni::data_monikers::Moniker();
@@ -210,9 +249,10 @@ struct MonikerU64Data
     auto library = readData->library;
     auto session = readData->session;
     auto indicator = readData->item;
-    auto value_ptr = reinterpret_cast<int16_t*>(readData->data.mutable_value()->mutable_data());
+    int16_t value = 0;
 
-    auto status = library->ReadI16(session, indicator, value_ptr);
+    auto status = library->ReadI16(session, indicator, &value);
+    readData->data.set_value(value);
     if (status >= 0) {
         packedData.PackFrom(readData->data);
     }
@@ -235,8 +275,6 @@ struct MonikerU64Data
         MonikerU32Data* readData = new MonikerU32Data();
         readData->session = session;
         readData->item = request->indicator();
-        readData->data.mutable_value()->Reserve(1);
-	    readData->data.mutable_value()->Resize(1, 0);
         readData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 
         ni::data_monikers::Moniker* writeMoniker = new ni::data_monikers::Moniker();
@@ -256,9 +294,10 @@ struct MonikerU64Data
     auto library = readData->library;
     auto session = readData->session;
     auto indicator = readData->item;
-    auto value_ptr = reinterpret_cast<uint16_t*>(readData->data.mutable_value()->mutable_data());
+    uint16_t value = 0;
 
-    auto status = library->ReadU16(session, indicator, value_ptr);
+    auto status = library->ReadU16(session, indicator, &value);
+    readData->data.set_value(value);
     if (status >= 0) {
         packedData.PackFrom(readData->data);
     }
@@ -281,8 +320,6 @@ struct MonikerU64Data
         MonikerI32Data* readData = new MonikerI32Data();
         readData->session = session;
         readData->item = request->indicator();
-        readData->data.mutable_value()->Reserve(1);
-	    readData->data.mutable_value()->Resize(1, 0);
         readData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 
         ni::data_monikers::Moniker* writeMoniker = new ni::data_monikers::Moniker();
@@ -302,9 +339,10 @@ struct MonikerU64Data
     auto library = readData->library;
     auto session = readData->session;
     auto indicator = readData->item;
-    int32_t* value_ptr = readData->data.mutable_value()->mutable_data();
+    int32_t value = 0;
 
-    auto status = library->ReadI32(session, indicator, value_ptr);
+    auto status = library->ReadI32(session, indicator, &value);
+    readData->data.set_value(value);
     if (status >= 0) {
         packedData.PackFrom(readData->data);
     }
@@ -327,8 +365,6 @@ struct MonikerU64Data
         MonikerU32Data* readData = new MonikerU32Data();
         readData->session = session;
         readData->item = request->indicator();
-        readData->data.mutable_value()->Reserve(1);
-	    readData->data.mutable_value()->Resize(1, 0);
         readData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 
         ni::data_monikers::Moniker* writeMoniker = new ni::data_monikers::Moniker();
@@ -348,9 +384,10 @@ struct MonikerU64Data
     auto library = readData->library;
     auto session = readData->session;
     auto indicator = readData->item;
-    uint32_t* value_ptr = readData->data.mutable_value()->mutable_data();
+    uint32_t value = 0;
 
-    auto status = library->ReadU32(session, indicator, value_ptr);
+    auto status = library->ReadU32(session, indicator, &value);
+    readData->data.set_value(value);
     if (status >= 0) {
         packedData.PackFrom(readData->data);
     }
@@ -373,8 +410,6 @@ struct MonikerU64Data
         MonikerI64Data* readData = new MonikerI64Data();
         readData->session = session;
         readData->item = request->indicator();
-        readData->data.mutable_value()->Reserve(1);
-	    readData->data.mutable_value()->Resize(1, 0);
         readData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 
         ni::data_monikers::Moniker* writeMoniker = new ni::data_monikers::Moniker();
@@ -394,9 +429,10 @@ struct MonikerU64Data
     auto library = readData->library;
     auto session = readData->session;
     auto indicator = readData->item;
-    int64_t* value_ptr = readData->data.mutable_value()->mutable_data();
+    int64_t value = 0;
 
-    auto status = library->ReadI64(session, indicator, value_ptr);
+    auto status = library->ReadI64(session, indicator, &value);
+    readData->data.set_value(value);
     if (status >= 0) {
         packedData.PackFrom(readData->data);
     }
@@ -419,8 +455,6 @@ struct MonikerU64Data
         MonikerU64Data* readData = new MonikerU64Data();
         readData->session = session;
         readData->item = request->indicator();
-        readData->data.mutable_value()->Reserve(1);
-	    readData->data.mutable_value()->Resize(1, 0);
         readData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 
         ni::data_monikers::Moniker* writeMoniker = new ni::data_monikers::Moniker();
@@ -440,9 +474,10 @@ struct MonikerU64Data
     auto library = readData->library;
     auto session = readData->session;
     auto indicator = readData->item;
-    uint64_t* value_ptr = readData->data.mutable_value()->mutable_data();
+    uint64_t value = 0;
 
-    auto status = library->ReadU64(session, indicator, value_ptr);
+    auto status = library->ReadU64(session, indicator, &value);
+    readData->data.set_value(value);
     if (status >= 0) {
         packedData.PackFrom(readData->data);
     }
@@ -500,7 +535,7 @@ struct MonikerU64Data
 
     I32Data i32_data;
     packedData.UnpackTo(&i32_data);
-    int32_t value = *(i32_data.value().data());
+    int32_t value = i32_data.value();
     if (value < std::numeric_limits<int8_t>::min() || value > std::numeric_limits<int8_t>::max()) {
         std::string message("value " + std::to_string(value) + " doesn't fit in datatype int8_t");
         throw nidevice_grpc::ValueOutOfRangeException(message);
@@ -548,7 +583,7 @@ struct MonikerU64Data
 
     U32Data u32_data;
     packedData.UnpackTo(&u32_data);
-    uint32_t value = *(u32_data.value().data());
+    uint32_t value = u32_data.value();
     if (value < std::numeric_limits<uint8_t>::min() || value > std::numeric_limits<uint8_t>::max()) {
         std::string message("value " + std::to_string(value) + " doesn't fit in datatype uint8_t");
         throw nidevice_grpc::ValueOutOfRangeException(message);
@@ -596,7 +631,7 @@ struct MonikerU64Data
 
     I32Data i32_data;
     packedData.UnpackTo(&i32_data);
-    int32_t value = *(i32_data.value().data());
+    int32_t value = i32_data.value();
     if (value < std::numeric_limits<int16_t>::min() || value > std::numeric_limits<int16_t>::max()) {
         std::string message("value " + std::to_string(value) + " doesn't fit in datatype int16_t");
         throw nidevice_grpc::ValueOutOfRangeException(message);
@@ -644,7 +679,7 @@ struct MonikerU64Data
 
     U32Data u32_data;
     packedData.UnpackTo(&u32_data);
-    uint32_t value = *(u32_data.value().data());
+    uint32_t value = u32_data.value();
     if (value < std::numeric_limits<uint16_t>::min() || value > std::numeric_limits<uint16_t>::max()) {
         std::string message("value " + std::to_string(value) + " doesn't fit in datatype uint16_t");
         throw nidevice_grpc::ValueOutOfRangeException(message);
@@ -692,7 +727,7 @@ struct MonikerU64Data
 
     I32Data i32_data;
     packedData.UnpackTo(&i32_data);
-    int32_t value = *(i32_data.value().data());
+    int32_t value = i32_data.value();
 
     auto status = library->WriteI32(session, control, value);
     if (status < 0) {
@@ -736,7 +771,7 @@ struct MonikerU64Data
 
     U32Data u32_data;
     packedData.UnpackTo(&u32_data);
-    uint32_t value = *(u32_data.value().data());
+    uint32_t value = u32_data.value();
 
     auto status = library->WriteU32(session, control, value);
     if (status < 0) {
@@ -780,7 +815,7 @@ struct MonikerU64Data
 
     I64Data i64_data;
     packedData.UnpackTo(&i64_data);
-    int64_t value = *(i64_data.value().data());
+    int64_t value = i64_data.value();
 
     auto status = library->WriteI64(session, control, value);
     if (status < 0) {
@@ -824,7 +859,7 @@ struct MonikerU64Data
 
     U64Data u64_data;
     packedData.UnpackTo(&u64_data);
-    uint64_t value = *(u64_data.value().data());
+    uint64_t value = u64_data.value();
 
     auto status = library->WriteU64(session, control, value);
     if (status < 0) {
@@ -842,7 +877,7 @@ struct MonikerArrayI32Data
 {
     NiFpga_Session session;
     uint32_t item;
-    nifpga_grpc::I32Data data;
+    nifpga_grpc::ArrayI32Data data;
     size_t size;
     std::shared_ptr<NiFpgaLibraryInterface> library;
 };
@@ -851,7 +886,7 @@ struct MonikerArrayU32Data
 {
     NiFpga_Session session;
     uint32_t item;
-    nifpga_grpc::U32Data data;
+    nifpga_grpc::ArrayU32Data data;
     size_t size;
     std::shared_ptr<NiFpgaLibraryInterface> library;
 };
@@ -860,7 +895,7 @@ struct MonikerArrayI64Data
 {
     NiFpga_Session session;
     uint32_t item;
-    nifpga_grpc::I64Data data;
+    nifpga_grpc::ArrayI64Data data;
     size_t size;
     std::shared_ptr<NiFpgaLibraryInterface> library;
 };
@@ -869,7 +904,7 @@ struct MonikerArrayU64Data
 {
     NiFpga_Session session;
     uint32_t item;
-    nifpga_grpc::U64Data data;
+    nifpga_grpc::ArrayU64Data data;
     size_t size;
     std::shared_ptr<NiFpgaLibraryInterface> library;
 };
@@ -1132,7 +1167,7 @@ struct MonikerArrayU64Data
     auto control = writeData->item;
     auto size = writeData->size;
 
-    I32Data i32_data;
+    ArrayI32Data i32_data;
     packedData.UnpackTo(&i32_data);
     auto i32_array = i32_data.value();
     auto array = std::vector<int16_t>();
@@ -1190,7 +1225,7 @@ struct MonikerArrayU64Data
     auto control = writeData->item;
     auto size = writeData->size;
 
-    U32Data u32_data;
+    ArrayU32Data u32_data;
     packedData.UnpackTo(&u32_data);
     auto u32_array = u32_data.value();
     auto array = std::vector<uint16_t>();
@@ -1248,7 +1283,7 @@ struct MonikerArrayU64Data
     auto control = writeData->item;
     auto size = writeData->size;
 
-    I64Data i64_data;
+    ArrayI64Data i64_data;
     packedData.UnpackTo(&i64_data);
     auto array = const_cast<const int64_t*>(i64_data.value().data());
     auto status = library->WriteArrayI64(session, control, array, size);
@@ -1293,7 +1328,7 @@ struct MonikerArrayU64Data
     auto control = writeData->item;
     auto size = writeData->size;
 
-    U64Data u64_data;
+    ArrayU64Data u64_data;
     packedData.UnpackTo(&u64_data);
     auto array = const_cast<const uint64_t*>(u64_data.value().data());
     auto status = library->WriteArrayU64(session, control, array, size);
