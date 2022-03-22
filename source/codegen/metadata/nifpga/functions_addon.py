@@ -6,6 +6,7 @@ functions_validation_suppressions = {
 
 nifpga_array_functions = ['WriteArrayI16', 'WriteArrayU16', 
                           'WriteArrayI64', 'WriteArrayU64',
+                          'WriteArrayI16Stream', 'WriteArrayU16Stream',
                           'WriteArrayI64Stream', 'WriteArrayU64Stream']
 
 for function_name in nifpga_array_functions:
