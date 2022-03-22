@@ -23,39 +23,57 @@ service NiFpga {
   rpc Reset(ResetRequest) returns (ResetResponse);
   rpc Download(DownloadRequest) returns (DownloadResponse);
   rpc ReadBool(ReadBoolRequest) returns (ReadBoolResponse);
+  rpc ReadBoolStream(ReadBoolStreamRequest) returns (ReadBoolStreamResponse);
   rpc ReadI8(ReadI8Request) returns (ReadI8Response);
+  rpc ReadI8Stream(ReadI8StreamRequest) returns (ReadI8StreamResponse);
   rpc ReadU8(ReadU8Request) returns (ReadU8Response);
+  rpc ReadU8Stream(ReadU8StreamRequest) returns (ReadU8StreamResponse);
   rpc ReadI16(ReadI16Request) returns (ReadI16Response);
+  rpc ReadI16Stream(ReadI16StreamRequest) returns (ReadI16StreamResponse);
   rpc ReadU16(ReadU16Request) returns (ReadU16Response);
+  rpc ReadU16Stream(ReadU16StreamRequest) returns (ReadU16StreamResponse);
   rpc ReadI32(ReadI32Request) returns (ReadI32Response);
   rpc ReadI32Stream(ReadI32StreamRequest) returns (ReadI32StreamResponse);
   rpc ReadU32(ReadU32Request) returns (ReadU32Response);
+  rpc ReadU32Stream(ReadU32StreamRequest) returns (ReadU32StreamResponse);
   rpc ReadI64(ReadI64Request) returns (ReadI64Response);
   rpc ReadI64Stream(ReadI64StreamRequest) returns (ReadI64StreamResponse);
   rpc ReadU64(ReadU64Request) returns (ReadU64Response);
   rpc ReadU64Stream(ReadU64StreamRequest) returns (ReadU64StreamResponse);
   rpc WriteBool(WriteBoolRequest) returns (WriteBoolResponse);
+  rpc WriteBoolStream(WriteBoolStreamRequest) returns (WriteBoolStreamResponse);
   rpc WriteI8(WriteI8Request) returns (WriteI8Response);
+  rpc WriteI8Stream(WriteI8StreamRequest) returns (WriteI8StreamResponse);
   rpc WriteU8(WriteU8Request) returns (WriteU8Response);
+  rpc WriteU8Stream(WriteU8StreamRequest) returns (WriteU8StreamResponse);
   rpc WriteI16(WriteI16Request) returns (WriteI16Response);
+  rpc WriteI16Stream(WriteI16StreamRequest) returns (WriteI16StreamResponse);
   rpc WriteU16(WriteU16Request) returns (WriteU16Response);
+  rpc WriteU16Stream(WriteU16StreamRequest) returns (WriteU16StreamResponse);
   rpc WriteI32(WriteI32Request) returns (WriteI32Response);
   rpc WriteI32Stream(WriteI32StreamRequest) returns (WriteI32StreamResponse);
   rpc WriteU32(WriteU32Request) returns (WriteU32Response);
+  rpc WriteU32Stream(WriteU32StreamRequest) returns (WriteU32StreamResponse);
   rpc WriteI64(WriteI64Request) returns (WriteI64Response);
   rpc WriteI64Stream(WriteI64StreamRequest) returns (WriteI64StreamResponse);
   rpc WriteU64(WriteU64Request) returns (WriteU64Response);
   rpc WriteU64Stream(WriteU64StreamRequest) returns (WriteU64StreamResponse);
   rpc ReadArrayI16(ReadArrayI16Request) returns (ReadArrayI16Response);
+  rpc ReadArrayI16Stream(ReadArrayI16StreamRequest) returns (ReadArrayI16StreamResponse);
   rpc ReadArrayU16(ReadArrayU16Request) returns (ReadArrayU16Response);
+  rpc ReadArrayU16Stream(ReadArrayU16StreamRequest) returns (ReadArrayU16StreamResponse);
   rpc ReadArrayI64(ReadArrayI64Request) returns (ReadArrayI64Response);
   rpc ReadArrayI64Stream(ReadArrayI64StreamRequest) returns (ReadArrayI64StreamResponse);
   rpc ReadArrayU64(ReadArrayU64Request) returns (ReadArrayU64Response);
+  rpc ReadArrayU64Stream(ReadArrayU64StreamRequest) returns (ReadArrayU64StreamResponse);
   rpc WriteArrayI16(WriteArrayI16Request) returns (WriteArrayI16Response);
+  rpc WriteArrayI16Stream(WriteArrayI16StreamRequest) returns (WriteArrayI16StreamResponse);
   rpc WriteArrayU16(WriteArrayU16Request) returns (WriteArrayU16Response);
+  rpc WriteArrayU16Stream(WriteArrayU16StreamRequest) returns (WriteArrayU16StreamResponse);
   rpc WriteArrayI64(WriteArrayI64Request) returns (WriteArrayI64Response);
   rpc WriteArrayI64Stream(WriteArrayI64StreamRequest) returns (WriteArrayI64StreamResponse);
   rpc WriteArrayU64(WriteArrayU64Request) returns (WriteArrayU64Response);
+  rpc WriteArrayU64Stream(WriteArrayU64StreamRequest) returns (WriteArrayU64StreamResponse);
 }
 
 enum NiFpgaAttribute {
@@ -161,6 +179,16 @@ message ReadBoolResponse {
   bool value = 2;
 }
 
+message ReadBoolStreamRequest {
+  nidevice_grpc.Session session = 1;
+  uint32 indicator = 2;
+}
+
+message ReadBoolStreamResponse {
+  int32 status = 1;
+  ni.data_monikers.Moniker moniker = 2;
+}
+
 message ReadI8Request {
   nidevice_grpc.Session session = 1;
   uint32 indicator = 2;
@@ -169,6 +197,16 @@ message ReadI8Request {
 message ReadI8Response {
   int32 status = 1;
   int32 value = 2;
+}
+
+message ReadI8StreamRequest {
+  nidevice_grpc.Session session = 1;
+  uint32 indicator = 2;
+}
+
+message ReadI8StreamResponse {
+  int32 status = 1;
+  ni.data_monikers.Moniker moniker = 2;
 }
 
 message ReadU8Request {
@@ -181,6 +219,16 @@ message ReadU8Response {
   uint32 value = 2;
 }
 
+message ReadU8StreamRequest {
+  nidevice_grpc.Session session = 1;
+  uint32 indicator = 2;
+}
+
+message ReadU8StreamResponse {
+  int32 status = 1;
+  ni.data_monikers.Moniker moniker = 2;
+}
+
 message ReadI16Request {
   nidevice_grpc.Session session = 1;
   uint32 indicator = 2;
@@ -191,6 +239,16 @@ message ReadI16Response {
   int32 value = 2;
 }
 
+message ReadI16StreamRequest {
+  nidevice_grpc.Session session = 1;
+  uint32 indicator = 2;
+}
+
+message ReadI16StreamResponse {
+  int32 status = 1;
+  ni.data_monikers.Moniker moniker = 2;
+}
+
 message ReadU16Request {
   nidevice_grpc.Session session = 1;
   uint32 indicator = 2;
@@ -199,6 +257,16 @@ message ReadU16Request {
 message ReadU16Response {
   int32 status = 1;
   uint32 value = 2;
+}
+
+message ReadU16StreamRequest {
+  nidevice_grpc.Session session = 1;
+  uint32 indicator = 2;
+}
+
+message ReadU16StreamResponse {
+  int32 status = 1;
+  ni.data_monikers.Moniker moniker = 2;
 }
 
 message ReadI32Request {
@@ -229,6 +297,16 @@ message ReadU32Request {
 message ReadU32Response {
   int32 status = 1;
   uint32 value = 2;
+}
+
+message ReadU32StreamRequest {
+  nidevice_grpc.Session session = 1;
+  uint32 indicator = 2;
+}
+
+message ReadU32StreamResponse {
+  int32 status = 1;
+  ni.data_monikers.Moniker moniker = 2;
 }
 
 message ReadI64Request {
@@ -281,6 +359,16 @@ message WriteBoolResponse {
   int32 status = 1;
 }
 
+message WriteBoolStreamRequest {
+  nidevice_grpc.Session session = 1;
+  uint32 control = 2;
+}
+
+message WriteBoolStreamResponse {
+  int32 status = 1;
+  ni.data_monikers.Moniker moniker = 2;
+}
+
 message WriteI8Request {
   nidevice_grpc.Session session = 1;
   uint32 control = 2;
@@ -289,6 +377,16 @@ message WriteI8Request {
 
 message WriteI8Response {
   int32 status = 1;
+}
+
+message WriteI8StreamRequest {
+  nidevice_grpc.Session session = 1;
+  uint32 control = 2;
+}
+
+message WriteI8StreamResponse {
+  int32 status = 1;
+  ni.data_monikers.Moniker moniker = 2;
 }
 
 message WriteU8Request {
@@ -301,6 +399,16 @@ message WriteU8Response {
   int32 status = 1;
 }
 
+message WriteU8StreamRequest {
+  nidevice_grpc.Session session = 1;
+  uint32 control = 2;
+}
+
+message WriteU8StreamResponse {
+  int32 status = 1;
+  ni.data_monikers.Moniker moniker = 2;
+}
+
 message WriteI16Request {
   nidevice_grpc.Session session = 1;
   uint32 control = 2;
@@ -311,6 +419,16 @@ message WriteI16Response {
   int32 status = 1;
 }
 
+message WriteI16StreamRequest {
+  nidevice_grpc.Session session = 1;
+  uint32 control = 2;
+}
+
+message WriteI16StreamResponse {
+  int32 status = 1;
+  ni.data_monikers.Moniker moniker = 2;
+}
+
 message WriteU16Request {
   nidevice_grpc.Session session = 1;
   uint32 control = 2;
@@ -319,6 +437,16 @@ message WriteU16Request {
 
 message WriteU16Response {
   int32 status = 1;
+}
+
+message WriteU16StreamRequest {
+  nidevice_grpc.Session session = 1;
+  uint32 control = 2;
+}
+
+message WriteU16StreamResponse {
+  int32 status = 1;
+  ni.data_monikers.Moniker moniker = 2;
 }
 
 message WriteI32Request {
@@ -350,6 +478,16 @@ message WriteU32Request {
 
 message WriteU32Response {
   int32 status = 1;
+}
+
+message WriteU32StreamRequest {
+  nidevice_grpc.Session session = 1;
+  uint32 control = 2;
+}
+
+message WriteU32StreamResponse {
+  int32 status = 1;
+  ni.data_monikers.Moniker moniker = 2;
 }
 
 message WriteI64Request {
@@ -405,6 +543,17 @@ message ReadArrayI16Response {
   repeated int32 array = 2;
 }
 
+message ReadArrayI16StreamRequest {
+  nidevice_grpc.Session session = 1;
+  uint32 indicator = 2;
+  uint32 size = 3;
+}
+
+message ReadArrayI16StreamResponse {
+  int32 status = 1;
+  ni.data_monikers.Moniker moniker = 2;
+}
+
 message ReadArrayU16Request {
   nidevice_grpc.Session session = 1;
   uint32 indicator = 2;
@@ -414,6 +563,17 @@ message ReadArrayU16Request {
 message ReadArrayU16Response {
   int32 status = 1;
   repeated uint32 array = 2;
+}
+
+message ReadArrayU16StreamRequest {
+  nidevice_grpc.Session session = 1;
+  uint32 indicator = 2;
+  uint32 size = 3;
+}
+
+message ReadArrayU16StreamResponse {
+  int32 status = 1;
+  ni.data_monikers.Moniker moniker = 2;
 }
 
 message ReadArrayI64Request {
@@ -449,6 +609,17 @@ message ReadArrayU64Response {
   repeated uint64 array = 2;
 }
 
+message ReadArrayU64StreamRequest {
+  nidevice_grpc.Session session = 1;
+  uint32 indicator = 2;
+  uint32 size = 3;
+}
+
+message ReadArrayU64StreamResponse {
+  int32 status = 1;
+  ni.data_monikers.Moniker moniker = 2;
+}
+
 message WriteArrayI16Request {
   nidevice_grpc.Session session = 1;
   uint32 control = 2;
@@ -460,6 +631,17 @@ message WriteArrayI16Response {
   int32 status = 1;
 }
 
+message WriteArrayI16StreamRequest {
+  nidevice_grpc.Session session = 1;
+  uint32 control = 2;
+  uint32 size = 3;
+}
+
+message WriteArrayI16StreamResponse {
+  int32 status = 1;
+  ni.data_monikers.Moniker moniker = 2;
+}
+
 message WriteArrayU16Request {
   nidevice_grpc.Session session = 1;
   uint32 control = 2;
@@ -469,6 +651,17 @@ message WriteArrayU16Request {
 
 message WriteArrayU16Response {
   int32 status = 1;
+}
+
+message WriteArrayU16StreamRequest {
+  nidevice_grpc.Session session = 1;
+  uint32 control = 2;
+  uint32 size = 3;
+}
+
+message WriteArrayU16StreamResponse {
+  int32 status = 1;
+  ni.data_monikers.Moniker moniker = 2;
 }
 
 message WriteArrayI64Request {
@@ -502,5 +695,16 @@ message WriteArrayU64Request {
 
 message WriteArrayU64Response {
   int32 status = 1;
+}
+
+message WriteArrayU64StreamRequest {
+  nidevice_grpc.Session session = 1;
+  uint32 control = 2;
+  uint32 size = 3;
+}
+
+message WriteArrayU64StreamResponse {
+  int32 status = 1;
+  ni.data_monikers.Moniker moniker = 2;
 }
 
