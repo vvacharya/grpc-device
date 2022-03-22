@@ -258,9 +258,9 @@ service NiDAQmx {
   rpc GetWriteAttributeUInt64(GetWriteAttributeUInt64Request) returns (GetWriteAttributeUInt64Response);
   rpc IsTaskDone(IsTaskDoneRequest) returns (IsTaskDoneResponse);
   rpc LoadTask(LoadTaskRequest) returns (LoadTaskResponse);
+  rpc BeginWaitForNextSampleClock(BeginWaitForNextSampleClockRequest) returns (BeginWaitForNextSampleClockResponse);
   rpc BeginWriteAnalogF64Stream(BeginWriteAnalogF64StreamRequest) returns (BeginWriteAnalogF64StreamResponse);
   rpc BeginReadAnalogF64Stream(BeginReadAnalogF64StreamRequest) returns (BeginReadAnalogF64StreamResponse);
-  rpc BeginWaitForNextSampleClock(BeginWaitForNextSampleClockRequest) returns (BeginWaitForNextSampleClockResponse);
   rpc ReadAnalogF64(ReadAnalogF64Request) returns (ReadAnalogF64Response);
   rpc ReadAnalogScalarF64(ReadAnalogScalarF64Request) returns (ReadAnalogScalarF64Response);
   rpc ReadBinaryI16(ReadBinaryI16Request) returns (ReadBinaryI16Response);
@@ -4244,6 +4244,9 @@ message ChannelData {
   repeated double data = 1;
 }
 
+message IsLate {
+  bool is_late = 1;
+}
 message AnalogPowerUpChannelsAndState {
   string channel_names = 1;
   double state = 2;
@@ -8246,6 +8249,16 @@ message LoadTaskResponse {
   nidevice_grpc.Session task = 2;
 }
 
+message BeginWaitForNextSampleClockRequest {
+  nidevice_grpc.Session task = 1;
+  double timeout = 2;
+}
+
+message BeginWaitForNextSampleClockResponse {
+  int32 status = 1;
+  ni.data_monikers.Moniker moniker = 2;
+}
+
 message BeginWriteAnalogF64StreamRequest {
   nidevice_grpc.Session task = 1;
   int32 num_samps_per_chan = 2;
@@ -8274,16 +8287,6 @@ message BeginReadAnalogF64StreamRequest {
 }
 
 message BeginReadAnalogF64StreamResponse {
-  int32 status = 1;
-  ni.data_monikers.Moniker moniker = 2;
-}
-
-message BeginWaitForNextSampleClockRequest {
-  nidevice_grpc.Session task = 1;
-  double timeout = 2;
-}
-
-message BeginWaitForNextSampleClockResponse {
   int32 status = 1;
   ni.data_monikers.Moniker moniker = 2;
 }

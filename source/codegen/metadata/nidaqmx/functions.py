@@ -9141,6 +9141,30 @@ functions = {
         ],
         'returns': 'int32'
     },
+    'BeginWaitForNextSampleClock': {
+        'nolibs': True,
+        'codegen_method': 'CustomCode',
+        'parameters': [
+            {
+                'direction': 'in',
+                'name': 'task',
+                'type': 'TaskHandle'
+            },
+            {
+                'direction': 'in',
+                'name': 'timeout',
+                'type': 'float64'
+            },
+            {
+                'direction': 'out',
+                'grpc_type':'ni.data_monikers.Moniker',
+                'name': 'moniker',
+                'type': 'DO_NOT_USE'
+            }
+        ],
+        'returns': 'int32'
+    },
+
     'BeginWriteAnalogF64Stream': {
         'nolibs': True,
         'codegen_method': 'CustomCode',
@@ -9222,29 +9246,7 @@ functions = {
         ],
         'returns': 'int32'
     },
-      'BeginWaitForNextSampleClock': {
-        'nolibs': True,
-        'codegen_method': 'CustomCode',
-        'parameters': [
-            {
-                'direction': 'in',
-                'name': 'task',
-                'type': 'TaskHandle'
-            },
-            {
-                'direction': 'in',
-                'name': 'timeout',
-                'type': 'float64'
-            },
-            {
-                'direction': 'out',
-                'grpc_type':'ni.data_monikers.Moniker',
-                'name': 'moniker',
-                'type': 'DO_NOT_USE'
-            }
-        ],
-        'returns': 'int32'
-    },
+      
     'ReadAnalogF64': {
         'parameters': [
             {

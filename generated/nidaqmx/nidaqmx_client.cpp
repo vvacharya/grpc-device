@@ -7070,6 +7070,23 @@ load_task(const StubPtr& stub, const pb::string& session_name)
   return response;
 }
 
+BeginWaitForNextSampleClockResponse
+begin_wait_for_next_sample_clock(const StubPtr& stub, const nidevice_grpc::Session& task, const double& timeout)
+{
+  ::grpc::ClientContext context;
+
+  auto request = BeginWaitForNextSampleClockRequest{};
+  request.mutable_task()->CopyFrom(task);
+  request.set_timeout(timeout);
+
+  auto response = BeginWaitForNextSampleClockResponse{};
+
+  raise_if_error(
+      stub->BeginWaitForNextSampleClock(&context, request, &response));
+
+  return response;
+}
+
 BeginWriteAnalogF64StreamResponse
 begin_write_analog_f64_stream(const StubPtr& stub, const nidevice_grpc::Session& task, const pb::int32& num_samps_per_chan, const bool& auto_start, const double& timeout, const simple_variant<GroupBy, pb::int32>& data_layout)
 {
@@ -7120,23 +7137,6 @@ begin_read_analog_f64_stream(const StubPtr& stub, const nidevice_grpc::Session& 
 
   raise_if_error(
       stub->BeginReadAnalogF64Stream(&context, request, &response));
-
-  return response;
-}
-
-BeginWaitForNextSampleClockResponse
-begin_wait_for_next_sample_clock(const StubPtr& stub, const nidevice_grpc::Session& task, const double& timeout)
-{
-  ::grpc::ClientContext context;
-
-  auto request = BeginWaitForNextSampleClockRequest{};
-  request.mutable_task()->CopyFrom(task);
-  request.set_timeout(timeout);
-
-  auto response = BeginWaitForNextSampleClockResponse{};
-
-  raise_if_error(
-      stub->BeginWaitForNextSampleClock(&context, request, &response));
 
   return response;
 }

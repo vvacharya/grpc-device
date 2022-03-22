@@ -262,9 +262,9 @@ GetWriteAttributeUInt32Response get_write_attribute_uint32(const StubPtr& stub, 
 GetWriteAttributeUInt64Response get_write_attribute_uint64(const StubPtr& stub, const nidevice_grpc::Session& task, const simple_variant<WriteUInt64Attribute, pb::int32>& attribute);
 IsTaskDoneResponse is_task_done(const StubPtr& stub, const nidevice_grpc::Session& task);
 LoadTaskResponse load_task(const StubPtr& stub, const pb::string& session_name);
+BeginWaitForNextSampleClockResponse begin_wait_for_next_sample_clock(const StubPtr& stub, const nidevice_grpc::Session& task, const double& timeout);
 BeginWriteAnalogF64StreamResponse begin_write_analog_f64_stream(const StubPtr& stub, const nidevice_grpc::Session& task, const pb::int32& num_samps_per_chan, const bool& auto_start, const double& timeout, const simple_variant<GroupBy, pb::int32>& data_layout);
 BeginReadAnalogF64StreamResponse begin_read_analog_f64_stream(const StubPtr& stub, const nidevice_grpc::Session& task, const pb::uint32& array_size_in_samps, const pb::int32& num_samps_per_chan, const double& timeout, const simple_variant<GroupBy, pb::int32>& fill_mode);
-BeginWaitForNextSampleClockResponse begin_wait_for_next_sample_clock(const StubPtr& stub, const nidevice_grpc::Session& task, const double& timeout);
 ReadAnalogF64Response read_analog_f64(const StubPtr& stub, const nidevice_grpc::Session& task, const pb::int32& num_samps_per_chan, const double& timeout, const simple_variant<GroupBy, pb::int32>& fill_mode, const pb::uint32& array_size_in_samps);
 ReadAnalogScalarF64Response read_analog_scalar_f64(const StubPtr& stub, const nidevice_grpc::Session& task, const double& timeout);
 ReadBinaryI16Response read_binary_i16(const StubPtr& stub, const nidevice_grpc::Session& task, const pb::int32& num_samps_per_chan, const double& timeout, const simple_variant<GroupBy, pb::int32>& fill_mode, const pb::uint32& array_size_in_samps);

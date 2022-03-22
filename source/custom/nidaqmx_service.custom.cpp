@@ -5,6 +5,7 @@
 #include <sideband_internal.h>
 #include <sideband_grpc.h>
 
+
 using std::cout;
 using std::endl;
 using grpc::Status;
@@ -82,25 +83,25 @@ struct MonikerWaitForNextSampleClk {
  public:
   TaskHandle task;
   double timeout;
-  bool32 is_late; //?
-  ChannelData channelData;
   NiDAQmxLibraryInterface* library;
 };
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
+
 grpc::Status MonikerBeginWaitForNextSampleClk(void* data, google::protobuf::Any& packedData)
 {
   MonikerWaitForNextSampleClk* waitData = (MonikerWaitForNextSampleClk*)data;
   // calling into driver and setting response
-  int32 numRead;
-  auto status = waitData->library->WaitForNextSampleClock(waitData->task, waitData->timeout, NULL);  
-  // waitData->is_late, &numRead, NULL);
+  cout << "WaitForNextSampleClock called" << endl;
+  bool32 is_late{};
+  auto status = waitData->library->WaitForNextSampleClock(waitData->task, waitData->timeout, &is_late);  // Pass NULL or is_late?  
   if (status < 0) {
     cout << "WaitForNextSampleClock error: " << status << endl;
   }
- // packedData.PackFrom(waitMoniker->channelData); is_late as part of channelData 
- // similar to write
-  //packedData.UnpackTo(&channelData);
+  IsLate message;
+  message.set_is_late(is_late);
+  packedData.PackFrom(message);  // Equivalent of set_is_late(), setting to Any type 
+ // ..is_late as part of channelData 
   return Status::OK;
 }
 //---------------------------------------------------------------------
@@ -204,7 +205,6 @@ grpc::Status MonikerBeginWaitForNextSampleClk(void* data, google::protobuf::Any&
     auto task_grpc_session = request->task();
     waitData->task = session_repository_->access_session(task_grpc_session.id(), task_grpc_session.name());
     waitData->timeout = request->timeout();
-   // waitData->is_late = request->set_is_late(nidaqmx_grpc::MonikerReadDAQmxData::is_late);
     waitData->library = library_;
     ni::data_monikers::Moniker* waitMoniker = new ni::data_monikers::Moniker();
     ni::MonikerServiceImpl::RegisterMonikerInstance("MonikerBeginWaitForNextSampleClk", waitData, *waitMoniker);
@@ -219,10 +219,10 @@ grpc::Status MonikerBeginWaitForNextSampleClk(void* data, google::protobuf::Any&
 void NiDAQmxService::initialize()
 {
   // Check order of registering for wait->read->write
+  
+  ni::MonikerServiceImpl::RegisterMonikerEndpoint("MonikerWriteAnalogF64Stream", MonikerWriteAnalogF64Stream);
   ni::MonikerServiceImpl::RegisterMonikerEndpoint("MonikerReadAnalogF64Stream", MonikerReadAnalogF64Stream);
   ni::MonikerServiceImpl::RegisterMonikerEndpoint("MonikerBeginWaitForNextSampleClk", MonikerBeginWaitForNextSampleClk);
-  ni::MonikerServiceImpl::RegisterMonikerEndpoint("MonikerWriteAnalogF64Stream", MonikerWriteAnalogF64Stream);
-  
 }
 
 }
