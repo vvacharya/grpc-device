@@ -951,7 +951,7 @@ struct MonikerArrayU64Data
         std::transform(
             array.begin(),
             array.begin() + size,
-            ::google::protobuf::RepeatedFieldBackInserter(readData->data.mutable_value()),
+            readData->data.mutable_value()->begin(),
             [&](auto x) {
                 return x;
             });
@@ -1006,7 +1006,7 @@ struct MonikerArrayU64Data
         std::transform(
             array.begin(),
             array.begin() + size,
-            ::google::protobuf::RepeatedFieldBackInserter(readData->data.mutable_value()),
+            readData->data.mutable_value()->begin(),
             [&](auto x) {
                 return x;
             });
@@ -1061,7 +1061,7 @@ struct MonikerArrayU64Data
         std::transform(
             array.begin(),
             array.begin() + size,
-            ::google::protobuf::RepeatedFieldBackInserter(readData->data.mutable_value()),
+            readData->data.mutable_value()->begin(),
             [&](auto x) {
                 return x;
             });
@@ -1116,7 +1116,7 @@ struct MonikerArrayU64Data
         std::transform(
             array.begin(),
             array.begin() + size,
-            ::google::protobuf::RepeatedFieldBackInserter(readData->data.mutable_value()),
+            readData->data.mutable_value()->begin(),
             [&](auto x) {
                 return x;
             });
