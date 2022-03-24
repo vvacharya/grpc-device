@@ -106,20 +106,18 @@ namespace ni::data_monikers
 
         int64_t sidebandToken = GetOwnerSidebandDataToken(sidebandIdentifier);
 
-        int x = 0;
         SidebandWriteRequest writeRequest;
         if (initialClientWrite)
         {
             while (ReadSidebandMessage(sidebandToken, &writeRequest) && !writeRequest.cancel())
             {
-                x = 0;
+                int x = 0;
                 for (auto writer: writers)
                 {
                     std::get<0>(writer)(std::get<1>(writer), const_cast<google::protobuf::Any&>(writeRequest.values().values(x++)));
                 }
                 if (readers.size() > 0)
                 {
-                    x = 0;
                     SidebandReadResponse readResult;
                     for (auto reader: readers)
                     {
@@ -137,11 +135,10 @@ namespace ni::data_monikers
         {
             while (true)
             {
-                x = 0;
                 SidebandReadResponse readResult;
                 for (auto reader: readers)
                 {
-                    auto readValue = readResult.mutable_values()->mutable_values(x++);
+                    auto readValue = readResult.mutable_values()->add_values();
                     std::get<0>(reader)(std::get<1>(reader), *readValue);
                 }
                 if (!WriteSidebandMessage(sidebandToken, readResult))
@@ -204,18 +201,16 @@ namespace ni::data_monikers
         stream->Read(&writeRequest);
         InitiateMonikerList(writeRequest.monikers(), readers, writers);
 
-        int x = 0;
         if (writeRequest.monikers().is_initial_write())
         {
             while (stream->Read(&writeRequest) && !context->IsCancelled())
             {
-                x = 0;
+                int x = 0;
                 for (auto writer: writers)
                 {
                     std::get<0>(writer)(std::get<1>(writer), const_cast<google::protobuf::Any&>(writeRequest.data().values(x++)));
                 }
 
-                x = 0;
                 MonikerReadResult readResult;
                 for (auto reader: readers)
                 {
@@ -229,11 +224,10 @@ namespace ni::data_monikers
         {
             while (!context->IsCancelled())
             {
-                x = 0;
                 MonikerReadResult readResult;
                 for (auto reader: readers)
                 {
-                    auto readValue = readResult.mutable_data()->mutable_values(x++);
+                    auto readValue = readResult.mutable_data()->add_values();
                     std::get<0>(reader)(std::get<1>(reader), *readValue);
                 }
                 stream->Write(readResult);
@@ -256,10 +250,8 @@ namespace ni::data_monikers
         EndpointList readers;
         InitiateMonikerList(*request, readers, writers);
 
-        int x = 0;
         while (!context->IsCancelled())
         {
-            x = 0;
             MonikerReadResult readResult;
             for (auto reader: readers)
             {
