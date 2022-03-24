@@ -82,10 +82,8 @@ endif()
 
 if(NOT MSVC)
   set(RDMA_LIB "libnirdma.so")
-  SET(LVRT_LIB "liblvrt.so")
 else()
   set(RDMA_LIB "rdma.lib")
-  SET(LVRT_LIB "")
 endif()
 
 #----------------------------------------------------------------------
@@ -344,7 +342,6 @@ target_link_libraries(ni_grpc_device_server
 target_link_libraries(ni_grpc_device_server
   ni_grpc_sideband
   ${RDMA_LIB}
-  ${LVRT_LIB}
 )
 
 set_target_properties(ni_grpc_device_server PROPERTIES BUILD_WITH_INSTALL_RPATH TRUE)
@@ -465,7 +462,10 @@ add_executable(UnitTestsRunner
 # in an obj file defined by PE-COFF. This line disables the limit.
 if(MSVC)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj /D_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING")
-endif(MSVC)
+else()
+  # On Linux, nirdma has weak symbol linkage to lvrt. So ignore errors related to undefined symbols from shared libs.
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wl,--allow-shlib-undefined")
+endif()
 
 target_include_directories(UnitTestsRunner
     PRIVATE "${service_output_dir}/nifake"
@@ -564,7 +564,6 @@ target_link_libraries(SystemTestsRunner
 target_link_libraries(SystemTestsRunner
   ni_grpc_sideband
   ${RDMA_LIB}
-  ${LVRT_LIB}
 )
 
 add_custom_command(
