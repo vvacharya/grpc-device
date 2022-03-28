@@ -433,6 +433,13 @@ def filter_data_moniker_functions(functions):
     ]
 
 
+def get_data_moniker_function_name(function_name, function_data):
+    """Return the corresponding moniker function name for the given C API function."""
+    if function_data.get("moniker_cname", None):
+        return function_data["moniker_cname"]
+    return function_name.replace("Begin", "Moniker")
+
+
 def get_attribute_enums_by_type(attributes):
     """Return a dict of attribute data types that use enum, along with set of enums used."""
     attribute_enums_by_type = defaultdict(set)

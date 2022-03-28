@@ -20,7 +20,7 @@ struct MonikerWriteDAQmxData {
 
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
-::grpc::Status MonikerWriteAnalogF64Stream(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerWriteAnalogF64(void* data, google::protobuf::Any& packedData)
 {
   MonikerWriteDAQmxData* writeData = (MonikerWriteDAQmxData*)data;
 
@@ -55,7 +55,7 @@ struct MonikerReadDAQmxData {
 
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
-::grpc::Status MonikerReadAnalogF64Stream(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerReadAnalogF64(void* data, google::protobuf::Any& packedData)
 {
   MonikerReadDAQmxData* readData = (MonikerReadDAQmxData*)data;
   // calling into driver and setting response
@@ -83,7 +83,7 @@ struct MonikerWaitForNextSampleClockData {
 
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
-::grpc::Status MonikerWaitForNextSampleClockStream(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerWaitForNextSampleClock(void* data, google::protobuf::Any& packedData)
 {
   MonikerWaitForNextSampleClockData* waitData = (MonikerWaitForNextSampleClockData*)data;
   // calling into driver and setting response
@@ -101,7 +101,7 @@ struct MonikerWaitForNextSampleClockData {
 
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
-::grpc::Status NiDAQmxService::WriteAnalogF64Stream(::grpc::ServerContext* context, const WriteAnalogF64StreamRequest* request, WriteAnalogF64StreamResponse* response)
+::grpc::Status NiDAQmxService::BeginWriteAnalogF64(::grpc::ServerContext* context, const BeginWriteAnalogF64Request* request, BeginWriteAnalogF64Response* response)
 {
   if (context->IsCancelled()) {
     return ::grpc::Status::CANCELLED;
@@ -115,15 +115,15 @@ struct MonikerWaitForNextSampleClockData {
     writeData->timeout = request->timeout();
 
     switch (request->data_layout_enum_case()) {
-      case nidaqmx_grpc::WriteAnalogF64StreamRequest::DataLayoutEnumCase::kDataLayout: {
+      case nidaqmx_grpc::BeginWriteAnalogF64Request::DataLayoutEnumCase::kDataLayout: {
         writeData->data_layout = static_cast<int32>(request->data_layout());
         break;
       }
-      case nidaqmx_grpc::WriteAnalogF64StreamRequest::DataLayoutEnumCase::kDataLayoutRaw: {
+      case nidaqmx_grpc::BeginWriteAnalogF64Request::DataLayoutEnumCase::kDataLayoutRaw: {
         writeData->data_layout = static_cast<int32>(request->data_layout_raw());
         break;
       }
-      case nidaqmx_grpc::WriteAnalogF64StreamRequest::DataLayoutEnumCase::DATA_LAYOUT_ENUM_NOT_SET: {
+      case nidaqmx_grpc::BeginWriteAnalogF64Request::DataLayoutEnumCase::DATA_LAYOUT_ENUM_NOT_SET: {
         return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for data_layout was not specified or out of range");
         break;
       }
@@ -131,7 +131,7 @@ struct MonikerWaitForNextSampleClockData {
     writeData->library = library_;
 
     ni::data_monikers::Moniker* writeMoniker = new ni::data_monikers::Moniker();
-    ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerWriteAnalogF64Stream", writeData, *writeMoniker);
+    ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerWriteAnalogF64", writeData, *writeMoniker);
     response->set_allocated_moniker(writeMoniker);
     return ::grpc::Status::OK;
   }
@@ -143,7 +143,7 @@ struct MonikerWaitForNextSampleClockData {
 
 //-----------------------------------------------------------------------
 //-----------------------------------------------------------------------
-::grpc::Status NiDAQmxService::ReadAnalogF64Stream(::grpc::ServerContext* context, const ReadAnalogF64StreamRequest* request, ReadAnalogF64StreamResponse* response)
+::grpc::Status NiDAQmxService::BeginReadAnalogF64(::grpc::ServerContext* context, const BeginReadAnalogF64Request* request, BeginReadAnalogF64Response* response)
 {
   if (context->IsCancelled()) {
     return ::grpc::Status::CANCELLED;
@@ -159,15 +159,15 @@ struct MonikerWaitForNextSampleClockData {
     readData->channelData.mutable_data()->Resize(readData->array_size_in_samps, 0.0);
     readData->fill_mode;
     switch (request->fill_mode_enum_case()) {
-      case nidaqmx_grpc::ReadAnalogF64StreamRequest::FillModeEnumCase::kFillMode: {
+      case nidaqmx_grpc::BeginReadAnalogF64Request::FillModeEnumCase::kFillMode: {
         readData->fill_mode = static_cast<int32>(request->fill_mode());
         break;
       }
-      case nidaqmx_grpc::ReadAnalogF64StreamRequest::FillModeEnumCase::kFillModeRaw: {
+      case nidaqmx_grpc::BeginReadAnalogF64Request::FillModeEnumCase::kFillModeRaw: {
         readData->fill_mode = static_cast<int32>(request->fill_mode_raw());
         break;
       }
-      case nidaqmx_grpc::ReadAnalogF64StreamRequest::FillModeEnumCase::FILL_MODE_ENUM_NOT_SET: {
+      case nidaqmx_grpc::BeginReadAnalogF64Request::FillModeEnumCase::FILL_MODE_ENUM_NOT_SET: {
         return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for fill_mode was not specified or out of range");
         break;
       }
@@ -175,7 +175,7 @@ struct MonikerWaitForNextSampleClockData {
     readData->library = library_;
 
     ni::data_monikers::Moniker* readMoniker = new ni::data_monikers::Moniker();
-    ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerReadAnalogF64Stream", readData, *readMoniker);
+    ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerReadAnalogF64", readData, *readMoniker);
     response->set_allocated_moniker(readMoniker);
     return ::grpc::Status::OK;
   }
@@ -186,7 +186,7 @@ struct MonikerWaitForNextSampleClockData {
 
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
-::grpc::Status NiDAQmxService::WaitForNextSampleClockStream(::grpc::ServerContext* context, const WaitForNextSampleClockStreamRequest* request, WaitForNextSampleClockStreamResponse* response)
+::grpc::Status NiDAQmxService::BeginWaitForNextSampleClock(::grpc::ServerContext* context, const BeginWaitForNextSampleClockRequest* request, BeginWaitForNextSampleClockResponse* response)
 {
   if (context->IsCancelled()) {
     return ::grpc::Status::CANCELLED;
@@ -199,7 +199,7 @@ struct MonikerWaitForNextSampleClockData {
     waitData->library = library_;
 
     ni::data_monikers::Moniker* waitMoniker = new ni::data_monikers::Moniker();
-    ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerWaitForNextSampleClockStream", waitData, *waitMoniker);
+    ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerWaitForNextSampleClock", waitData, *waitMoniker);
     response->set_allocated_moniker(waitMoniker);
     return ::grpc::Status::OK;
   }
@@ -210,9 +210,9 @@ struct MonikerWaitForNextSampleClockData {
 
 void RegisterMonikers()
 {
-    ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerReadAnalogF64Stream", MonikerReadAnalogF64Stream);
-    ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerWaitForNextSampleClockStream", MonikerWaitForNextSampleClockStream);
-    ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerWriteAnalogF64Stream", MonikerWriteAnalogF64Stream);
+    ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerReadAnalogF64", MonikerReadAnalogF64);
+    ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerWaitForNextSampleClock", MonikerWaitForNextSampleClock);
+    ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerWriteAnalogF64", MonikerWriteAnalogF64);
 }
 
 }  // namespace nidaqmx_grpc

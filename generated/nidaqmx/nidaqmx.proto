@@ -259,7 +259,7 @@ service NiDAQmx {
   rpc IsTaskDone(IsTaskDoneRequest) returns (IsTaskDoneResponse);
   rpc LoadTask(LoadTaskRequest) returns (LoadTaskResponse);
   rpc ReadAnalogF64(ReadAnalogF64Request) returns (ReadAnalogF64Response);
-  rpc ReadAnalogF64Stream(ReadAnalogF64StreamRequest) returns (ReadAnalogF64StreamResponse);
+  rpc BeginReadAnalogF64(BeginReadAnalogF64Request) returns (BeginReadAnalogF64Response);
   rpc ReadAnalogScalarF64(ReadAnalogScalarF64Request) returns (ReadAnalogScalarF64Response);
   rpc ReadBinaryI16(ReadBinaryI16Request) returns (ReadBinaryI16Response);
   rpc ReadBinaryI32(ReadBinaryI32Request) returns (ReadBinaryI32Response);
@@ -383,11 +383,11 @@ service NiDAQmx {
   rpc TristateOutputTerm(TristateOutputTermRequest) returns (TristateOutputTermResponse);
   rpc UnreserveNetworkDevice(UnreserveNetworkDeviceRequest) returns (UnreserveNetworkDeviceResponse);
   rpc WaitForNextSampleClock(WaitForNextSampleClockRequest) returns (WaitForNextSampleClockResponse);
-  rpc WaitForNextSampleClockStream(WaitForNextSampleClockStreamRequest) returns (WaitForNextSampleClockStreamResponse);
+  rpc BeginWaitForNextSampleClock(BeginWaitForNextSampleClockRequest) returns (BeginWaitForNextSampleClockResponse);
   rpc WaitForValidTimestamp(WaitForValidTimestampRequest) returns (WaitForValidTimestampResponse);
   rpc WaitUntilTaskDone(WaitUntilTaskDoneRequest) returns (WaitUntilTaskDoneResponse);
   rpc WriteAnalogF64(WriteAnalogF64Request) returns (WriteAnalogF64Response);
-  rpc WriteAnalogF64Stream(WriteAnalogF64StreamRequest) returns (WriteAnalogF64StreamResponse);
+  rpc BeginWriteAnalogF64(BeginWriteAnalogF64Request) returns (BeginWriteAnalogF64Response);
   rpc WriteAnalogScalarF64(WriteAnalogScalarF64Request) returns (WriteAnalogScalarF64Response);
   rpc WriteBinaryI16(WriteBinaryI16Request) returns (WriteBinaryI16Response);
   rpc WriteBinaryI32(WriteBinaryI32Request) returns (WriteBinaryI32Response);
@@ -8267,7 +8267,7 @@ message ReadAnalogF64Response {
   int32 samps_per_chan_read = 3;
 }
 
-message ReadAnalogF64StreamRequest {
+message BeginReadAnalogF64Request {
   nidevice_grpc.Session task = 1;
   int32 num_samps_per_chan = 2;
   double timeout = 3;
@@ -8278,7 +8278,7 @@ message ReadAnalogF64StreamRequest {
   uint32 array_size_in_samps = 6;
 }
 
-message ReadAnalogF64StreamResponse {
+message BeginReadAnalogF64Response {
   int32 status = 1;
   ni.data_monikers.Moniker moniker = 2;
 }
@@ -9881,12 +9881,12 @@ message WaitForNextSampleClockResponse {
   bool is_late = 2;
 }
 
-message WaitForNextSampleClockStreamRequest {
+message BeginWaitForNextSampleClockRequest {
   nidevice_grpc.Session task = 1;
   double timeout = 2;
 }
 
-message WaitForNextSampleClockStreamResponse {
+message BeginWaitForNextSampleClockResponse {
   int32 status = 1;
   ni.data_monikers.Moniker moniker = 2;
 }
@@ -9931,7 +9931,7 @@ message WriteAnalogF64Response {
   int32 samps_per_chan_written = 2;
 }
 
-message WriteAnalogF64StreamRequest {
+message BeginWriteAnalogF64Request {
   nidevice_grpc.Session task = 1;
   int32 num_samps_per_chan = 2;
   bool auto_start = 3;
@@ -9942,7 +9942,7 @@ message WriteAnalogF64StreamRequest {
   }
 }
 
-message WriteAnalogF64StreamResponse {
+message BeginWriteAnalogF64Response {
   int32 status = 1;
   ni.data_monikers.Moniker moniker = 2;
 }

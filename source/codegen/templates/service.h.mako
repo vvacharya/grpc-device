@@ -64,7 +64,7 @@ void RegisterMonikers();
 
 % for function in data_moniker_functions:
 <%
-  method_name = f"Moniker{function}"
+  method_name = common_helpers.get_data_moniker_function_name(function, functions[function])
 %>\
 ::grpc::Status ${method_name}(void* data, google::protobuf::Any& packedData);
 % endfor

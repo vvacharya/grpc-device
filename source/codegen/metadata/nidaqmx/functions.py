@@ -9194,7 +9194,7 @@ functions = {
         ],
         'returns': 'int32'
     },
-    'ReadAnalogF64Stream': {
+    'BeginReadAnalogF64': {
         'exclude_from_library': True,
         'data_moniker_support': True,
         'codegen_method': 'CustomCode',
@@ -13028,7 +13028,7 @@ functions = {
         ],
         'returns': 'int32'
     },
-    'WaitForNextSampleClockStream': {
+    'BeginWaitForNextSampleClock': {
         'exclude_from_library': True,
         'data_moniker_support': True,
         'codegen_method': 'CustomCode',
@@ -13142,7 +13142,7 @@ functions = {
         ],
         'returns': 'int32'
     },
-    'WriteAnalogF64Stream': {
+    'BeginWriteAnalogF64': {
         'exclude_from_library': True,
         'data_moniker_support': True,
         'codegen_method': 'CustomCode',

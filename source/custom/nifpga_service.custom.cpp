@@ -8,35 +8,35 @@ namespace nifpga_grpc {
 
 void RegisterMonikers()
 {
-    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerReadBoolStream", MonikerReadBoolStream);
-    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerReadI8Stream", MonikerReadI8Stream);
-    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerReadU8Stream", MonikerReadU8Stream);
-    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerReadI16Stream", MonikerReadI16Stream);
-    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerReadU16Stream", MonikerReadU16Stream);
-    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerReadI32Stream", MonikerReadI32Stream);
-    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerReadU32Stream", MonikerReadU32Stream);
-    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerReadI64Stream", MonikerReadI64Stream);
-    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerReadU64Stream", MonikerReadU64Stream);
+    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerReadBool", MonikerReadBool);
+    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerReadI8", MonikerReadI8);
+    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerReadU8", MonikerReadU8);
+    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerReadI16", MonikerReadI16);
+    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerReadU16", MonikerReadU16);
+    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerReadI32", MonikerReadI32);
+    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerReadU32", MonikerReadU32);
+    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerReadI64", MonikerReadI64);
+    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerReadU64", MonikerReadU64);
 
-    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerWriteBoolStream", MonikerWriteBoolStream);
-    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerWriteI8Stream", MonikerWriteI8Stream);
-    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerWriteU8Stream", MonikerWriteU8Stream);
-    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerWriteI16Stream", MonikerWriteI16Stream);
-    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerWriteU16Stream", MonikerWriteU16Stream);
-    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerWriteI32Stream", MonikerWriteI32Stream);
-    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerWriteU32Stream", MonikerWriteU32Stream);
-    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerWriteI64Stream", MonikerWriteI64Stream);
-    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerWriteU64Stream", MonikerWriteU64Stream);
+    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerWriteBool", MonikerWriteBool);
+    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerWriteI8", MonikerWriteI8);
+    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerWriteU8", MonikerWriteU8);
+    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerWriteI16", MonikerWriteI16);
+    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerWriteU16", MonikerWriteU16);
+    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerWriteI32", MonikerWriteI32);
+    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerWriteU32", MonikerWriteU32);
+    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerWriteI64", MonikerWriteI64);
+    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerWriteU64", MonikerWriteU64);
 
-    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerReadArrayI16Stream", MonikerReadArrayI16Stream);
-    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerReadArrayU16Stream", MonikerReadArrayU16Stream);
-    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerReadArrayI64Stream", MonikerReadArrayI64Stream);
-    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerReadArrayU64Stream", MonikerReadArrayU64Stream);
+    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerReadArrayI16", MonikerReadArrayI16);
+    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerReadArrayU16", MonikerReadArrayU16);
+    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerReadArrayI64", MonikerReadArrayI64);
+    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerReadArrayU64", MonikerReadArrayU64);
 
-    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerWriteArrayI16Stream", MonikerWriteArrayI16Stream);
-    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerWriteArrayU16Stream", MonikerWriteArrayU16Stream);
-    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerWriteArrayI64Stream", MonikerWriteArrayI64Stream);
-    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerWriteArrayU64Stream", MonikerWriteArrayU64Stream);
+    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerWriteArrayI16", MonikerWriteArrayI16);
+    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerWriteArrayU16", MonikerWriteArrayU16);
+    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerWriteArrayI64", MonikerWriteArrayI64);
+    ::ni::data_monikers::DataMonikerService::RegisterMonikerEndpoint("MonikerWriteArrayU64", MonikerWriteArrayU64);
 }
 
 //-----------------------------------------------------------------------------
@@ -84,7 +84,7 @@ struct MonikerBoolData
 //-----------------------------------------------------------------------------
 // Read Scalar Methods
 //-----------------------------------------------------------------------------
-::grpc::Status NiFpgaService::ReadBoolStream(::grpc::ServerContext* context, const ReadBoolStreamRequest* request, ReadBoolStreamResponse* response)
+::grpc::Status NiFpgaService::BeginReadBool(::grpc::ServerContext* context, const BeginReadBoolRequest* request, BeginReadBoolResponse* response)
 {
     if (context->IsCancelled()) {
         return ::grpc::Status::CANCELLED;
@@ -99,7 +99,7 @@ struct MonikerBoolData
         readData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 
         ni::data_monikers::Moniker* writeMoniker = new ni::data_monikers::Moniker();
-        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerReadBoolStream", readData, *writeMoniker);
+        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerReadBool", readData, *writeMoniker);
 
         response->set_allocated_moniker(writeMoniker);
         return ::grpc::Status::OK;
@@ -108,7 +108,7 @@ struct MonikerBoolData
         return ::grpc::Status(::grpc::UNKNOWN, ex.what());
     }
 }
-::grpc::Status MonikerReadBoolStream(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerReadBool(void* data, google::protobuf::Any& packedData)
 {
     MonikerBoolData* readData = (MonikerBoolData*)data;
     auto library = readData->library;
@@ -123,12 +123,12 @@ struct MonikerBoolData
     }
     else
     {
-        std::cout << "MonikerReadBoolStream error: " << status << std::endl;
+        std::cout << "MonikerReadBool error: " << status << std::endl;
     }
     return ::grpc::Status::OK;
 }
 
-::grpc::Status NiFpgaService::ReadI8Stream(::grpc::ServerContext* context, const ReadI8StreamRequest* request, ReadI8StreamResponse* response)
+::grpc::Status NiFpgaService::BeginReadI8(::grpc::ServerContext* context, const BeginReadI8Request* request, BeginReadI8Response* response)
 {
     if (context->IsCancelled()) {
         return ::grpc::Status::CANCELLED;
@@ -143,7 +143,7 @@ struct MonikerBoolData
         readData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 
         ni::data_monikers::Moniker* writeMoniker = new ni::data_monikers::Moniker();
-        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerReadI8Stream", readData, *writeMoniker);
+        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerReadI8", readData, *writeMoniker);
 
         response->set_allocated_moniker(writeMoniker);
         return ::grpc::Status::OK;
@@ -153,7 +153,7 @@ struct MonikerBoolData
     }
 }
 
-::grpc::Status MonikerReadI8Stream(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerReadI8(void* data, google::protobuf::Any& packedData)
 {
     MonikerI32Data* readData = (MonikerI32Data*)data;
     auto library = readData->library;
@@ -168,12 +168,12 @@ struct MonikerBoolData
     }
     else
     {
-        std::cout << "MonikerReadI16Stream error: " << status << std::endl;
+        std::cout << "MonikerReadI16 error: " << status << std::endl;
     }
     return ::grpc::Status::OK;
 }
 
-::grpc::Status NiFpgaService::ReadU8Stream(::grpc::ServerContext* context, const ReadU8StreamRequest* request, ReadU8StreamResponse* response)
+::grpc::Status NiFpgaService::BeginReadU8(::grpc::ServerContext* context, const BeginReadU8Request* request, BeginReadU8Response* response)
 {
     if (context->IsCancelled()) {
         return ::grpc::Status::CANCELLED;
@@ -188,7 +188,7 @@ struct MonikerBoolData
         readData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 
         ni::data_monikers::Moniker* writeMoniker = new ni::data_monikers::Moniker();
-        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerReadU8Stream", readData, *writeMoniker);
+        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerReadU8", readData, *writeMoniker);
 
         response->set_allocated_moniker(writeMoniker);
         return ::grpc::Status::OK;
@@ -198,7 +198,7 @@ struct MonikerBoolData
     }
 }
 
-::grpc::Status MonikerReadU8Stream(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerReadU8(void* data, google::protobuf::Any& packedData)
 {
     MonikerU32Data* readData = (MonikerU32Data*)data;
     auto library = readData->library;
@@ -213,12 +213,12 @@ struct MonikerBoolData
     }
     else
     {
-        std::cout << "MonikerReadU8Stream error: " << status << std::endl;
+        std::cout << "MonikerReadU8 error: " << status << std::endl;
     }
     return ::grpc::Status::OK;
 }
 
-::grpc::Status NiFpgaService::ReadI16Stream(::grpc::ServerContext* context, const ReadI16StreamRequest* request, ReadI16StreamResponse* response)
+::grpc::Status NiFpgaService::BeginReadI16(::grpc::ServerContext* context, const BeginReadI16Request* request, BeginReadI16Response* response)
 {
     if (context->IsCancelled()) {
         return ::grpc::Status::CANCELLED;
@@ -233,7 +233,7 @@ struct MonikerBoolData
         readData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 
         ni::data_monikers::Moniker* writeMoniker = new ni::data_monikers::Moniker();
-        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerReadI16Stream", readData, *writeMoniker);
+        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerReadI16", readData, *writeMoniker);
 
         response->set_allocated_moniker(writeMoniker);
         return ::grpc::Status::OK;
@@ -243,7 +243,7 @@ struct MonikerBoolData
     }
 }
 
-::grpc::Status MonikerReadI16Stream(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerReadI16(void* data, google::protobuf::Any& packedData)
 {
     MonikerI32Data* readData = (MonikerI32Data*)data;
     auto library = readData->library;
@@ -258,12 +258,12 @@ struct MonikerBoolData
     }
     else
     {
-        std::cout << "MonikerReadI16Stream error: " << status << std::endl;
+        std::cout << "MonikerReadI16 error: " << status << std::endl;
     }
     return ::grpc::Status::OK;
 }
 
-::grpc::Status NiFpgaService::ReadU16Stream(::grpc::ServerContext* context, const ReadU16StreamRequest* request, ReadU16StreamResponse* response)
+::grpc::Status NiFpgaService::BeginReadU16(::grpc::ServerContext* context, const BeginReadU16Request* request, BeginReadU16Response* response)
 {
     if (context->IsCancelled()) {
         return ::grpc::Status::CANCELLED;
@@ -278,7 +278,7 @@ struct MonikerBoolData
         readData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 
         ni::data_monikers::Moniker* writeMoniker = new ni::data_monikers::Moniker();
-        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerReadU16Stream", readData, *writeMoniker);
+        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerReadU16", readData, *writeMoniker);
 
         response->set_allocated_moniker(writeMoniker);
         return ::grpc::Status::OK;
@@ -288,7 +288,7 @@ struct MonikerBoolData
     }
 }
 
-::grpc::Status MonikerReadU16Stream(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerReadU16(void* data, google::protobuf::Any& packedData)
 {
     MonikerU32Data* readData = (MonikerU32Data*)data;
     auto library = readData->library;
@@ -303,12 +303,12 @@ struct MonikerBoolData
     }
     else
     {
-        std::cout << "MonikerReadU16Stream error: " << status << std::endl;
+        std::cout << "MonikerReadU16 error: " << status << std::endl;
     }
     return ::grpc::Status::OK;
 }
 
-::grpc::Status NiFpgaService::ReadI32Stream(::grpc::ServerContext* context, const ReadI32StreamRequest* request, ReadI32StreamResponse* response)
+::grpc::Status NiFpgaService::BeginReadI32(::grpc::ServerContext* context, const BeginReadI32Request* request, BeginReadI32Response* response)
 {
     if (context->IsCancelled()) {
         return ::grpc::Status::CANCELLED;
@@ -323,7 +323,7 @@ struct MonikerBoolData
         readData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 
         ni::data_monikers::Moniker* writeMoniker = new ni::data_monikers::Moniker();
-        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerReadI32Stream", readData, *writeMoniker);
+        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerReadI32", readData, *writeMoniker);
 
         response->set_allocated_moniker(writeMoniker);
         return ::grpc::Status::OK;
@@ -333,7 +333,7 @@ struct MonikerBoolData
     }
 }
 
-::grpc::Status MonikerReadI32Stream(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerReadI32(void* data, google::protobuf::Any& packedData)
 {
     MonikerI32Data* readData = (MonikerI32Data*)data;
     auto library = readData->library;
@@ -348,12 +348,12 @@ struct MonikerBoolData
     }
     else
     {
-        std::cout << "MonikerReadI32Stream error: " << status << std::endl;
+        std::cout << "MonikerReadI32 error: " << status << std::endl;
     }
     return ::grpc::Status::OK;
 }
 
-::grpc::Status NiFpgaService::ReadU32Stream(::grpc::ServerContext* context, const ReadU32StreamRequest* request, ReadU32StreamResponse* response)
+::grpc::Status NiFpgaService::BeginReadU32(::grpc::ServerContext* context, const BeginReadU32Request* request, BeginReadU32Response* response)
 {
     if (context->IsCancelled()) {
         return ::grpc::Status::CANCELLED;
@@ -368,7 +368,7 @@ struct MonikerBoolData
         readData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 
         ni::data_monikers::Moniker* writeMoniker = new ni::data_monikers::Moniker();
-        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerReadU32Stream", readData, *writeMoniker);
+        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerReadU32", readData, *writeMoniker);
 
         response->set_allocated_moniker(writeMoniker);
         return ::grpc::Status::OK;
@@ -378,7 +378,7 @@ struct MonikerBoolData
     }
 }
 
-::grpc::Status MonikerReadU32Stream(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerReadU32(void* data, google::protobuf::Any& packedData)
 {
     MonikerU32Data* readData = (MonikerU32Data*)data;
     auto library = readData->library;
@@ -393,12 +393,12 @@ struct MonikerBoolData
     }
     else
     {
-        std::cout << "MonikerReadU32Stream error: " << status << std::endl;
+        std::cout << "MonikerReadU32 error: " << status << std::endl;
     }
     return ::grpc::Status::OK;
 }
 
-::grpc::Status NiFpgaService::ReadI64Stream(::grpc::ServerContext* context, const ReadI64StreamRequest* request, ReadI64StreamResponse* response)
+::grpc::Status NiFpgaService::BeginReadI64(::grpc::ServerContext* context, const BeginReadI64Request* request, BeginReadI64Response* response)
 {
     if (context->IsCancelled()) {
         return ::grpc::Status::CANCELLED;
@@ -413,7 +413,7 @@ struct MonikerBoolData
         readData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 
         ni::data_monikers::Moniker* writeMoniker = new ni::data_monikers::Moniker();
-        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerReadI64Stream", readData, *writeMoniker);
+        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerReadI64", readData, *writeMoniker);
 
         response->set_allocated_moniker(writeMoniker);
         return ::grpc::Status::OK;
@@ -423,7 +423,7 @@ struct MonikerBoolData
     }
 }
 
-::grpc::Status MonikerReadI64Stream(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerReadI64(void* data, google::protobuf::Any& packedData)
 {
     MonikerI64Data* readData = (MonikerI64Data*)data;
     auto library = readData->library;
@@ -438,12 +438,12 @@ struct MonikerBoolData
     }
     else
     {
-        std::cout << "MonikerReadI64Stream error: " << status << std::endl;
+        std::cout << "MonikerReadI64 error: " << status << std::endl;
     }
     return ::grpc::Status::OK;
 }
 
-::grpc::Status NiFpgaService::ReadU64Stream(::grpc::ServerContext* context, const ReadU64StreamRequest* request, ReadU64StreamResponse* response)
+::grpc::Status NiFpgaService::BeginReadU64(::grpc::ServerContext* context, const BeginReadU64Request* request, BeginReadU64Response* response)
 {
     if (context->IsCancelled()) {
         return ::grpc::Status::CANCELLED;
@@ -458,7 +458,7 @@ struct MonikerBoolData
         readData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 
         ni::data_monikers::Moniker* writeMoniker = new ni::data_monikers::Moniker();
-        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerReadU64Stream", readData, *writeMoniker);
+        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerReadU64", readData, *writeMoniker);
 
         response->set_allocated_moniker(writeMoniker);
         return ::grpc::Status::OK;
@@ -468,7 +468,7 @@ struct MonikerBoolData
     }
 }
 
-::grpc::Status MonikerReadU64Stream(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerReadU64(void* data, google::protobuf::Any& packedData)
 {
     MonikerU64Data* readData = (MonikerU64Data*)data;
     auto library = readData->library;
@@ -483,7 +483,7 @@ struct MonikerBoolData
     }
     else
     {
-        std::cout << "MonikerReadU64Stream error: " << status << std::endl;
+        std::cout << "MonikerReadU64 error: " << status << std::endl;
     }
     return ::grpc::Status::OK;
 }
@@ -491,16 +491,16 @@ struct MonikerBoolData
 //-----------------------------------------------------------------------------
 // Write Scalar Methods
 //-----------------------------------------------------------------------------
-::grpc::Status NiFpgaService::WriteBoolStream(::grpc::ServerContext* context, const WriteBoolStreamRequest* request, WriteBoolStreamResponse* response)
+::grpc::Status NiFpgaService::BeginWriteBool(::grpc::ServerContext* context, const BeginWriteBoolRequest* request, BeginWriteBoolResponse* response)
 {
     return ::grpc::Status::OK;
 }
-::grpc::Status MonikerWriteBoolStream(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerWriteBool(void* data, google::protobuf::Any& packedData)
 {
     return ::grpc::Status::OK;
 }
 
-::grpc::Status NiFpgaService::WriteI8Stream(::grpc::ServerContext* context, const WriteI8StreamRequest* request, WriteI8StreamResponse* response)
+::grpc::Status NiFpgaService::BeginWriteI8(::grpc::ServerContext* context, const BeginWriteI8Request* request, BeginWriteI8Response* response)
 {
     if (context->IsCancelled()) {
         return ::grpc::Status::CANCELLED;
@@ -515,7 +515,7 @@ struct MonikerBoolData
         writeData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 
         ni::data_monikers::Moniker* readMoniker = new ni::data_monikers::Moniker();
-        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerWriteI8Stream", writeData, *readMoniker);
+        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerWriteI8", writeData, *readMoniker);
 
         response->set_allocated_moniker(readMoniker);
         return ::grpc::Status::OK;
@@ -525,7 +525,7 @@ struct MonikerBoolData
     }
 }
 
-::grpc::Status MonikerWriteI8Stream(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerWriteI8(void* data, google::protobuf::Any& packedData)
 {
     MonikerI32Data* writeData = (MonikerI32Data*)data;
 
@@ -543,12 +543,12 @@ struct MonikerBoolData
 
     auto status = library->WriteI8(session, control, static_cast<int8_t>(value));
     if (status < 0) {
-        std::cout << "MonikerWriteI8Stream error: " << status << std::endl;
+        std::cout << "MonikerWriteI8 error: " << status << std::endl;
     }
     return ::grpc::Status::OK;
 }
 
-::grpc::Status NiFpgaService::WriteU8Stream(::grpc::ServerContext* context, const WriteU8StreamRequest* request, WriteU8StreamResponse* response)
+::grpc::Status NiFpgaService::BeginWriteU8(::grpc::ServerContext* context, const BeginWriteU8Request* request, BeginWriteU8Response* response)
 {
     if (context->IsCancelled()) {
         return ::grpc::Status::CANCELLED;
@@ -563,7 +563,7 @@ struct MonikerBoolData
         writeData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 
         ni::data_monikers::Moniker* readMoniker = new ni::data_monikers::Moniker();
-        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerWriteU8Stream", writeData, *readMoniker);
+        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerWriteU8", writeData, *readMoniker);
 
         response->set_allocated_moniker(readMoniker);
         return ::grpc::Status::OK;
@@ -573,7 +573,7 @@ struct MonikerBoolData
     }
 }
 
-::grpc::Status MonikerWriteU8Stream(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerWriteU8(void* data, google::protobuf::Any& packedData)
 {
     MonikerI32Data* writeData = (MonikerI32Data*)data;
 
@@ -591,12 +591,12 @@ struct MonikerBoolData
 
     auto status = library->WriteU8(session, control, static_cast<uint8_t>(value));
     if (status < 0) {
-        std::cout << "MonikerWriteU8Stream error: " << status << std::endl;
+        std::cout << "MonikerWriteU8 error: " << status << std::endl;
     }
     return ::grpc::Status::OK;
 }
 
-::grpc::Status NiFpgaService::WriteI16Stream(::grpc::ServerContext* context, const WriteI16StreamRequest* request, WriteI16StreamResponse* response)
+::grpc::Status NiFpgaService::BeginWriteI16(::grpc::ServerContext* context, const BeginWriteI16Request* request, BeginWriteI16Response* response)
 {
     if (context->IsCancelled()) {
         return ::grpc::Status::CANCELLED;
@@ -611,7 +611,7 @@ struct MonikerBoolData
         writeData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 
         ni::data_monikers::Moniker* readMoniker = new ni::data_monikers::Moniker();
-        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerWriteI16Stream", writeData, *readMoniker);
+        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerWriteI16", writeData, *readMoniker);
 
         response->set_allocated_moniker(readMoniker);
         return ::grpc::Status::OK;
@@ -621,7 +621,7 @@ struct MonikerBoolData
     }
 }
 
-::grpc::Status MonikerWriteI16Stream(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerWriteI16(void* data, google::protobuf::Any& packedData)
 {
     MonikerI32Data* writeData = (MonikerI32Data*)data;
 
@@ -639,12 +639,12 @@ struct MonikerBoolData
 
     auto status = library->WriteI16(session, control, static_cast<int16_t>(value));
     if (status < 0) {
-        std::cout << "MonikerWriteI16Stream error: " << status << std::endl;
+        std::cout << "MonikerWriteI16 error: " << status << std::endl;
     }
     return ::grpc::Status::OK;
 }
 
-::grpc::Status NiFpgaService::WriteU16Stream(::grpc::ServerContext* context, const WriteU16StreamRequest* request, WriteU16StreamResponse* response)
+::grpc::Status NiFpgaService::BeginWriteU16(::grpc::ServerContext* context, const BeginWriteU16Request* request, BeginWriteU16Response* response)
 {
     if (context->IsCancelled()) {
         return ::grpc::Status::CANCELLED;
@@ -659,7 +659,7 @@ struct MonikerBoolData
         writeData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 
         ni::data_monikers::Moniker* readMoniker = new ni::data_monikers::Moniker();
-        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerWriteU16Stream", writeData, *readMoniker);
+        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerWriteU16", writeData, *readMoniker);
 
         response->set_allocated_moniker(readMoniker);
         return ::grpc::Status::OK;
@@ -669,7 +669,7 @@ struct MonikerBoolData
     }
 }
 
-::grpc::Status MonikerWriteU16Stream(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerWriteU16(void* data, google::protobuf::Any& packedData)
 {
     MonikerU32Data* writeData = (MonikerU32Data*)data;
 
@@ -687,12 +687,12 @@ struct MonikerBoolData
 
     auto status = library->WriteU16(session, control, static_cast<uint16_t>(value));
     if (status < 0) {
-        std::cout << "MonikerWriteU16Stream error: " << status << std::endl;
+        std::cout << "MonikerWriteU16 error: " << status << std::endl;
     }
     return ::grpc::Status::OK;
 }
 
-::grpc::Status NiFpgaService::WriteI32Stream(::grpc::ServerContext* context, const WriteI32StreamRequest* request, WriteI32StreamResponse* response)
+::grpc::Status NiFpgaService::BeginWriteI32(::grpc::ServerContext* context, const BeginWriteI32Request* request, BeginWriteI32Response* response)
 {
     if (context->IsCancelled()) {
         return ::grpc::Status::CANCELLED;
@@ -707,7 +707,7 @@ struct MonikerBoolData
         writeData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 
         ni::data_monikers::Moniker* readMoniker = new ni::data_monikers::Moniker();
-        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerWriteI32Stream", writeData, *readMoniker);
+        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerWriteI32", writeData, *readMoniker);
 
         response->set_allocated_moniker(readMoniker);
         return ::grpc::Status::OK;
@@ -717,7 +717,7 @@ struct MonikerBoolData
     }
 }
 
-::grpc::Status MonikerWriteI32Stream(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerWriteI32(void* data, google::protobuf::Any& packedData)
 {
     MonikerI32Data* writeData = (MonikerI32Data*)data;
 
@@ -731,12 +731,12 @@ struct MonikerBoolData
 
     auto status = library->WriteI32(session, control, value);
     if (status < 0) {
-        std::cout << "MonikerWriteI32Stream error: " << status << std::endl;
+        std::cout << "MonikerWriteI32 error: " << status << std::endl;
     }
     return ::grpc::Status::OK;
 }
 
-::grpc::Status NiFpgaService::WriteU32Stream(::grpc::ServerContext* context, const WriteU32StreamRequest* request, WriteU32StreamResponse* response)
+::grpc::Status NiFpgaService::BeginWriteU32(::grpc::ServerContext* context, const BeginWriteU32Request* request, BeginWriteU32Response* response)
 {
     if (context->IsCancelled()) {
         return ::grpc::Status::CANCELLED;
@@ -751,7 +751,7 @@ struct MonikerBoolData
         writeData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 
         ni::data_monikers::Moniker* readMoniker = new ni::data_monikers::Moniker();
-        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerWriteU32Stream", writeData, *readMoniker);
+        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerWriteU32", writeData, *readMoniker);
 
         response->set_allocated_moniker(readMoniker);
         return ::grpc::Status::OK;
@@ -761,7 +761,7 @@ struct MonikerBoolData
     }
 }
 
-::grpc::Status MonikerWriteU32Stream(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerWriteU32(void* data, google::protobuf::Any& packedData)
 {
     MonikerU32Data* writeData = (MonikerU32Data*)data;
 
@@ -775,12 +775,12 @@ struct MonikerBoolData
 
     auto status = library->WriteU32(session, control, value);
     if (status < 0) {
-        std::cout << "MonikerWriteU32Stream error: " << status << std::endl;
+        std::cout << "MonikerWriteU32 error: " << status << std::endl;
     }
     return ::grpc::Status::OK;
 }
 
-::grpc::Status NiFpgaService::WriteI64Stream(::grpc::ServerContext* context, const WriteI64StreamRequest* request, WriteI64StreamResponse* response)
+::grpc::Status NiFpgaService::BeginWriteI64(::grpc::ServerContext* context, const BeginWriteI64Request* request, BeginWriteI64Response* response)
 {
     if (context->IsCancelled()) {
         return ::grpc::Status::CANCELLED;
@@ -795,7 +795,7 @@ struct MonikerBoolData
         writeData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 
         ni::data_monikers::Moniker* readMoniker = new ni::data_monikers::Moniker();
-        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerWriteI64Stream", writeData, *readMoniker);
+        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerWriteI64", writeData, *readMoniker);
 
         response->set_allocated_moniker(readMoniker);
         return ::grpc::Status::OK;
@@ -805,7 +805,7 @@ struct MonikerBoolData
     }
 }
 
-::grpc::Status MonikerWriteI64Stream(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerWriteI64(void* data, google::protobuf::Any& packedData)
 {
     MonikerI64Data* writeData = (MonikerI64Data*)data;
 
@@ -819,12 +819,12 @@ struct MonikerBoolData
 
     auto status = library->WriteI64(session, control, value);
     if (status < 0) {
-        std::cout << "MonikerWriteI64Stream error: " << status << std::endl;
+        std::cout << "MonikerWriteI64 error: " << status << std::endl;
     }
     return ::grpc::Status::OK;
 }
 
-::grpc::Status NiFpgaService::WriteU64Stream(::grpc::ServerContext* context, const WriteU64StreamRequest* request, WriteU64StreamResponse* response)
+::grpc::Status NiFpgaService::BeginWriteU64(::grpc::ServerContext* context, const BeginWriteU64Request* request, BeginWriteU64Response* response)
 {
     if (context->IsCancelled()) {
         return ::grpc::Status::CANCELLED;
@@ -839,7 +839,7 @@ struct MonikerBoolData
         writeData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 
         ni::data_monikers::Moniker* readMoniker = new ni::data_monikers::Moniker();
-        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerWriteU64Stream", writeData, *readMoniker);
+        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerWriteU64", writeData, *readMoniker);
 
         response->set_allocated_moniker(readMoniker);
         return ::grpc::Status::OK;
@@ -849,7 +849,7 @@ struct MonikerBoolData
     }
 }
 
-::grpc::Status MonikerWriteU64Stream(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerWriteU64(void* data, google::protobuf::Any& packedData)
 {
     MonikerU64Data* writeData = (MonikerU64Data*)data;
 
@@ -863,7 +863,7 @@ struct MonikerBoolData
 
     auto status = library->WriteU64(session, control, value);
     if (status < 0) {
-        std::cout << "MonikerWriteU64Stream error: " << status << std::endl;
+        std::cout << "MonikerWriteU64 error: " << status << std::endl;
     }
     return ::grpc::Status::OK;
 }
@@ -909,7 +909,7 @@ struct MonikerArrayU64Data
     std::shared_ptr<NiFpgaLibraryInterface> library;
 };
 
-::grpc::Status NiFpgaService::ReadArrayI16Stream(::grpc::ServerContext* context, const ReadArrayI16StreamRequest* request, ReadArrayI16StreamResponse* response)
+::grpc::Status NiFpgaService::BeginReadArrayI16(::grpc::ServerContext* context, const BeginReadArrayI16Request* request, BeginReadArrayI16Response* response)
 {
     if (context->IsCancelled()) {
         return ::grpc::Status::CANCELLED;
@@ -927,7 +927,7 @@ struct MonikerArrayU64Data
         readData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 
         ni::data_monikers::Moniker* writeMoniker = new ni::data_monikers::Moniker();
-        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerReadArrayI16Stream", readData, *writeMoniker);
+        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerReadArrayI16", readData, *writeMoniker);
 
         response->set_allocated_moniker(writeMoniker);
         return ::grpc::Status::OK;
@@ -937,7 +937,7 @@ struct MonikerArrayU64Data
     }
 }
 
-::grpc::Status MonikerReadArrayI16Stream(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerReadArrayI16(void* data, google::protobuf::Any& packedData)
 {
     MonikerArrayI32Data* readData = (MonikerArrayI32Data*)data;
     auto library = readData->library;
@@ -959,12 +959,12 @@ struct MonikerArrayU64Data
     }
     else
     {
-        std::cout << "MonikerReadArrayI16Stream error: " << status << std::endl;
+        std::cout << "MonikerReadArrayI16 error: " << status << std::endl;
     }
     return ::grpc::Status::OK;
 }
 
-::grpc::Status NiFpgaService::ReadArrayU16Stream(::grpc::ServerContext* context, const ReadArrayU16StreamRequest* request, ReadArrayU16StreamResponse* response)
+::grpc::Status NiFpgaService::BeginReadArrayU16(::grpc::ServerContext* context, const BeginReadArrayU16Request* request, BeginReadArrayU16Response* response)
 {
     if (context->IsCancelled()) {
         return ::grpc::Status::CANCELLED;
@@ -982,7 +982,7 @@ struct MonikerArrayU64Data
         readData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 
         ni::data_monikers::Moniker* writeMoniker = new ni::data_monikers::Moniker();
-        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerReadArrayU16Stream", readData, *writeMoniker);
+        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerReadArrayU16", readData, *writeMoniker);
 
         response->set_allocated_moniker(writeMoniker);
         return ::grpc::Status::OK;
@@ -992,7 +992,7 @@ struct MonikerArrayU64Data
     }
 }
 
-::grpc::Status MonikerReadArrayU16Stream(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerReadArrayU16(void* data, google::protobuf::Any& packedData)
 {
     MonikerArrayU32Data* readData = (MonikerArrayU32Data*)data;
     auto library = readData->library;
@@ -1014,12 +1014,12 @@ struct MonikerArrayU64Data
     }
     else
     {
-        std::cout << "MonikerReadArrayU16Stream error: " << status << std::endl;
+        std::cout << "MonikerReadArrayU16 error: " << status << std::endl;
     }
     return ::grpc::Status::OK;
 }
 
-::grpc::Status NiFpgaService::ReadArrayI64Stream(::grpc::ServerContext* context, const ReadArrayI64StreamRequest* request, ReadArrayI64StreamResponse* response)
+::grpc::Status NiFpgaService::BeginReadArrayI64(::grpc::ServerContext* context, const BeginReadArrayI64Request* request, BeginReadArrayI64Response* response)
 {
     if (context->IsCancelled()) {
         return ::grpc::Status::CANCELLED;
@@ -1037,7 +1037,7 @@ struct MonikerArrayU64Data
         readData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 
         ni::data_monikers::Moniker* writeMoniker = new ni::data_monikers::Moniker();
-        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerReadArrayI64Stream", readData, *writeMoniker);
+        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerReadArrayI64", readData, *writeMoniker);
 
         response->set_allocated_moniker(writeMoniker);
         return ::grpc::Status::OK;
@@ -1047,7 +1047,7 @@ struct MonikerArrayU64Data
     }
 }
 
-::grpc::Status MonikerReadArrayI64Stream(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerReadArrayI64(void* data, google::protobuf::Any& packedData)
 {
     MonikerArrayI64Data* readData = (MonikerArrayI64Data*)data;
     auto library = readData->library;
@@ -1069,12 +1069,12 @@ struct MonikerArrayU64Data
     }
     else
     {
-        std::cout << "MonikerReadArrayI64Stream error: " << status << std::endl;
+        std::cout << "MonikerReadArrayI64 error: " << status << std::endl;
     }
     return ::grpc::Status::OK;
 }
 
-::grpc::Status NiFpgaService::ReadArrayU64Stream(::grpc::ServerContext* context, const ReadArrayU64StreamRequest* request, ReadArrayU64StreamResponse* response)
+::grpc::Status NiFpgaService::BeginReadArrayU64(::grpc::ServerContext* context, const BeginReadArrayU64Request* request, BeginReadArrayU64Response* response)
 {
     if (context->IsCancelled()) {
         return ::grpc::Status::CANCELLED;
@@ -1092,7 +1092,7 @@ struct MonikerArrayU64Data
         readData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 
         ni::data_monikers::Moniker* writeMoniker = new ni::data_monikers::Moniker();
-        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerReadArrayU64Stream", readData, *writeMoniker);
+        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerReadArrayU64", readData, *writeMoniker);
 
         response->set_allocated_moniker(writeMoniker);
         return ::grpc::Status::OK;
@@ -1102,7 +1102,7 @@ struct MonikerArrayU64Data
     }
 }
 
-::grpc::Status MonikerReadArrayU64Stream(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerReadArrayU64(void* data, google::protobuf::Any& packedData)
 {
     MonikerArrayU64Data* readData = (MonikerArrayU64Data*)data;
     auto library = readData->library;
@@ -1124,7 +1124,7 @@ struct MonikerArrayU64Data
     }
     else
     {
-        std::cout << "MonikerReadArrayU64Stream error: " << status << std::endl;
+        std::cout << "MonikerReadArrayU64 error: " << status << std::endl;
     }
     return ::grpc::Status::OK;
 }
@@ -1132,7 +1132,7 @@ struct MonikerArrayU64Data
 //---------------------------------------------------------------------
 // Write Array Methods
 //---------------------------------------------------------------------
-::grpc::Status NiFpgaService::WriteArrayI16Stream(::grpc::ServerContext* context, const WriteArrayI16StreamRequest* request, WriteArrayI16StreamResponse* response)
+::grpc::Status NiFpgaService::BeginWriteArrayI16(::grpc::ServerContext* context, const BeginWriteArrayI16Request* request, BeginWriteArrayI16Response* response)
 {
     if (context->IsCancelled()) {
         return ::grpc::Status::CANCELLED;
@@ -1148,7 +1148,7 @@ struct MonikerArrayU64Data
         writeData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 
         ni::data_monikers::Moniker* readMoniker = new ni::data_monikers::Moniker();
-        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerWriteArrayI16Stream", writeData, *readMoniker);
+        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerWriteArrayI16", writeData, *readMoniker);
 
         response->set_allocated_moniker(readMoniker);
         return ::grpc::Status::OK;
@@ -1158,7 +1158,7 @@ struct MonikerArrayU64Data
     }
 }
 
-::grpc::Status MonikerWriteArrayI16Stream(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerWriteArrayI16(void* data, google::protobuf::Any& packedData)
 {
     MonikerArrayI32Data* writeData = (MonikerArrayI32Data*)data;
 
@@ -1185,12 +1185,12 @@ struct MonikerArrayU64Data
         });
     auto status = library->WriteArrayI16(session, control, array.data(), size);
     if (status < 0) {
-        std::cout << "MonikerWriteArrayI16Stream error: " << status << std::endl;
+        std::cout << "MonikerWriteArrayI16 error: " << status << std::endl;
     }
     return ::grpc::Status::OK;
 }
 
-::grpc::Status NiFpgaService::WriteArrayU16Stream(::grpc::ServerContext* context, const WriteArrayU16StreamRequest* request, WriteArrayU16StreamResponse* response)
+::grpc::Status NiFpgaService::BeginWriteArrayU16(::grpc::ServerContext* context, const BeginWriteArrayU16Request* request, BeginWriteArrayU16Response* response)
 {
     if (context->IsCancelled()) {
         return ::grpc::Status::CANCELLED;
@@ -1206,7 +1206,7 @@ struct MonikerArrayU64Data
         writeData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 
         ni::data_monikers::Moniker* readMoniker = new ni::data_monikers::Moniker();
-        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerWriteArrayU16Stream", writeData, *readMoniker);
+        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerWriteArrayU16", writeData, *readMoniker);
 
         response->set_allocated_moniker(readMoniker);
         return ::grpc::Status::OK;
@@ -1216,7 +1216,7 @@ struct MonikerArrayU64Data
     }
 }
 
-::grpc::Status MonikerWriteArrayU16Stream(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerWriteArrayU16(void* data, google::protobuf::Any& packedData)
 {
     MonikerArrayU32Data* writeData = (MonikerArrayU32Data*)data;
 
@@ -1243,12 +1243,12 @@ struct MonikerArrayU64Data
         });
     auto status = library->WriteArrayU16(session, control, array.data(), size);
     if (status < 0) {
-        std::cout << "MonikerWriteArrayU16Stream error: " << status << std::endl;
+        std::cout << "MonikerWriteArrayU16 error: " << status << std::endl;
     }
     return ::grpc::Status::OK;
 }
 
-::grpc::Status NiFpgaService::WriteArrayI64Stream(::grpc::ServerContext* context, const WriteArrayI64StreamRequest* request, WriteArrayI64StreamResponse* response)
+::grpc::Status NiFpgaService::BeginWriteArrayI64(::grpc::ServerContext* context, const BeginWriteArrayI64Request* request, BeginWriteArrayI64Response* response)
 {
     if (context->IsCancelled()) {
         return ::grpc::Status::CANCELLED;
@@ -1264,7 +1264,7 @@ struct MonikerArrayU64Data
         writeData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 
         ni::data_monikers::Moniker* readMoniker = new ni::data_monikers::Moniker();
-        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerWriteArrayI64Stream", writeData, *readMoniker);
+        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerWriteArrayI64", writeData, *readMoniker);
 
         response->set_allocated_moniker(readMoniker);
         return ::grpc::Status::OK;
@@ -1274,7 +1274,7 @@ struct MonikerArrayU64Data
     }
 }
 
-::grpc::Status MonikerWriteArrayI64Stream(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerWriteArrayI64(void* data, google::protobuf::Any& packedData)
 {
     MonikerArrayI64Data* writeData = (MonikerArrayI64Data*)data;
 
@@ -1288,12 +1288,12 @@ struct MonikerArrayU64Data
     auto array = const_cast<const int64_t*>(i64_data.value().data());
     auto status = library->WriteArrayI64(session, control, array, size);
     if (status < 0) {
-        std::cout << "MonikerWriteArrayI64Stream error: " << status << std::endl;
+        std::cout << "MonikerWriteArrayI64 error: " << status << std::endl;
     }
     return ::grpc::Status::OK;
 }
 
-::grpc::Status NiFpgaService::WriteArrayU64Stream(::grpc::ServerContext* context, const WriteArrayU64StreamRequest* request, WriteArrayU64StreamResponse* response)
+::grpc::Status NiFpgaService::BeginWriteArrayU64(::grpc::ServerContext* context, const BeginWriteArrayU64Request* request, BeginWriteArrayU64Response* response)
 {
     if (context->IsCancelled()) {
         return ::grpc::Status::CANCELLED;
@@ -1309,7 +1309,7 @@ struct MonikerArrayU64Data
         writeData->library = std::shared_ptr<NiFpgaLibraryInterface>(library_);
 
         ni::data_monikers::Moniker* readMoniker = new ni::data_monikers::Moniker();
-        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerWriteArrayU64Stream", writeData, *readMoniker);
+        ni::data_monikers::DataMonikerService::RegisterMonikerInstance("MonikerWriteArrayU64", writeData, *readMoniker);
 
         response->set_allocated_moniker(readMoniker);
         return ::grpc::Status::OK;
@@ -1319,7 +1319,7 @@ struct MonikerArrayU64Data
     }
 }
 
-::grpc::Status MonikerWriteArrayU64Stream(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerWriteArrayU64(void* data, google::protobuf::Any& packedData)
 {
     MonikerArrayU64Data* writeData = (MonikerArrayU64Data*)data;
 
@@ -1333,7 +1333,7 @@ struct MonikerArrayU64Data
     auto array = const_cast<const uint64_t*>(u64_data.value().data());
     auto status = library->WriteArrayU64(session, control, array, size);
     if (status < 0) {
-        std::cout << "MonikerWriteArrayU64Stream error: " << status << std::endl;
+        std::cout << "MonikerWriteArrayU64 error: " << status << std::endl;
     }
     return ::grpc::Status::OK;
 }

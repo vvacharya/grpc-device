@@ -127,7 +127,7 @@ functions = {
         ],
         'returns': 'NiFpga_Status',
     },
-    'ReadBoolStream': {
+    'BeginReadBool': {
         'exclude_from_library': True,
         'data_moniker_support': True,
         'codegen_method': 'CustomCode',
@@ -171,7 +171,7 @@ functions = {
         ],
         'returns': 'NiFpga_Status',
     },
-    'ReadI8Stream': {
+    'BeginReadI8': {
         'exclude_from_library': True,
         'data_moniker_support': True,
         'codegen_method': 'CustomCode',
@@ -215,7 +215,7 @@ functions = {
         ],
         'returns': 'NiFpga_Status',
     },
-    'ReadU8Stream': {
+    'BeginReadU8': {
         'exclude_from_library': True,
         'data_moniker_support': True,
         'codegen_method': 'CustomCode',
@@ -259,7 +259,7 @@ functions = {
         ],
         'returns': 'NiFpga_Status',
     },
-    'ReadI16Stream': {
+    'BeginReadI16': {
         'exclude_from_library': True,
         'data_moniker_support': True,
         'codegen_method': 'CustomCode',
@@ -303,7 +303,7 @@ functions = {
         ],
         'returns': 'NiFpga_Status',
     },
-    'ReadU16Stream': {
+    'BeginReadU16': {
         'exclude_from_library': True,
         'data_moniker_support': True,
         'codegen_method': 'CustomCode',
@@ -347,7 +347,7 @@ functions = {
         ],
         'returns': 'NiFpga_Status',
     },
-    'ReadI32Stream': {
+    'BeginReadI32': {
         'exclude_from_library': True,
         'data_moniker_support': True,
         'codegen_method': 'CustomCode',
@@ -391,7 +391,7 @@ functions = {
         ],
         'returns': 'NiFpga_Status',
     },
-    'ReadU32Stream': {
+    'BeginReadU32': {
         'exclude_from_library': True,
         'data_moniker_support': True,
         'codegen_method': 'CustomCode',
@@ -435,7 +435,7 @@ functions = {
         ],
         'returns': 'NiFpga_Status',
     },
-    'ReadI64Stream': {
+    'BeginReadI64': {
         'exclude_from_library': True,
         'data_moniker_support': True,
         'codegen_method': 'CustomCode',
@@ -479,7 +479,7 @@ functions = {
         ],
         'returns': 'NiFpga_Status',
     },
-    'ReadU64Stream': {
+    'BeginReadU64': {
         'exclude_from_library': True,
         'data_moniker_support': True,
         'codegen_method': 'CustomCode',
@@ -531,7 +531,7 @@ functions = {
         ],
         'returns': 'NiFpga_Status',
     },
-    'WriteBoolStream': {
+    'BeginWriteBool': {
         'exclude_from_library': True,
         'data_moniker_support': True,
         'codegen_method': 'CustomCode',
@@ -575,7 +575,7 @@ functions = {
         ],
         'returns': 'NiFpga_Status',
     },
-    'WriteI8Stream': {
+    'BeginWriteI8': {
         'exclude_from_library': True,
         'data_moniker_support': True,
         'codegen_method': 'CustomCode',
@@ -619,7 +619,7 @@ functions = {
         ],
         'returns': 'NiFpga_Status',
     },
-    'WriteU8Stream': {
+    'BeginWriteU8': {
         'exclude_from_library': True,
         'data_moniker_support': True,
         'codegen_method': 'CustomCode',
@@ -663,7 +663,7 @@ functions = {
         ],
         'returns': 'NiFpga_Status',
     },
-    'WriteI16Stream': {
+    'BeginWriteI16': {
         'exclude_from_library': True,
         'data_moniker_support': True,
         'codegen_method': 'CustomCode',
@@ -707,7 +707,7 @@ functions = {
         ],
         'returns': 'NiFpga_Status',
     },
-    'WriteU16Stream': {
+    'BeginWriteU16': {
         'exclude_from_library': True,
         'data_moniker_support': True,
         'codegen_method': 'CustomCode',
@@ -751,7 +751,7 @@ functions = {
         ],
         'returns': 'NiFpga_Status',
     },
-    'WriteI32Stream': {
+    'BeginWriteI32': {
         'exclude_from_library': True,
         'data_moniker_support': True,
         'codegen_method': 'CustomCode',
@@ -800,7 +800,7 @@ functions = {
         ],
         'returns': 'NiFpga_Status',
     },
-    'WriteU32Stream': {
+    'BeginWriteU32': {
         'exclude_from_library': True,
         'data_moniker_support': True,
         'codegen_method': 'CustomCode',
@@ -844,7 +844,7 @@ functions = {
         ],
         'returns': 'NiFpga_Status',
     },
-    'WriteI64Stream': {
+    'BeginWriteI64': {
         'exclude_from_library': True,
         'data_moniker_support': True,
         'codegen_method': 'CustomCode',
@@ -893,7 +893,7 @@ functions = {
         ],
         'returns': 'NiFpga_Status',
     },
-    'WriteU64Stream': {
+    'BeginWriteU64': {
         'exclude_from_library': True,
         'data_moniker_support': True,
         'codegen_method': 'CustomCode',
@@ -972,7 +972,7 @@ functions = {
         ],
         'returns': 'NiFpga_Status',
     },
-    'ReadArrayI16Stream': {
+    'BeginReadArrayI16': {
         'exclude_from_library': True,
         'data_moniker_support': True,
         'codegen_method': 'CustomCode',
@@ -1031,7 +1031,7 @@ functions = {
         ],
         'returns': 'NiFpga_Status',
     },
-    'ReadArrayU16Stream': {
+    'BeginReadArrayU16': {
         'exclude_from_library': True,
         'data_moniker_support': True,
         'codegen_method': 'CustomCode',
@@ -1098,7 +1098,7 @@ functions = {
         ],
         'returns': 'NiFpga_Status',
     },
-    'ReadArrayI64Stream': {
+    'BeginReadArrayI64': {
         'exclude_from_library': True,
         'data_moniker_support': True,
         'codegen_method': 'CustomCode',
@@ -1157,7 +1157,7 @@ functions = {
         ],
         'returns': 'NiFpga_Status',
     },
-    'ReadArrayU64Stream': {
+    'BeginReadArrayU64': {
         'exclude_from_library': True,
         'data_moniker_support': True,
         'codegen_method': 'CustomCode',
@@ -1229,7 +1229,7 @@ functions = {
         ],
         'returns': 'NiFpga_Status',
     },
-    'WriteArrayI16Stream': {
+    'BeginWriteArrayI16': {
         'exclude_from_library': True,
         'data_moniker_support': True,
         'codegen_method': 'CustomCode',
@@ -1288,7 +1288,7 @@ functions = {
         ],
         'returns': 'NiFpga_Status',
     },
-    'WriteArrayU16Stream': {
+    'BeginWriteArrayU16': {
         'exclude_from_library': True,
         'data_moniker_support': True,
         'codegen_method': 'CustomCode',
@@ -1354,7 +1354,7 @@ functions = {
         ],
         'returns': 'NiFpga_Status',
     },
-    'WriteArrayI64Stream': {
+    'BeginWriteArrayI64': {
         'exclude_from_library': True,
         'data_moniker_support': True,
         'codegen_method': 'CustomCode',
@@ -1412,7 +1412,7 @@ functions = {
         ],
         'returns': 'NiFpga_Status',
     },
-    'WriteArrayU64Stream': {
+    'BeginWriteArrayU64': {
         'exclude_from_library': True,
         'data_moniker_support': True,
         'codegen_method': 'CustomCode',
