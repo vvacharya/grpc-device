@@ -4244,6 +4244,10 @@ message ChannelData {
   repeated double data = 1;
 }
 
+message SampleClockData {
+  bool is_late = 1;
+}
+
 message AnalogPowerUpChannelsAndState {
   string channel_names = 1;
   double state = 2;
