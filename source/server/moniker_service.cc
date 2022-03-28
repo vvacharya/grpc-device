@@ -89,10 +89,12 @@ namespace ni
     //---------------------------------------------------------------------
     void MonikerServiceImpl::RunSidebandReadWriteLoop(string sidebandIdentifier, ::SidebandStrategy strategy, EndpointList& readers, EndpointList& writers, bool initialClientWrite)
     {
+     // std::cout << "RunSidebandReadWriteLoop" << std::endl;
     #ifndef _WIN32
         if (strategy == ::SidebandStrategy::RDMA_LOW_LATENCY ||
             strategy == ::SidebandStrategy::SOCKETS_LOW_LATENCY)
         {
+
             cpu_set_t cpuSet;
             CPU_ZERO(&cpuSet);
             CPU_SET(10, &cpuSet);
@@ -107,12 +109,14 @@ namespace ni
         SidebandWriteRequest writeRequest;
         if (initialClientWrite)
         {
+          std::cout << "InitialClientWrite" << std::endl;
             while (ReadSidebandMessage(sidebandToken, &writeRequest) && !writeRequest.cancel())
             {
                 x = 0;
                 for (auto writer: writers)
                 {
                     std::get<0>(writer)(std::get<1>(writer), const_cast<google::protobuf::Any&>(writeRequest.values().values(x++)));
+
                 }
                 if (readers.size() > 0)
                 {
@@ -132,15 +136,20 @@ namespace ni
         }
         else
         {
+          //  std::cout << "else condition Sideband Read" << std::endl;
             while (true)
             {
                 x = 0;
                 SidebandReadResponse readResult;
                 for (auto reader: readers)
                 {
-                    auto readValue = readResult.mutable_values()->mutable_values(x++);
+                  auto readValue = readResult.mutable_values()->add_values();
+                //  std::cout << "Sideband Read" << std::endl;
                     std::get<0>(reader)(std::get<1>(reader), *readValue);
+
+                    
                 }
+               // std::cout << "Sideband Read - Finished Reading all data" << std::endl;
                 if (!WriteSidebandMessage(sidebandToken, readResult))
                 {
                     break;
@@ -152,14 +161,18 @@ namespace ni
                     {
                         break;
                     }
-                    if (writeRequest.cancel())
-                    {
-                        break;
+                    if (writeRequest.cancel()) {
+                   //   std ::cout << "WriteRequest.Cancel" << std::endl;
+                      break;
                     }
+                    
                     for (auto writer: writers)
                     {
+                      //std ::cout << "For loop with writers" << std::endl;
                         std::get<0>(writer)(std::get<1>(writer), const_cast<google::protobuf::Any&>(writeRequest.values().values(x++)));
                     }
+                    // Swapped from before for loop
+                    
                 }
             }
         }

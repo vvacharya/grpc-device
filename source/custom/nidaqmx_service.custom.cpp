@@ -71,10 +71,12 @@ grpc::Status MonikerReadAnalogF64Stream(void* data, google::protobuf::Any& packe
   auto status = readData->library->ReadAnalogF64(readData->task, readData->num_samps_per_chan, readData->timeout, readData->fill_mode, readData->channelData.mutable_data()->mutable_data(), readData->array_size_in_samps, &numRead, NULL);
   if (status < 0) {
     cout << "DAQmxReadAnalogF64 error: " << status << endl;
-  //  std ::cout << "TaskName " << readData->task << endl;
-  //  std ::cout << "Values " << readData->channelData.data()[0] << " " << readData->channelData.data_size() << endl;
+    std ::cout << "ReadTaskName " << readData->task << endl;
+    std ::cout << "ReadValues " << readData->channelData.data()[0] << " " << readData->channelData.data_size() << endl;
   }
-  packedData.PackFrom(readData->channelData);
+  // check if (status >= 0) {
+    packedData.PackFrom(readData->channelData);
+  //}
   return Status::OK;
 }
 //---------------------------------------------------------------------
@@ -219,10 +221,11 @@ grpc::Status MonikerBeginWaitForNextSampleClk(void* data, google::protobuf::Any&
 void NiDAQmxService::initialize()
 {
   // Check order of registering for wait->read->write
-  
-  ni::MonikerServiceImpl::RegisterMonikerEndpoint("MonikerWriteAnalogF64Stream", MonikerWriteAnalogF64Stream);
-  ni::MonikerServiceImpl::RegisterMonikerEndpoint("MonikerReadAnalogF64Stream", MonikerReadAnalogF64Stream);
   ni::MonikerServiceImpl::RegisterMonikerEndpoint("MonikerBeginWaitForNextSampleClk", MonikerBeginWaitForNextSampleClk);
+  ni::MonikerServiceImpl::RegisterMonikerEndpoint("MonikerReadAnalogF64Stream", MonikerReadAnalogF64Stream);
+  ni::MonikerServiceImpl::RegisterMonikerEndpoint("MonikerWriteAnalogF64Stream", MonikerWriteAnalogF64Stream);
+  
+  
 }
 
 }
