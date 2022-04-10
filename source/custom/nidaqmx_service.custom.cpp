@@ -22,6 +22,7 @@ struct MonikerWriteDAQmxData {
 //---------------------------------------------------------------------
 ::grpc::Status MonikerWriteAnalogF64(void* data, google::protobuf::Any& packedData)
 {
+  //std::cout << "Begin MonikerWriteAnalogF64" << std::endl;
   MonikerWriteDAQmxData* writeData = (MonikerWriteDAQmxData*)data;
 
   int32 samps_per_chan_written;
@@ -36,6 +37,8 @@ struct MonikerWriteDAQmxData {
     std ::cout << "TaskName " << writeData->task << std::endl;
     std ::cout << "Values " << values[0] << " " << channelData.data_size() << std::endl;
   }
+
+  //std::cout << "End MonikerWriteAnalogF64" << std::endl;
   return ::grpc::Status::OK;
 }
 
@@ -51,22 +54,29 @@ struct MonikerReadDAQmxData {
   nidaqmx_grpc::ChannelData channelData;
   int32 fill_mode;
   NiDAQmxLibraryInterface* library;
+  int index;
 };
 
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
 ::grpc::Status MonikerReadAnalogF64(void* data, google::protobuf::Any& packedData)
 {
+  //std::cout << "Begin MonikerReadAnalogF64" << std::endl;
   MonikerReadDAQmxData* readData = (MonikerReadDAQmxData*)data;
   // calling into driver and setting response
+
   int32 numRead;
   auto status = readData->library->ReadAnalogF64(readData->task, readData->num_samps_per_chan, readData->timeout, readData->fill_mode, readData->channelData.mutable_data()->mutable_data(), readData->array_size_in_samps, &numRead, nullptr);
   if (status < 0) {
     std::cout << "DAQmxReadAnalogF64 error: " << status << std::endl;
     std::cout << "TaskName " << readData->task << std::endl;
     std::cout << "Values " << readData->channelData.data()[0] << " " << readData->channelData.data_size() << std::endl;
+    std::cout << "Index " << readData->index << std::endl;
   }
+  readData->index += 1;
+
   packedData.PackFrom(readData->channelData);
+  //std::cout << "End MonikerReadAnalogF64" << std::endl;
   return ::grpc::Status::OK;
 }
 
@@ -87,7 +97,7 @@ struct MonikerWaitForNextSampleClockData {
 {
   MonikerWaitForNextSampleClockData* waitData = (MonikerWaitForNextSampleClockData*)data;
   // calling into driver and setting response
-  std::cout << "WaitForNextSampleClock called" << std::endl;
+
   bool32 is_late{};
   auto status = waitData->library->WaitForNextSampleClock(waitData->task, waitData->timeout, &is_late);
   if (status < 0) {
@@ -158,6 +168,7 @@ struct MonikerWaitForNextSampleClockData {
     readData->channelData.mutable_data()->Reserve(readData->array_size_in_samps);
     readData->channelData.mutable_data()->Resize(readData->array_size_in_samps, 0.0);
     readData->fill_mode;
+    readData->index = 0;
     switch (request->fill_mode_enum_case()) {
       case nidaqmx_grpc::BeginReadAnalogF64Request::FillModeEnumCase::kFillMode: {
         readData->fill_mode = static_cast<int32>(request->fill_mode());

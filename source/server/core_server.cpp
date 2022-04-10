@@ -1,8 +1,9 @@
 #include <grpcpp/ext/proto_server_reflection_plugin.h>
 #include <grpcpp/grpcpp.h>
 #include <register_all_services.h>
-
+#include <sideband_data.h>
 #include <mutex>
+#include <thread>
 
 #include "feature_toggles.h"
 #include "logging.h"
@@ -12,6 +13,7 @@
 #if defined(__GNUC__)
   #include "linux/daemonize.h"
   #include "linux/syslog_logging.h"
+  #include <sys/mman.h>
 #endif
 
 using FeatureState = nidevice_grpc::FeatureToggles::FeatureState;
@@ -87,6 +89,10 @@ static void RunServer(const ServerConfiguration& config)
     }
     server = builder.BuildAndStart();
   }
+
+  auto sideband_socket_thread = new std::thread(RunSidebandSocketsAccept, "localhost", 50055);
+  auto sideband_rdma_send_thread = new std::thread(AcceptSidebandRdmaSendRequests);
+  auto sideband_rdma_recv_thread = new std::thread(AcceptSidebandRdmaReceiveRequests);
 
   if (!server) {
     nidevice_grpc::logging::log(
@@ -188,6 +194,14 @@ Options parse_options(int argc, char** argv)
   return options;
 }
 
+static void SysFsWrite(const std::string& fileName, const std::string& value)
+{
+    std::ofstream fout;
+    fout.open(fileName);
+    fout << value;
+    fout.close();
+}
+
 int main(int argc, char** argv)
 {
   auto options = parse_options(argc, argv);
@@ -201,6 +215,24 @@ int main(int argc, char** argv)
   if (options.daemonize) {
     nidevice_grpc::daemonize(&StopServer, options.identity);
   }
+#endif
+
+#ifndef _WIN32
+    SysFsWrite("/dev/cgroup/cpuset/system_set/cpus", "0-5");
+    SysFsWrite("/dev/cgroup/cpuset/LabVIEW_ScanEngine_set", "0-5");
+    SysFsWrite("/dev/cgroup/cpuset/LabVIEW_tl_set/cpus", "6-8");
+    SysFsWrite("/dev/cgroup/cpuset/LabVIEW_tl_set/cpu_exclusive", "1");
+
+    sched_param schedParam;
+    schedParam.sched_priority = 95;
+    sched_setscheduler(0, SCHED_FIFO, &schedParam);
+
+    cpu_set_t cpuSet;
+    CPU_ZERO(&cpuSet);
+    CPU_SET(6, &cpuSet);
+    sched_setaffinity(0, sizeof(cpu_set_t), &cpuSet);
+
+    mlockall(MCL_CURRENT|MCL_FUTURE);
 #endif
 
   RunServer(config);

@@ -6,9 +6,12 @@
 #include <sideband_internal.h>
 #include <sideband_grpc.h>
 #include "data_moniker_service.h"
-#ifndef _WIN32 
+#ifndef _WIN32
 #include <sys/syscall.h>
 #endif
+
+#include <fstream>
+#include <sstream>
 
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
@@ -22,12 +25,20 @@ using std::string;
 using ni::data_monikers::DataMoniker;
 using ni::data_monikers::MonikerList;
 using ni::data_monikers::MonikerWriteRequest;
-using ni::data_monikers::MonikerReadResult;
+using ni::data_monikers::MonikerReadResponse;
 using ni::data_monikers::StreamWriteResponse;
 using ni::data_monikers::SidebandWriteRequest;
 using ni::data_monikers::SidebandReadResponse;
 using ni::data_monikers::BeginMonikerSidebandStreamRequest;
 using ni::data_monikers::BeginMonikerSidebandStreamResponse;
+
+static void SysFsWrite(const std::string& fileName, const std::string& value)
+{
+    std::ofstream fout;
+    fout.open(fileName);
+    fout << value;
+    fout.close();
+}
 
 namespace ni::data_monikers
 {
@@ -60,7 +71,7 @@ namespace ni::data_monikers
 
     //---------------------------------------------------------------------
     //---------------------------------------------------------------------
-    void DataMonikerService::InitiateMonikerList(const MonikerList& monikers, EndpointList& readers, EndpointList& writers)
+    void DataMonikerService::InitiateMonikerList(const MonikerList& monikers, EndpointList* readers, EndpointList* writers)
     {
         for (auto readMoniker: monikers.read_monikers())
         {
@@ -72,7 +83,7 @@ namespace ni::data_monikers
             {
                 ptr = (*it).second;
             }
-            readers.push_back(EndpointInstance(ptr, reinterpret_cast<void*>(instance)));
+            readers->push_back(EndpointInstance(ptr, reinterpret_cast<void*>(instance)));
         }
         for (auto writeMoniker: monikers.write_monikers())
         {
@@ -84,93 +95,82 @@ namespace ni::data_monikers
             {
                 ptr = (*it).second;
             }
-            writers.push_back(EndpointInstance(ptr, reinterpret_cast<void*>(instance)));
+            writers->push_back(EndpointInstance(ptr, reinterpret_cast<void*>(instance)));
         }
     }
 
     //---------------------------------------------------------------------
     //---------------------------------------------------------------------
-    void DataMonikerService::RunSidebandReadWriteLoop(string sidebandIdentifier, ::SidebandStrategy strategy, EndpointList& readers, EndpointList& writers, bool initialClientWrite)
+    void DataMonikerService::RunSidebandReadWriteLoop(string sidebandIdentifier, ::SidebandStrategy strategy, EndpointList* readers, EndpointList* writers)
     {
+        std::cout << "Enter RunSidebandReadWriteLoop" << std::endl;
+
     #ifndef _WIN32
         if (strategy == ::SidebandStrategy::RDMA_LOW_LATENCY ||
             strategy == ::SidebandStrategy::SOCKETS_LOW_LATENCY)
         {
+            pid_t threadId = syscall(SYS_gettid);
+            ::SysFsWrite("/dev/cgroup/cpuset/LabVIEW_tl_set/tasks", std::to_string(threadId));
+
             cpu_set_t cpuSet;
             CPU_ZERO(&cpuSet);
-            CPU_SET(10, &cpuSet);
-            pid_t threadId = syscall(SYS_gettid);
+            CPU_SET(7, &cpuSet);
+            //CPU_SET(8, &cpuSet);
             sched_setaffinity(threadId, sizeof(cpu_set_t), &cpuSet);
         }
     #endif
 
         int64_t sidebandToken = GetOwnerSidebandDataToken(sidebandIdentifier);
-
         SidebandWriteRequest writeRequest;
-        if (initialClientWrite)
+        while (ReadSidebandMessage(sidebandToken, &writeRequest))
         {
-            while (ReadSidebandMessage(sidebandToken, &writeRequest) && !writeRequest.cancel())
+            if (writeRequest.cancel())
             {
-                int x = 0;
-                for (auto writer: writers)
+                std::cout << "Cancelled." << std::endl;
+                break;
+            }
+            if (writers->size() > 0)
+            {
+                int x = 0;                
+                if (writers->size() != writeRequest.values().values_size())
+                {
+                    std::cout << "ERROR: The number of writers and values read did not match" << std::endl;
+                    std::cout << "Expected: " << writers->size() << std::endl;
+                    std::cout << "Actual: " << writeRequest.values().values_size() << std::endl;
+                    break;
+                }
+                for (auto writer: *writers)
                 {
                     std::get<0>(writer)(std::get<1>(writer), const_cast<google::protobuf::Any&>(writeRequest.values().values(x++)));
                 }
-                if (readers.size() > 0)
-                {
-                    SidebandReadResponse readResult;
-                    for (auto reader: readers)
-                    {
-                        auto readValue = readResult.mutable_values()->add_values();
-                        std::get<0>(reader)(std::get<1>(reader), *readValue);
-                    }
-                    if (!WriteSidebandMessage(sidebandToken, readResult))
-                    {
-                        break;
-                    }
-                }
-            }	
-        }
-        else
-        {
-            while (true)
+            }
+            SidebandReadResponse readResult;
+            if (readers->size() > 0)
             {
-                SidebandReadResponse readResult;
-                for (auto reader: readers)
-                {
-                    auto readValue = readResult.mutable_values()->add_values();
-                    std::get<0>(reader)(std::get<1>(reader), *readValue);
-                }
-                if (!WriteSidebandMessage(sidebandToken, readResult))
-                {
-                    break;
-                }
-                if (writers.size() > 0)
-                {
-                    int x = 0;
-                    if (!ReadSidebandMessage(sidebandToken, &writeRequest))
-                    {
-                        break;
-                    }
-                    if (writeRequest.cancel())
-                    {
-                        break;
-                    }
-                    for (auto writer: writers)
-                    {
-                        std::get<0>(writer)(std::get<1>(writer), const_cast<google::protobuf::Any&>(writeRequest.values().values(x++)));
-                    }
-                }
+                 int x = 0;
+                 for (auto reader: *readers)
+                 {
+                     auto readValue = readResult.mutable_values()->add_values();
+                     std::get<0>(reader)(std::get<1>(reader), *readValue);
+                 }
+            }
+            if (!WriteSidebandMessage(sidebandToken, readResult))
+            {
+                std::cout << "Failed to write" << std::endl;
+                break;
             }
         }
-
+        delete readers;
+        delete writers;
         CloseSidebandData(sidebandToken);
+        std::cout << "Exit RunSidebandReadWriteLoop" << std::endl;
     }
 
     //---------------------------------------------------------------------
     //---------------------------------------------------------------------
     Status DataMonikerService::BeginSidebandStream(ServerContext* context, const BeginMonikerSidebandStreamRequest* request, BeginMonikerSidebandStreamResponse* response)
-    {	
+    {
+        std::cout << "Enter BeginSidebandStream" << std::endl;
         auto bufferSize = 1024 * 1024;
         auto strategy = static_cast<::SidebandStrategy>(request->strategy());
 
@@ -181,78 +181,58 @@ namespace ni::data_monikers
         response->set_buffer_size(bufferSize);
         QueueSidebandConnection(strategy, identifier, true, true, bufferSize);
 
-        EndpointList writers;
-        EndpointList readers;
+        auto writers = new EndpointList();
+        auto readers = new EndpointList();
         InitiateMonikerList(request->monikers(), readers, writers);
-        auto initialClientWrite = request->monikers().is_initial_write();
-        auto thread = new std::thread(&RunSidebandReadWriteLoop, identifier, strategy, std::ref(readers), std::ref(writers), initialClientWrite);
+
+        std::cout << "Starting thread with RunSidebandReadWriteLoop()" << std::endl;
+        auto thread = new std::thread(RunSidebandReadWriteLoop, identifier, strategy, readers, writers);
         thread->detach();
 
+        std::cout << "Exit BeginSidebandStream" << std::endl;
         return Status::OK;
     }
 
     //---------------------------------------------------------------------
     //---------------------------------------------------------------------
-    Status DataMonikerService::StreamReadWrite(ServerContext* context, ServerReaderWriter<MonikerReadResult, MonikerWriteRequest>* stream)
+    Status DataMonikerService::StreamReadWrite(ServerContext* context, ServerReaderWriter<MonikerReadResponse, MonikerWriteRequest>* stream)
     {
         EndpointList writers;
         EndpointList readers;
         MonikerWriteRequest writeRequest;
         stream->Read(&writeRequest);
-        InitiateMonikerList(writeRequest.monikers(), readers, writers);
+        InitiateMonikerList(writeRequest.monikers(), &readers, &writers);
 
-        if (writeRequest.monikers().is_initial_write())
+        while (stream->Read(&writeRequest) && !context->IsCancelled())
         {
-            while (stream->Read(&writeRequest) && !context->IsCancelled())
+            int x = 0;
+            for (auto writer: writers)
             {
-                int x = 0;
-                for (auto writer: writers)
-                {
-                    std::get<0>(writer)(std::get<1>(writer), const_cast<google::protobuf::Any&>(writeRequest.data().values(x++)));
-                }
-
-                MonikerReadResult readResult;
-                for (auto reader: readers)
-                {
-                    auto readValue = readResult.mutable_data()->add_values();
-                    std::get<0>(reader)(std::get<1>(reader), *readValue);
-                }
-                stream->Write(readResult);
+                std::get<0>(writer)(std::get<1>(writer), const_cast<google::protobuf::Any&>(writeRequest.data().values(x++)));
             }
-        }
-        else
-        {
-            while (!context->IsCancelled())
+
+            MonikerReadResponse readResult;
+            for (auto reader: readers)
             {
-                MonikerReadResult readResult;
-                for (auto reader: readers)
-                {
-                    auto readValue = readResult.mutable_data()->add_values();
-                    std::get<0>(reader)(std::get<1>(reader), *readValue);
-                }
-                stream->Write(readResult);
-
-                int x = 0;
-                for (auto writer: writers)
-                {
-                    std::get<0>(writer)(std::get<1>(writer), const_cast<google::protobuf::Any&>(writeRequest.data().values(x++)));
-                }
+                auto readValue = readResult.mutable_data()->add_values();
+                std::get<0>(reader)(std::get<1>(reader), *readValue);
             }
+            stream->Write(readResult);
         }
         return Status::OK;
     }
 
     //---------------------------------------------------------------------
     //---------------------------------------------------------------------
-    Status DataMonikerService::StreamRead(ServerContext* context, const MonikerList* request, ServerWriter<MonikerReadResult>* writer)
+    Status DataMonikerService::StreamRead(ServerContext* context, const MonikerList* request, ServerWriter<MonikerReadResponse>* writer)
     {
         EndpointList writers;
         EndpointList readers;
-        InitiateMonikerList(*request, readers, writers);
+        InitiateMonikerList(*request, &readers, &writers);
 
         while (!context->IsCancelled())
         {
-            MonikerReadResult readResult;
+            MonikerReadResponse readResult;
             for (auto reader: readers)
             {
                 auto readValue = readResult.mutable_data()->add_values();
@@ -270,7 +250,7 @@ namespace ni::data_monikers
     #ifndef _WIN32
         cpu_set_t cpuSet;
         CPU_ZERO(&cpuSet);
-        CPU_SET(3, &cpuSet);
+        CPU_SET(1, &cpuSet);
         sched_setaffinity(0, sizeof(cpu_set_t), &cpuSet);
     #endif
 
@@ -278,7 +258,7 @@ namespace ni::data_monikers
         EndpointList readers;
         MonikerWriteRequest writeRequest;
         stream->Read(&writeRequest);
-        InitiateMonikerList(writeRequest.monikers(), readers, writers);
+        InitiateMonikerList(writeRequest.monikers(), &readers, &writers);
 
         int x = 0;
         while (stream->Read(&writeRequest) && !context->IsCancelled())

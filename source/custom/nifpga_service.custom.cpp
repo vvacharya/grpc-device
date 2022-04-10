@@ -3,8 +3,18 @@
 #include <nifpga/nifpga_service.h>
 #include <nifpga/nifpga_library_interface.h>
 #include <server/data_moniker_service.h>
+#include <sstream>
+#include <fstream>
+#include <iostream>
+#include <stdexcept>
+#include <chrono>
+
+
+
 
 namespace nifpga_grpc {
+	
+using namespace std;
 
 void RegisterMonikers()
 {
@@ -431,7 +441,7 @@ struct MonikerBoolData
     auto indicator = readData->item;
     int64_t value = 0;
 
-    auto status = library->ReadI64(session, indicator, &value);
+	auto status = library->ReadI64(session, indicator, &value);
     readData->data.set_value(value);
     if (status >= 0) {
         packedData.PackFrom(readData->data);
@@ -1049,7 +1059,7 @@ struct MonikerArrayU64Data
 
 ::grpc::Status MonikerReadArrayI64(void* data, google::protobuf::Any& packedData)
 {
-    MonikerArrayI64Data* readData = (MonikerArrayI64Data*)data;
+	MonikerArrayI64Data* readData = (MonikerArrayI64Data*)data;
     auto library = readData->library;
     auto session = readData->session;
     auto indicator = readData->item;
@@ -1276,13 +1286,13 @@ struct MonikerArrayU64Data
 
 ::grpc::Status MonikerWriteArrayI64(void* data, google::protobuf::Any& packedData)
 {
-    MonikerArrayI64Data* writeData = (MonikerArrayI64Data*)data;
+	MonikerArrayI64Data* writeData = (MonikerArrayI64Data*)data;
 
     auto library = writeData->library;
     auto session = writeData->session;
     auto control = writeData->item;
     auto size = writeData->size;
-
+	
     ArrayI64Data i64_data;
     packedData.UnpackTo(&i64_data);
     auto array = const_cast<const int64_t*>(i64_data.value().data());

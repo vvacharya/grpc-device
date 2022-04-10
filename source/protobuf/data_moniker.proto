@@ -8,8 +8,8 @@ import "google/protobuf/any.proto";
 
 service DataMoniker {
   rpc BeginSidebandStream(BeginMonikerSidebandStreamRequest) returns (BeginMonikerSidebandStreamResponse) {};
-  rpc StreamReadWrite(stream MonikerWriteRequest) returns (stream MonikerReadResult) {};
-  rpc StreamRead(MonikerList) returns (stream MonikerReadResult) {};
+  rpc StreamReadWrite(stream MonikerWriteRequest) returns (stream MonikerReadResponse) {};
+  rpc StreamRead(MonikerList) returns (stream MonikerReadResponse) {};
   rpc StreamWrite(stream MonikerWriteRequest) returns (stream StreamWriteResponse) {};
 }
 
@@ -51,12 +51,11 @@ message MonikerWriteRequest {
   }
 }
 
-message MonikerReadResult {
+message MonikerReadResponse {
   MonikerValues data = 1;
 }
 
 message MonikerList {
-  bool is_initial_write = 1;
   repeated Moniker read_monikers = 2;
   repeated Moniker write_monikers = 3;
 }
