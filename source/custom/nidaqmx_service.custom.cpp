@@ -16,27 +16,30 @@ struct MonikerWriteDAQmxData {
   double timeout;
   int32 data_layout;
   NiDAQmxLibraryInterface* library;
+  int32 index;
 };
 
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
-::grpc::Status MonikerWriteAnalogF64(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerWriteAnalogF64(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData)
 {
   //std::cout << "Begin MonikerWriteAnalogF64" << std::endl;
   MonikerWriteDAQmxData* writeData = (MonikerWriteDAQmxData*)data;
 
   int32 samps_per_chan_written;
 
-  nidaqmx_grpc::ChannelData channelData;
-  packedData.UnpackTo(&channelData);
+  auto channelData = google::protobuf::Arena::CreateMessage<nidaqmx_grpc::ChannelData>(&arena);
+  packedData.UnpackTo(channelData);  
 
-  const double* values = channelData.data().data();
+  const double* values = channelData->data().data();
   auto status = writeData->library->WriteAnalogF64(writeData->task, writeData->num_samps_per_chan, writeData->auto_start, writeData->timeout, writeData->data_layout, values, &samps_per_chan_written, nullptr);
   if (status < 0) {
     std ::cout << "DAQmxWriteAnalogF64 error: " << status << std::endl;
     std ::cout << "TaskName " << writeData->task << std::endl;
-    std ::cout << "Values " << values[0] << " " << channelData.data_size() << std::endl;
+    std ::cout << "Values " << values[0] << " " << channelData->data_size() << std::endl;
+    std ::cout << "Index " << writeData->index << std::endl;
   }
+  writeData->index += 1;
 
   //std::cout << "End MonikerWriteAnalogF64" << std::endl;
   return ::grpc::Status::OK;
@@ -59,7 +62,7 @@ struct MonikerReadDAQmxData {
 
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
-::grpc::Status MonikerReadAnalogF64(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerReadAnalogF64(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData)
 {
   //std::cout << "Begin MonikerReadAnalogF64" << std::endl;
   MonikerReadDAQmxData* readData = (MonikerReadDAQmxData*)data;
@@ -93,7 +96,7 @@ struct MonikerWaitForNextSampleClockData {
 
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
-::grpc::Status MonikerWaitForNextSampleClock(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerWaitForNextSampleClock(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData)
 {
   MonikerWaitForNextSampleClockData* waitData = (MonikerWaitForNextSampleClockData*)data;
   // calling into driver and setting response
@@ -123,6 +126,7 @@ struct MonikerWaitForNextSampleClockData {
     writeData->num_samps_per_chan = request->num_samps_per_chan();
     writeData->auto_start = request->auto_start();
     writeData->timeout = request->timeout();
+    writeData->index = 0;
 
     switch (request->data_layout_enum_case()) {
       case nidaqmx_grpc::BeginWriteAnalogF64Request::DataLayoutEnumCase::kDataLayout: {

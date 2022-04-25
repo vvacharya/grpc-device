@@ -31,6 +31,7 @@ using ni::data_monikers::SidebandWriteRequest;
 using ni::data_monikers::SidebandReadResponse;
 using ni::data_monikers::BeginMonikerSidebandStreamRequest;
 using ni::data_monikers::BeginMonikerSidebandStreamResponse;
+using google::protobuf::Arena;
 
 static void SysFsWrite(const std::string& fileName, const std::string& value)
 {
@@ -114,17 +115,22 @@ namespace ni::data_monikers
 
             cpu_set_t cpuSet;
             CPU_ZERO(&cpuSet);
-            CPU_SET(7, &cpuSet);
+            CPU_SET(8, &cpuSet);
             //CPU_SET(8, &cpuSet);
             sched_setaffinity(threadId, sizeof(cpu_set_t), &cpuSet);
         }
     #endif
 
+        google::protobuf::Arena arena;
         int64_t sidebandToken = GetOwnerSidebandDataToken(sidebandIdentifier);
-        SidebandWriteRequest writeRequest;
-        while (ReadSidebandMessage(sidebandToken, &writeRequest))
+        while (true)
         {
-            if (writeRequest.cancel())
+            auto writeRequest = google::protobuf::Arena::CreateMessage<SidebandWriteRequest>(&arena);
+            if (!ReadSidebandMessage(sidebandToken, writeRequest))
+            {
+                break;
+            }
+            if (writeRequest->cancel())
             {
                 std::cout << "Cancelled." << std::endl;
                 break;
@@ -132,33 +138,43 @@ namespace ni::data_monikers
             if (writers->size() > 0)
             {
                 int x = 0;                
-                if (writers->size() != writeRequest.values().values_size())
+                if (writers->size() != writeRequest->values().values_size())
                 {
                     std::cout << "ERROR: The number of writers and values read did not match" << std::endl;
                     std::cout << "Expected: " << writers->size() << std::endl;
-                    std::cout << "Actual: " << writeRequest.values().values_size() << std::endl;
+                    std::cout << "Actual: " << writeRequest->values().values_size() << std::endl;
                     break;
                 }
                 for (auto writer: *writers)
                 {
-                    std::get<0>(writer)(std::get<1>(writer), const_cast<google::protobuf::Any&>(writeRequest.values().values(x++)));
+                    std::get<0>(writer)(std::get<1>(writer), arena, const_cast<google::protobuf::Any&>(writeRequest->values().values(x++)));
                 }
             }
-            SidebandReadResponse readResult;
+            auto readResult = Arena::CreateMessage<SidebandReadResponse>(&arena);
+            if (readResult->GetArena() != &arena)
+            {
+                std::cout << "No Arena 111" << std::endl;
+            }
             if (readers->size() > 0)
             {
                  int x = 0;
                  for (auto reader: *readers)
                  {
-                     auto readValue = readResult.mutable_values()->add_values();
-                     std::get<0>(reader)(std::get<1>(reader), *readValue);
+                     auto readValue = readResult->mutable_values()->add_values();
+                     if (readValue->GetArena() != &arena)
+                     {
+                         std::cout << "No Arena" << std::endl;
+                     }
+                     std::get<0>(reader)(std::get<1>(reader), arena, *readValue);
                  }
             }
-            if (!WriteSidebandMessage(sidebandToken, readResult))
+            if (!WriteSidebandMessage(sidebandToken, *readResult))
             {
                 std::cout << "Failed to write" << std::endl;
                 break;
             }
+            arena.Reset();
+    		std::this_thread::sleep_for(std::chrono::microseconds(10));
         }
         delete readers;
         delete writers;
@@ -203,21 +219,23 @@ namespace ni::data_monikers
         stream->Read(&writeRequest);
         InitiateMonikerList(writeRequest.monikers(), &readers, &writers);
 
+        google::protobuf::Arena arena;
         while (stream->Read(&writeRequest) && !context->IsCancelled())
         {
             int x = 0;
             for (auto writer: writers)
             {
-                std::get<0>(writer)(std::get<1>(writer), const_cast<google::protobuf::Any&>(writeRequest.data().values(x++)));
+                std::get<0>(writer)(std::get<1>(writer), arena, const_cast<google::protobuf::Any&>(writeRequest.data().values(x++)));
             }
 
             MonikerReadResponse readResult;
             for (auto reader: readers)
             {
                 auto readValue = readResult.mutable_data()->add_values();
-                std::get<0>(reader)(std::get<1>(reader), *readValue);
+                std::get<0>(reader)(std::get<1>(reader), arena, *readValue);
             }
             stream->Write(readResult);
+            arena.Reset();
         }
         return Status::OK;
     }
@@ -230,15 +248,17 @@ namespace ni::data_monikers
         EndpointList readers;
         InitiateMonikerList(*request, &readers, &writers);
 
+        google::protobuf::Arena arena;
         while (!context->IsCancelled())
         {
             MonikerReadResponse readResult;
             for (auto reader: readers)
             {
                 auto readValue = readResult.mutable_data()->add_values();
-                std::get<0>(reader)(std::get<1>(reader), *readValue);
+                std::get<0>(reader)(std::get<1>(reader), arena, *readValue);
             }
             writer->Write(readResult);
+            arena.Reset();
         }
         return Status::OK;
     }
@@ -261,13 +281,15 @@ namespace ni::data_monikers
         InitiateMonikerList(writeRequest.monikers(), &readers, &writers);
 
         int x = 0;
+        google::protobuf::Arena arena;
         while (stream->Read(&writeRequest) && !context->IsCancelled())
         {
             x = 0;
             for (auto writer: writers)
             {
-                std::get<0>(writer)(std::get<1>(writer), const_cast<google::protobuf::Any&>(writeRequest.data().values(x++)));
+                std::get<0>(writer)(std::get<1>(writer), arena, const_cast<google::protobuf::Any&>(writeRequest.data().values(x++)));
             }
+            arena.Reset();
         }
         return Status::OK;
     }

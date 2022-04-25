@@ -21,6 +21,7 @@ additional_protos.extend(external_proto_deps)
 //---------------------------------------------------------------------
 syntax = "proto3";
 
+option cc_enable_arenas = true;
 option java_multiple_files = true;
 option java_package = "${config["java_package"]}";
 option java_outer_classname = "${service_class_prefix}";

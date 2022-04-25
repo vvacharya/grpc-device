@@ -33,32 +33,32 @@ struct NiFpgaFeatureToggles
 
 void RegisterMonikers();
 
-::grpc::Status MonikerReadBool(void* data, google::protobuf::Any& packedData);
-::grpc::Status MonikerReadI8(void* data, google::protobuf::Any& packedData);
-::grpc::Status MonikerReadU8(void* data, google::protobuf::Any& packedData);
-::grpc::Status MonikerReadI16(void* data, google::protobuf::Any& packedData);
-::grpc::Status MonikerReadU16(void* data, google::protobuf::Any& packedData);
-::grpc::Status MonikerReadI32(void* data, google::protobuf::Any& packedData);
-::grpc::Status MonikerReadU32(void* data, google::protobuf::Any& packedData);
-::grpc::Status MonikerReadI64(void* data, google::protobuf::Any& packedData);
-::grpc::Status MonikerReadU64(void* data, google::protobuf::Any& packedData);
-::grpc::Status MonikerWriteBool(void* data, google::protobuf::Any& packedData);
-::grpc::Status MonikerWriteI8(void* data, google::protobuf::Any& packedData);
-::grpc::Status MonikerWriteU8(void* data, google::protobuf::Any& packedData);
-::grpc::Status MonikerWriteI16(void* data, google::protobuf::Any& packedData);
-::grpc::Status MonikerWriteU16(void* data, google::protobuf::Any& packedData);
-::grpc::Status MonikerWriteI32(void* data, google::protobuf::Any& packedData);
-::grpc::Status MonikerWriteU32(void* data, google::protobuf::Any& packedData);
-::grpc::Status MonikerWriteI64(void* data, google::protobuf::Any& packedData);
-::grpc::Status MonikerWriteU64(void* data, google::protobuf::Any& packedData);
-::grpc::Status MonikerReadArrayI16(void* data, google::protobuf::Any& packedData);
-::grpc::Status MonikerReadArrayU16(void* data, google::protobuf::Any& packedData);
-::grpc::Status MonikerReadArrayI64(void* data, google::protobuf::Any& packedData);
-::grpc::Status MonikerReadArrayU64(void* data, google::protobuf::Any& packedData);
-::grpc::Status MonikerWriteArrayI16(void* data, google::protobuf::Any& packedData);
-::grpc::Status MonikerWriteArrayU16(void* data, google::protobuf::Any& packedData);
-::grpc::Status MonikerWriteArrayI64(void* data, google::protobuf::Any& packedData);
-::grpc::Status MonikerWriteArrayU64(void* data, google::protobuf::Any& packedData);
+::grpc::Status MonikerReadBool(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData);
+::grpc::Status MonikerReadI8(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData);
+::grpc::Status MonikerReadU8(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData);
+::grpc::Status MonikerReadI16(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData);
+::grpc::Status MonikerReadU16(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData);
+::grpc::Status MonikerReadI32(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData);
+::grpc::Status MonikerReadU32(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData);
+::grpc::Status MonikerReadI64(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData);
+::grpc::Status MonikerReadU64(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData);
+::grpc::Status MonikerWriteBool(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData);
+::grpc::Status MonikerWriteI8(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData);
+::grpc::Status MonikerWriteU8(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData);
+::grpc::Status MonikerWriteI16(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData);
+::grpc::Status MonikerWriteU16(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData);
+::grpc::Status MonikerWriteI32(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData);
+::grpc::Status MonikerWriteU32(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData);
+::grpc::Status MonikerWriteI64(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData);
+::grpc::Status MonikerWriteU64(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData);
+::grpc::Status MonikerReadArrayI16(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData);
+::grpc::Status MonikerReadArrayU16(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData);
+::grpc::Status MonikerReadArrayI64(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData);
+::grpc::Status MonikerReadArrayU64(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData);
+::grpc::Status MonikerWriteArrayI16(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData);
+::grpc::Status MonikerWriteArrayU16(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData);
+::grpc::Status MonikerWriteArrayI64(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData);
+::grpc::Status MonikerWriteArrayU64(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData);
 
 class NiFpgaService final : public NiFpga::Service {
 public:

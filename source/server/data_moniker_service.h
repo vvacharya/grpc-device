@@ -17,7 +17,7 @@ namespace ni::data_monikers
 {
     //---------------------------------------------------------------------
     //---------------------------------------------------------------------
-    using MonikerEndpointPtr = std::add_pointer<::grpc::Status(void*, google::protobuf::Any&)>::type;
+    using MonikerEndpointPtr = std::add_pointer<::grpc::Status(void*, google::protobuf::Arena& arena, google::protobuf::Any&)>::type;
     using EndpointInstance = std::tuple<MonikerEndpointPtr, void*>;
     using EndpointList = std::vector<EndpointInstance>;
 

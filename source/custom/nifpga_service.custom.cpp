@@ -118,7 +118,7 @@ struct MonikerBoolData
         return ::grpc::Status(::grpc::UNKNOWN, ex.what());
     }
 }
-::grpc::Status MonikerReadBool(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerReadBool(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData)
 {
     MonikerBoolData* readData = (MonikerBoolData*)data;
     auto library = readData->library;
@@ -163,7 +163,7 @@ struct MonikerBoolData
     }
 }
 
-::grpc::Status MonikerReadI8(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerReadI8(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData)
 {
     MonikerI32Data* readData = (MonikerI32Data*)data;
     auto library = readData->library;
@@ -208,7 +208,7 @@ struct MonikerBoolData
     }
 }
 
-::grpc::Status MonikerReadU8(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerReadU8(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData)
 {
     MonikerU32Data* readData = (MonikerU32Data*)data;
     auto library = readData->library;
@@ -253,7 +253,7 @@ struct MonikerBoolData
     }
 }
 
-::grpc::Status MonikerReadI16(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerReadI16(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData)
 {
     MonikerI32Data* readData = (MonikerI32Data*)data;
     auto library = readData->library;
@@ -298,7 +298,7 @@ struct MonikerBoolData
     }
 }
 
-::grpc::Status MonikerReadU16(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerReadU16(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData)
 {
     MonikerU32Data* readData = (MonikerU32Data*)data;
     auto library = readData->library;
@@ -343,7 +343,7 @@ struct MonikerBoolData
     }
 }
 
-::grpc::Status MonikerReadI32(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerReadI32(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData)
 {
     MonikerI32Data* readData = (MonikerI32Data*)data;
     auto library = readData->library;
@@ -388,7 +388,7 @@ struct MonikerBoolData
     }
 }
 
-::grpc::Status MonikerReadU32(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerReadU32(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData)
 {
     MonikerU32Data* readData = (MonikerU32Data*)data;
     auto library = readData->library;
@@ -433,7 +433,7 @@ struct MonikerBoolData
     }
 }
 
-::grpc::Status MonikerReadI64(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerReadI64(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData)
 {
     MonikerI64Data* readData = (MonikerI64Data*)data;
     auto library = readData->library;
@@ -478,7 +478,7 @@ struct MonikerBoolData
     }
 }
 
-::grpc::Status MonikerReadU64(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerReadU64(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData)
 {
     MonikerU64Data* readData = (MonikerU64Data*)data;
     auto library = readData->library;
@@ -505,7 +505,7 @@ struct MonikerBoolData
 {
     return ::grpc::Status::OK;
 }
-::grpc::Status MonikerWriteBool(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerWriteBool(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData)
 {
     return ::grpc::Status::OK;
 }
@@ -535,7 +535,7 @@ struct MonikerBoolData
     }
 }
 
-::grpc::Status MonikerWriteI8(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerWriteI8(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData)
 {
     MonikerI32Data* writeData = (MonikerI32Data*)data;
 
@@ -583,7 +583,7 @@ struct MonikerBoolData
     }
 }
 
-::grpc::Status MonikerWriteU8(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerWriteU8(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData)
 {
     MonikerI32Data* writeData = (MonikerI32Data*)data;
 
@@ -631,7 +631,7 @@ struct MonikerBoolData
     }
 }
 
-::grpc::Status MonikerWriteI16(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerWriteI16(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData)
 {
     MonikerI32Data* writeData = (MonikerI32Data*)data;
 
@@ -679,7 +679,7 @@ struct MonikerBoolData
     }
 }
 
-::grpc::Status MonikerWriteU16(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerWriteU16(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData)
 {
     MonikerU32Data* writeData = (MonikerU32Data*)data;
 
@@ -727,7 +727,7 @@ struct MonikerBoolData
     }
 }
 
-::grpc::Status MonikerWriteI32(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerWriteI32(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData)
 {
     MonikerI32Data* writeData = (MonikerI32Data*)data;
 
@@ -771,7 +771,7 @@ struct MonikerBoolData
     }
 }
 
-::grpc::Status MonikerWriteU32(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerWriteU32(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData)
 {
     MonikerU32Data* writeData = (MonikerU32Data*)data;
 
@@ -815,7 +815,7 @@ struct MonikerBoolData
     }
 }
 
-::grpc::Status MonikerWriteI64(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerWriteI64(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData)
 {
     MonikerI64Data* writeData = (MonikerI64Data*)data;
 
@@ -859,7 +859,7 @@ struct MonikerBoolData
     }
 }
 
-::grpc::Status MonikerWriteU64(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerWriteU64(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData)
 {
     MonikerU64Data* writeData = (MonikerU64Data*)data;
 
@@ -947,7 +947,7 @@ struct MonikerArrayU64Data
     }
 }
 
-::grpc::Status MonikerReadArrayI16(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerReadArrayI16(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData)
 {
     MonikerArrayI32Data* readData = (MonikerArrayI32Data*)data;
     auto library = readData->library;
@@ -1002,7 +1002,7 @@ struct MonikerArrayU64Data
     }
 }
 
-::grpc::Status MonikerReadArrayU16(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerReadArrayU16(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData)
 {
     MonikerArrayU32Data* readData = (MonikerArrayU32Data*)data;
     auto library = readData->library;
@@ -1057,7 +1057,7 @@ struct MonikerArrayU64Data
     }
 }
 
-::grpc::Status MonikerReadArrayI64(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerReadArrayI64(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData)
 {
 	MonikerArrayI64Data* readData = (MonikerArrayI64Data*)data;
     auto library = readData->library;
@@ -1112,7 +1112,7 @@ struct MonikerArrayU64Data
     }
 }
 
-::grpc::Status MonikerReadArrayU64(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerReadArrayU64(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData)
 {
     MonikerArrayU64Data* readData = (MonikerArrayU64Data*)data;
     auto library = readData->library;
@@ -1168,7 +1168,7 @@ struct MonikerArrayU64Data
     }
 }
 
-::grpc::Status MonikerWriteArrayI16(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerWriteArrayI16(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData)
 {
     MonikerArrayI32Data* writeData = (MonikerArrayI32Data*)data;
 
@@ -1226,7 +1226,7 @@ struct MonikerArrayU64Data
     }
 }
 
-::grpc::Status MonikerWriteArrayU16(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerWriteArrayU16(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData)
 {
     MonikerArrayU32Data* writeData = (MonikerArrayU32Data*)data;
 
@@ -1284,7 +1284,7 @@ struct MonikerArrayU64Data
     }
 }
 
-::grpc::Status MonikerWriteArrayI64(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerWriteArrayI64(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData)
 {
 	MonikerArrayI64Data* writeData = (MonikerArrayI64Data*)data;
 
@@ -1329,7 +1329,7 @@ struct MonikerArrayU64Data
     }
 }
 
-::grpc::Status MonikerWriteArrayU64(void* data, google::protobuf::Any& packedData)
+::grpc::Status MonikerWriteArrayU64(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData)
 {
     MonikerArrayU64Data* writeData = (MonikerArrayU64Data*)data;
 
