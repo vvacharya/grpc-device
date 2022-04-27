@@ -33,6 +33,7 @@ config = {
     'status_ok': 'status >= 0',
     'use_dynload_msvc': True,
     'use_moniker_service': True,
+    'use_protobuf_arenas': True,
     'library_info': {
         'Linux': {
             '64bit': {

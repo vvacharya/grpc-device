@@ -66,7 +66,11 @@ void RegisterMonikers();
 <%
   method_name = common_helpers.get_data_moniker_function_name(function, functions[function])
 %>\
+% if config.get("use_protobuf_arenas", False):
+::grpc::Status ${method_name}(void* data, google::protobuf::Arena& arena, google::protobuf::Any& packedData);
+% else:
 ::grpc::Status ${method_name}(void* data, google::protobuf::Any& packedData);
+% endif
 % endfor
 
 % endif

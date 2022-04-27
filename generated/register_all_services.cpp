@@ -15,7 +15,7 @@
 #include "nidaqmx/nidaqmx_service_registrar.h"
 #include "nidaqmx/nidaqmx_service.h"
 #include "nidcpower/nidcpower_service_registrar.h"
-// #include "nidigitalpattern/nidigitalpattern_service_registrar.h"
+#include "nidigitalpattern/nidigitalpattern_service_registrar.h"
 #include "nidmm/nidmm_service_registrar.h"
 #include "nifgen/nifgen_service_registrar.h"
 #include "nifpga/nifpga_service_registrar.h"
@@ -38,8 +38,8 @@
 #if defined(_MSC_VER)
 #include "nirfmxwlan/nirfmxwlan_service_registrar.h"
 #endif // defined(_MSC_VER)
-// #include "nirfsa/nirfsa_service_registrar.h"
-// #include "nirfsg/nirfsg_service_registrar.h"
+#include "nirfsa/nirfsa_service_registrar.h"
+#include "nirfsg/nirfsg_service_registrar.h"
 #include "niscope/niscope_service_registrar.h"
 #include "niswitch/niswitch_service_registrar.h"
 #include "nisync/nisync_service_registrar.h"
@@ -85,11 +85,11 @@ std::shared_ptr<void> register_all_services(
       server_builder, 
       vi_session_repository,
       feature_toggles));
-  // service_vector->push_back(
-  //   nidigitalpattern_grpc::register_service(
-  //     server_builder, 
-  //     vi_session_repository,
-  //     feature_toggles));
+  service_vector->push_back(
+    nidigitalpattern_grpc::register_service(
+      server_builder, 
+      vi_session_repository,
+      feature_toggles));
   service_vector->push_back(
     nidmm_grpc::register_service(
       server_builder, 
@@ -153,16 +153,16 @@ std::shared_ptr<void> register_all_services(
       vi_session_repository,
       feature_toggles));
 #endif // defined(_MSC_VER)
-  // service_vector->push_back(
-  //   nirfsa_grpc::register_service(
-  //     server_builder, 
-  //     vi_session_repository,
-  //     feature_toggles));
-  // service_vector->push_back(
-  //   nirfsg_grpc::register_service(
-  //     server_builder, 
-  //     vi_session_repository,
-  //     feature_toggles));
+  service_vector->push_back(
+    nirfsa_grpc::register_service(
+      server_builder, 
+      vi_session_repository,
+      feature_toggles));
+  service_vector->push_back(
+    nirfsg_grpc::register_service(
+      server_builder, 
+      vi_session_repository,
+      feature_toggles));
   service_vector->push_back(
     niscope_grpc::register_service(
       server_builder, 
