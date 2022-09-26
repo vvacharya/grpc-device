@@ -68,6 +68,7 @@ grpc::Status MonikerReadAnalogF64Stream(void* data, google::protobuf::Any& packe
   MonikerReadDAQmxData* readData = (MonikerReadDAQmxData*)data;
   // calling into driver and setting response 
   int32 numRead;
+  //driver calls comment out
   auto status = readData->library->ReadAnalogF64(readData->task, readData->num_samps_per_chan, readData->timeout, readData->fill_mode, readData->channelData.mutable_data()->mutable_data(), readData->array_size_in_samps, &numRead, NULL);
   if (status < 0) {
     cout << "DAQmxReadAnalogF64 error: " << status << endl;
@@ -75,7 +76,9 @@ grpc::Status MonikerReadAnalogF64Stream(void* data, google::protobuf::Any& packe
     std ::cout << "ReadValues " << readData->channelData.data()[0] << " " << readData->channelData.data_size() << endl;
   }
   // check if (status >= 0) {
+  // generated random data -> static vector before or a static channel data object. preallocate channel data in 
     packedData.PackFrom(readData->channelData);
+   
   //}
   return Status::OK;
 }
@@ -94,7 +97,7 @@ grpc::Status MonikerBeginWaitForNextSampleClk(void* data, google::protobuf::Any&
 {
   MonikerWaitForNextSampleClk* waitData = (MonikerWaitForNextSampleClk*)data;
   // calling into driver and setting response
-  cout << "WaitForNextSampleClock called" << endl;
+  //cout << "WaitForNextSampleClock called" << endl;
   bool32 is_late{};
   auto status = waitData->library->WaitForNextSampleClock(waitData->task, waitData->timeout, &is_late);  // Pass NULL or is_late?  
   if (status < 0) {
@@ -168,7 +171,7 @@ grpc::Status MonikerBeginWaitForNextSampleClk(void* data, google::protobuf::Any&
     readData->num_samps_per_chan = request->num_samps_per_chan();
     readData->timeout = request->timeout();
     readData->channelData.mutable_data()->Reserve(readData->array_size_in_samps);
-    readData->channelData.mutable_data()->Resize(readData->array_size_in_samps, 0.0);
+    readData->channelData.mutable_data()->Resize(readData->array_size_in_samps, 0.0); // ? 20.0 and not 0.0 
     readData->fill_mode;
     switch (request->fill_mode_enum_case()) {
       case nidaqmx_grpc::BeginReadAnalogF64StreamRequest::FillModeEnumCase::kFillMode: {

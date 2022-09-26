@@ -138,16 +138,17 @@ namespace ni
         {
           //  std::cout << "else condition Sideband Read" << std::endl;
             while (true)
-            {
+            {   
                 x = 0;
                 SidebandReadResponse readResult;
                 for (auto reader: readers)
                 {
+                  // start (calls into driver)
                   auto readValue = readResult.mutable_values()->add_values();
                 //  std::cout << "Sideband Read" << std::endl;
                     std::get<0>(reader)(std::get<1>(reader), *readValue);
 
-                    
+                    //end and store the value (doesnt isolate DAQ code from your code)
                 }
                // std::cout << "Sideband Read - Finished Reading all data" << std::endl;
                 if (!WriteSidebandMessage(sidebandToken, readResult))
@@ -158,7 +159,7 @@ namespace ni
                 {
                     int x = 0;
                     if (!ReadSidebandMessage(sidebandToken, &writeRequest))
-                    {
+                    {  
                         break;
                     }
                     if (writeRequest.cancel()) {
@@ -167,9 +168,10 @@ namespace ni
                     }
                     
                     for (auto writer: writers)
-                    {
+                    { //start
                       //std ::cout << "For loop with writers" << std::endl;
                         std::get<0>(writer)(std::get<1>(writer), const_cast<google::protobuf::Any&>(writeRequest.values().values(x++)));
+                        //end
                     }
                     // Swapped from before for loop
                     
