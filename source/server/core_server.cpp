@@ -91,8 +91,8 @@ static void RunServer(const ServerConfiguration& config)
   }
 
   auto sideband_socket_thread = new std::thread(RunSidebandSocketsAccept, "localhost", 50055);
-  auto sideband_rdma_send_thread = new std::thread(AcceptSidebandRdmaSendRequests);
-  auto sideband_rdma_recv_thread = new std::thread(AcceptSidebandRdmaReceiveRequests);
+  //auto sideband_rdma_send_thread = new std::thread(AcceptSidebandRdmaSendRequests);
+  //auto sideband_rdma_recv_thread = new std::thread(AcceptSidebandRdmaReceiveRequests);
 
   if (!server) {
     nidevice_grpc::logging::log(

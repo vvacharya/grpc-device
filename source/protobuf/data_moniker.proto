@@ -2,10 +2,10 @@ syntax = "proto3";
 
 option cc_enable_arenas = true;
 option csharp_namespace = "NationalInstruments.DataMonikers";
-
+import "google/protobuf/any.proto";
 package ni.data_monikers;
 
-import "google/protobuf/any.proto";
+
 
 service DataMoniker {
   rpc BeginSidebandStream(BeginMonikerSidebandStreamRequest) returns (BeginMonikerSidebandStreamResponse) {};
@@ -51,6 +51,12 @@ message MonikerWriteRequest {
     MonikerValues data = 2;
   }
 }
+
+
+message MonikerReadResult {
+  MonikerValues data = 1;
+}
+
 
 message MonikerReadResponse {
   MonikerValues data = 1;
