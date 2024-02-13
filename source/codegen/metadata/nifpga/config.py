@@ -8,7 +8,7 @@ config = {
     'csharp_namespace': 'NationalInstruments.Grpc.NiFpga',
     'namespace_component': 'nifpga',
     'additional_protos': ['data_moniker.proto'],
-    'close_function': 'Close ',
+    'close_function': 'Close',
     'custom_types': [],
     'type_to_grpc_type': {
         'const char*': 'string',
